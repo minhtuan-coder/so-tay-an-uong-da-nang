@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinh Viên Đà Nẵng Ăn Gì?</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+
+    <!-- Firebase SDKs & Realtime Sync Config -->
+    <script type="module">
+        import {initializeApp} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import {getDatabase, ref, push, onValue} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-DemoKeyForStudentDanangApp-999",
+            authDomain: "student-danang-food.firebaseapp.com",
+            databaseURL: "https://student-danang-food-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "student-danang-food",
+            storageBucket: "student-danang-food.appspot.com",
+            messagingSenderId: "123456789099",
+            appId: "1:123456789099:web:abcdef123456789"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        window.dbRef = ref(db, 'places');
+        window.firebaseModules = {push, ref, onValue};
+
+        if (window.initFirebaseSync) {
+            window.initFirebaseSync();
+        }
+    </script>
+</head>
+
+<body class="bg-slate-900 text-slate-800 font-sans min-h-screen flex items-center justify-center p-0 sm:p-4">
+
+    <!-- Mobile App Container Frame -->
+    <div
+        class="w-full sm:max-w-[412px] h-screen sm:h-[844px] bg-slate-50 sm:rounded-[40px] shadow-2xl flex flex-col relative overflow-hidden border-0 sm:border-8 sm:border-slate-800">
+
+        <!-- Mobile Status Bar -->
+        <div
+            class="bg-white/80 backdrop-blur-md px-6 py-2.5 flex items-center justify-between text-xs font-semibold text-slate-700 shrink-0 z-40 border-b border-slate-100">
+            <span>09:41</span>
+            <div class="w-24 h-4 bg-slate-900 rounded-full hidden sm:block"></div>
+            <div class="flex items-center space-x-2">
+                <i data-lucide="signal" class="w-3.5 h-3.5"></i>
+                <i data-lucide="wifi" class="w-3.5 h-3.5"></i>
+                <i data-lucide="battery" class="w-3.5 h-3.5"></i>
+            </div>
+        </div>
+
+        <!-- App Header -->
+        <header id="appHeader"
+            class="bg-white px-5 py-3.5 border-b border-slate-100 flex items-center justify-between shrink-0 z-30">
+            <div class="flex items-center space-x-2.5">
+                <div
+                    class="w-9 h-9 bg-orange-500 text-white rounded-xl flex items-center justify-center shadow-md shadow-orange-100">
+                    <i data-lucide="utensils" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h1 class="text-sm font-bold text-slate-800 leading-tight">Sinh Viên Đà Nẵng 🍜</h1>
+                    <p class="text-[10px] text-slate-500">Ăn ngon - Bổ - Rẻ mỗi ngày</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-1.5">
+                <button onclick="openRandomPicker()"
+                    class="p-2 bg-orange-50 text-orange-600 rounded-xl hover:bg-orange-100 transition shadow-sm"
+                    title="Hôm nay ăn gì?">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                </button>
+                <button onclick="openAddModal()"
+                    class="p-2 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition" title="Thêm quán">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Scrollable Content Area -->
+        <main id="mainContainer" class="flex-1 overflow-y-auto pb-24 no-scrollbar relative">
+            <div class="flex items-center justify-center h-full text-xs text-slate-400">Đang tải dữ liệu quán ăn trực
+                tuyến...</div>
+        </main>
+
+        <!-- Bottom Navigation Bar -->
+        <nav
+            class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-slate-200 px-4 py-2 flex items-center justify-around z-40">
+            <button onclick="switchTab('explore')" id="nav-explore"
+                class="flex flex-col items-center space-y-1 text-orange-600 transition">
+                <i data-lucide="compass" class="w-5 h-5"></i>
+                <span class="text-[10px] font-semibold">Khám phá</span>
+            </button>
+            <button onclick="switchTab('map')" id="nav-map"
+                class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition">
+                <i data-lucide="map-pin" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">Bản đồ ĐH</span>
+            </button>
+            <button onclick="switchTab('saved')" id="nav-saved"
+                class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition">
+                <i data-lucide="bookmark" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">Đã lưu</span>
+            </button>
+            <button onclick="switchTab('profile')" id="nav-profile"
+                class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition">
+                <i data-lucide="heart-handshake" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">Đóng góp</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Add Modal -->
+    <div id="placeModal"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div
+            class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-slate-100 max-h-[85vh] flex flex-col">
+            <div
+                class="p-4 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-orange-500 to-amber-500 text-white">
+                <div>
+                    <h3 class="text-sm font-bold">✨ Đóng góp Quán Ngon Chung</h3>
+                    <p class="text-[10px] text-orange-100">Chia sẻ địa điểm để toàn bộ sinh viên Đà Nẵng cùng thấy!</p>
+                </div>
+                <button onclick="closeAddModal()"
+                    class="p-1.5 text-white/80 hover:text-white rounded-full hover:bg-white/20 transition">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <form id="placeForm" onsubmit="handleFormSubmit(event)"
+                class="p-5 overflow-y-auto space-y-3.5 flex-1 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Tên quán ăn / Cafe *</label>
+                    <input type="text" id="placeName" required placeholder="Ví dụ: Cơm gà Bà Buôn..."
+                        class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Danh mục *</label>
+                        <select id="placeCategory" required
+                            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
+                            <option value="Ăn sáng">🍲 Ăn sáng</option>
+                            <option value="Trưa / Tối">🍛 Trưa / Tối</option>
+                            <option value="Ăn vặt">🍢 Ăn vặt / Trà sữa</option>
+                            <option value="Cafe học bài">☕ Cafe học bài</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Mức giá *</label>
+                        <select id="placePriceRange" required
+                            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
+                            <option value="Siêu rẻ (<25k)">🔥 Siêu rẻ (&lt;25k)</option>
+                            <option value="Bình dân (25k-50k)">⭐ Bình dân (25k-50k)</option>
+                            <option value="Hơi cao (>50k)">💎 Hơi cao (&gt;50k)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Khu vực / Trường ĐH *</label>
+                        <select id="placeUniversity" required
+                            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
+                            <option value="ĐH Bách Khoa">ĐH Bách Khoa (DUT)</option>
+                            <option value="ĐH Kinh Tế">ĐH Kinh Tế (DUE)</option>
+                            <option value="ĐH Sư Phạm">ĐH Sư Phạm (UED)</option>
+                            <option value="ĐH Ngoại Ngữ">ĐH Ngoại Ngữ (UFL)</option>
+                            <option value="ĐH Sư Phạm Kỹ Thuật">ĐH Sư Phạm Kỹ Thuật (UTE)</option>
+                            <option value="ĐH CNTT & Truyền Thông Việt - Hàn">ĐH CNTT & TT Việt - Hàn (VKU)</option>
+                            <option value="Viện NC & ĐT Việt - Anh">Viện NC & ĐT Việt - Anh (VN-UK)</option>
+                            <option value="Khoa Y Dược - ĐHĐN">Khoa Y Dược - ĐHĐN</option>
+                            <option value="ĐH Duy Tân">ĐH Duy Tân</option>
+                            <option value="ĐH FPT Đà Nẵng">ĐH FPT Đà Nẵng</option>
+                            <option value="ĐH Kiến Trúc Đà Nẵng">ĐH Kiến Trúc Đà Nẵng</option>
+                            <option value="ĐH Đông Á">ĐH Đông Á</option>
+                            <option value="Phân hiệu ĐH Kinh tế TP.HCM tại ĐN">Phân hiệu ĐH Kinh tế TP.HCM tại ĐN
+                            </option>
+                            <option value="CĐ Thương Mại">CĐ Thương Mại</option>
+                            <option value="CĐ Nghề Đà Nẵng">CĐ Nghề Đà Nẵng</option>
+                            <option value="CĐ FPT Polytechnic Đà Nẵng">CĐ FPT Polytechnic Đà Nẵng</option>
+                            <option value="CĐ Lương thực - Thực phẩm">CĐ Lương thực - Thực phẩm</option>
+                            <option value="CĐ Quốc tế Pegasus">CĐ Quốc tế Pegasus</option>
+                            <option value="Khu vực Khác">Khu vực Khác</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Đánh giá chung</label>
+                        <select id="placeRating"
+                            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
+                            <option value="5.0">⭐⭐⭐⭐⭐ (5.0)</option>
+                            <option value="4.5">⭐⭐⭐⭐✨ (4.5)</option>
+                            <option value="4.0">⭐⭐⭐⭐ (4.0)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Địa chỉ cụ thể / Tên đường</label>
+                    <input type="text" id="placeAddress" placeholder="Ví dụ: 54 Nguyễn Lương Bằng..."
+                        class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Link Ảnh minh họa (URL)</label>
+                    <input type="url" id="placeImage" placeholder="https://images.unsplash.com/..."
+                        class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Review nhanh chân thực</label>
+                    <textarea id="placeReview" rows="2" placeholder="Quán rộng rãi, cô chủ nhiệt tình..."
+                        class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"></textarea>
+                </div>
+
+                <div class="pt-2 flex justify-end space-x-2">
+                    <button type="button" onclick="closeAddModal()"
+                        class="px-3 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition">Hủy</button>
+                    <button type="submit"
+                        class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition shadow-md shadow-orange-100 flex items-center space-x-1.5">
+                        <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                        <span>Đóng góp ngay</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Random Picker Modal -->
+    <div id="randomModal"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div
+            class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-slate-100 p-6 text-center space-y-4">
+            <div
+                class="w-14 h-14 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
+                <i data-lucide="sparkles" class="w-7 h-7"></i>
+            </div>
+            <div>
+                <h3 class="text-base font-bold text-slate-800 mb-1">Hôm nay sinh viên ăn gì?</h3>
+                <p class="text-xs text-slate-500">Hệ thống chọn ngẫu nhiên quán ngon bổ rẻ cho bạn!</p>
+            </div>
+            <div id="randomResultBox"
+                class="p-4 bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border border-orange-100 text-left space-y-1.5">
+                <p id="randomPlaceName" class="text-sm font-bold text-orange-900">Bấm nút quay số bên dưới nhé!</p>
+                <p id="randomPlaceMeta" class="text-[11px] text-orange-700"></p>
+                <p id="randomPlaceReview" class="text-[11px] text-slate-600 italic"></p>
+            </div>
+            <div class="flex items-center space-x-2 pt-1">
+                <button onclick="spinRandomPlace()"
+                    class="flex-1 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold transition shadow-md shadow-orange-200 flex items-center justify-center space-x-1.5">
+                    <i data-lucide="shuffle" class="w-4 h-4"></i>
+                    <span>Quay ngẫu nhiên</span>
+                </button>
+                <button onclick="closeRandomPicker()"
+                    class="px-3 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-medium transition">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail View Modal -->
+    <div id="detailModal"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div
+            class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-slate-100 max-h-[85vh] flex flex-col">
+            <div id="detailModalHeader" class="relative h-40 bg-slate-200 bg-cover bg-center">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
+                <button onclick="closeDetailModal()"
+                    class="absolute top-3 right-3 p-1.5 bg-black/40 hover:bg-black/60 text-white rounded-full transition">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+                <div class="absolute bottom-3 left-3 right-3 text-white">
+                    <span id="detailCategoryBadge"
+                        class="px-2 py-0.5 bg-orange-50 text-[10px] font-semibold rounded-md mb-1 inline-block">Danh
+                        mục</span>
+                    <h3 id="detailName" class="text-base font-bold">Tên quán</h3>
+                </div>
+            </div>
+            <div class="p-5 overflow-y-auto space-y-3.5 flex-1 text-xs">
+                <div class="flex items-center justify-between pb-2.5 border-b border-slate-100">
+                    <div class="flex items-center space-x-1.5 text-slate-600">
+                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-orange-500"></i>
+                        <span id="detailAddress">Đang cập nhật địa chỉ</span>
+                    </div>
+                    <span id="detailPriceBadge"
+                        class="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-md font-semibold text-[11px]">Giá</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                        <p class="text-[10px] font-medium text-slate-400 mb-0.5">Khu vực / Trường ĐH</p>
+                        <p id="detailUniversity" class="font-bold text-slate-700">ĐH Bách Khoa</p>
+                    </div>
+                    <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                        <p class="text-[10px] font-medium text-slate-400 mb-0.5">Đánh giá sinh viên</p>
+                        <p id="detailRating" class="font-bold text-amber-500">★★★★★ (5.0)</p>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Review từ hội sinh
+                        viên</p>
+                    <div id="detailReview"
+                        class="p-3 bg-orange-50/50 rounded-xl text-slate-600 border border-orange-100/60 italic leading-relaxed">
+                        Chưa có review.</div>
+                </div>
+            </div>
+            <div class="p-3.5 border-t border-slate-100 bg-slate-50 flex justify-between items-center text-xs">
+                <button id="detailSaveBtn" onclick="toggleSaveFromDetail()"
+                    class="px-3 py-2 bg-orange-50 text-orange-600 font-semibold rounded-xl hover:bg-orange-100 transition flex items-center space-x-1">
+                    <i data-lucide="bookmark" class="w-3.5 h-3.5"></i>
+                    <span id="detailSaveText">Lưu quán</span>
+                </button>
+                <button onclick="closeDetailModal()"
+                    class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-xl transition">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast"
+        class="fixed top-10 left-1/2 -translate-x-1/2 z-50 transform -translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-xl flex items-center space-x-2 text-xs">
+        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+        <span id="toastMessage">Thành công!</span>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        const defaultPlaces = [
+            {
+                id: 'default_1',
+                name: 'Mì Quảng Bà Mua (Khu Bách Khoa)',
+                category: 'Trưa / Tối',
+                priceRange: 'Bình dân (25k-50k)',
+                university: 'ĐH Bách Khoa',
+                address: 'Gần cổng sau ĐH Bách Khoa, Liên Chiểu',
+                rating: 4.8,
+                image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80',
+                review: 'Quán quen của sinh viên Bách Khoa, sợi mì dai, nước chan đậm đà, rau sống tươi miễn phí.'
+            },
+            {
+                id: 'default_2',
+                name: 'Bánh Mì Chào Ngô Sĩ Liên',
+                category: 'Ăn sáng',
+                priceRange: 'Siêu rẻ (<25k)',
+                university: 'ĐH Bách Khoa',
+                address: 'Đường Ngô Sĩ Liên, Liên Chiểu',
+                rating: 4.7,
+                image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80',
+                review: 'Chảo pate, trứng ốp la nóng hổi ăn kèm bánh mì giòn rụm, nạp năng lượng buổi sáng cực tốt.'
+            },
+            {
+                id: 'default_3',
+                name: 'Cơm Gà 55 Hòa Khánh',
+                category: 'Trưa / Tối',
+                priceRange: 'Bình dân (25k-50k)',
+                university: 'ĐH Bách Khoa',
+                address: 'Đường Ngô Sĩ Liên, Liên Chiểu',
+                rating: 4.8,
+                image: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=600&q=80',
+                review: 'Cơm gà giòn rụm, hạt cơm chiên vàng óng ánh, canh và kim chi ăn kèm thoải mái.'
+            },
+            {
+                id: 'default_4',
+                name: 'Bánh Xèo Bà Dưỡng (Khu Kinh Tế)',
+                category: 'Trưa / Tối',
+                priceRange: 'Bình dân (25k-50k)',
+                university: 'ĐH Kinh Tế',
+                address: 'Hoàng Diệu, Hải Châu',
+                rating: 4.9,
+                image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80',
+                review: 'Nước chấm tương đậu thần thánh cực kỳ hợp gu sinh viên Kinh Tế tụ tập cuối tuần.'
+            },
+            {
+                id: 'default_5',
+                name: 'Bánh Tráng Kẹp Dì Hoa Lê Duẩn',
+                category: 'Ăn vặt',
+                priceRange: 'Siêu rẻ (<25k)',
+                university: 'ĐH Kinh Tế',
+                address: 'Đường Lê Duẩn, Hải Châu',
+                rating: 4.9,
+                image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80',
+                review: 'Bánh tráng kẹp pate mềm hoặc giòn đều ngon xuất sắc, quán lúc nào cũng đông sinh viên.'
+            },
+            {
+                id: 'default_6',
+                name: 'Gimbap & Đồ Hàn Chợ Bắc Mỹ An',
+                category: 'Ăn vặt',
+                priceRange: 'Siêu rẻ (<25k)',
+                university: 'ĐH Kinh Tế',
+                address: 'Chợ Bắc Mỹ An, Ngũ Hành Sơn',
+                rating: 4.8,
+                image: 'https://images.unsplash.com/photo-1580651300835-f1e1c0c17a94?auto=format&fit=crop&w=600&q=80',
+                review: 'Thiên đường ăn vặt giá rẻ mạt ngay cạnh ĐH Kinh tế, kimbap, mỳ cay đều chuẩn vị.'
+            },
+            {
+                id: 'default_7',
+                name: 'Cốm Cafe - Học Bài & Làm Việc',
+                category: 'Cafe học bài',
+                priceRange: 'Bình dân (25k-50k)',
+                university: 'ĐH Sư Phạm',
+                address: 'Đường Tôn Đức Thắng, Liên Chiểu',
+                rating: 4.8,
+                image: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=600&q=80',
+                review: 'Không gian yên tĩnh, ổ cắm điện đầy đủ mọi bàn, wifi siêu mạnh, nước uống rẻ cho sv Sư Phạm.'
+            },
+            {
+                id: 'default_8',
+                name: 'Cốm Cafe - Học Bài & Làm Việc',
+                category: 'Cafe học bài',
+                priceRange: 'Bình dân (25k-50k)',
+                university: 'ĐH FPT Đà Nẵng',
+                address: 'Khu đô thị FPT Đà Nẵng, Ngũ Hành Sơn',
+                rating: 4.7,
+                image: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=600&q=80',
+                review: 'Không gian thoáng đãng, nhiều cây xanh, cực kỳ hợp cho sinh viên FPT ngồi code và họp nhóm.'
+            }
+        ];
+
+        let places = [...defaultPlaces];
+        let localContributedPlaces = JSON.parse(localStorage.getItem('student_danang_local_contribs')) || [];
+        let savedIds = JSON.parse(localStorage.getItem('student_danang_saved_ids')) || [];
+
+        let currentTab = 'explore';
+        let currentCategory = 'Tất cả';
+        let currentPriceFilter = 'Tất cả';
+        let currentUniversityFilter = 'Tất cả';
+        let currentSearchQuery = '';
+        let selectedPlaceIdForDetail = null;
+
+        // Đồng bộ realtime từ Firebase
+        window.initFirebaseSync = function () {
+            window.firebaseModules.onValue(window.dbRef, (snapshot) => {
+                const data = snapshot.val();
+                let remotePlaces = [];
+                if (data) {
+                    remotePlaces = Object.keys(data).map(key => ({
+                        id: key,
+                        ...data[key]
+                    }));
+                }
+
+                const allRemoteIds = remotePlaces.map(p => p.id);
+                const uniqueLocalContribs = localContributedPlaces.filter(lp => !allRemoteIds.includes(lp.id));
+                const allExistingIds = [...allRemoteIds, ...uniqueLocalContribs.map(p => p.id)];
+                const filteredDefaults = defaultPlaces.filter(dp => !allExistingIds.includes(dp.id));
+
+                places = [...remotePlaces, ...uniqueLocalContribs, ...filteredDefaults].reverse();
+                renderTabContent();
+            }, (error) => {
+                const allIds = localContributedPlaces.map(p => p.id);
+                const filteredDefaults = defaultPlaces.filter(dp => !allIds.includes(dp.id));
+                places = [...localContributedPlaces, ...filteredDefaults].reverse();
+                renderTabContent();
+            });
+        };
+
+        setTimeout(() => {
+            if (places.length === defaultPlaces.length && localContributedPlaces.length > 0) {
+                const allIds = localContributedPlaces.map(p => p.id);
+                const filteredDefaults = defaultPlaces.filter(dp => !allIds.includes(dp.id));
+                places = [...localContributedPlaces, ...filteredDefaults].reverse();
+                renderTabContent();
+            }
+        }, 1000);
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = message;
+            toast.classList.remove('-translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('-translate-y-20', 'opacity-0');
+            }, 2500);
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            ['explore', 'map', 'saved', 'profile'].forEach(t => {
+                const btn = document.getElementById(`nav-${t}`);
+                if (t === tab) {
+                    btn.className = "flex flex-col items-center space-y-1 text-orange-600 transition";
+                } else {
+                    btn.className = "flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition";
+                }
+            });
+            renderTabContent();
+        }
+
+        function renderTabContent() {
+            const container = document.getElementById('mainContainer');
+            if (currentTab === 'explore') {
+                container.innerHTML = renderExploreView();
+            } else if (currentTab === 'map') {
+                container.innerHTML = renderMapView();
+            } else if (currentTab === 'saved') {
+                container.innerHTML = renderSavedView();
+            } else if (currentTab === 'profile') {
+                container.innerHTML = renderProfileView();
+            }
+            lucide.createIcons();
+        }
+
+        function renderExploreView() {
+            const updatedPlaces = places.map(p => ({
+                ...p,
+                saved: savedIds.includes(p.id)
+            }));
+
+            const filtered = updatedPlaces.filter(p => {
+                const matchCat = currentCategory === 'Tất cả' || p.category === currentCategory;
+                const matchPrice = currentPriceFilter === 'Tất cả' || p.priceRange === currentPriceFilter;
+                const matchUni = currentUniversityFilter === 'Tất cả' || p.university === currentUniversityFilter;
+                const matchSearch = p.name.toLowerCase().includes(currentSearchQuery.toLowerCase()) ||
+                    p.address.toLowerCase().includes(currentSearchQuery.toLowerCase()) ||
+                    p.review.toLowerCase().includes(currentSearchQuery.toLowerCase());
+                return matchCat && matchPrice && matchUni && matchSearch;
+            });
+
+            return `
+                <div class="p-4 space-y-4">
+                    <div class="relative">
+                        <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" id="searchInput" oninput="handleSearchInput()" value="${currentSearchQuery}" placeholder="Tìm quán ăn, trà sữa, cafe gần trường..." class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm">
+                    </div>
+
+                    <div class="flex items-center space-x-2 overflow-x-auto pb-1 no-scrollbar text-xs">
+                        ${['Tất cả', 'Ăn sáng', 'Trưa / Tối', 'Ăn vặt', 'Cafe học bài'].map(cat => `
+                            <button onclick="setCategory('${cat}')" class="px-3.5 py-1.5 rounded-xl font-semibold whitespace-nowrap transition shadow-sm ${currentCategory === cat ? 'bg-orange-500 text-white shadow-orange-100' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}">
+                                ${cat === 'Tất cả' ? '🔥 Tất cả' : cat}
+                            </button>
+                        `).join('')}
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <select id="priceFilter" onchange="handlePriceFilter(this)" class="px-3 py-2 bg-white border border-slate-200 rounded-xl text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm">
+                            <option value="Tất cả" ${currentPriceFilter === 'Tất cả' ? 'selected' : ''}>Mức giá: Tất cả</option>
+                            <option value="Siêu rẻ (<25k)" ${currentPriceFilter === 'Siêu rẻ (<25k)' ? 'selected' : ''}>🔥 Siêu rẻ (&lt;25k)</option>
+                            <option value="Bình dân (25k-50k)" ${currentPriceFilter === 'Bình dân (25k-50k)' ? 'selected' : ''}>⭐ Bình dân (25k-50k)</option>
+                            <option value="Hơi cao (>50k)" ${currentPriceFilter === 'Hơi cao (>50k)' ? 'selected' : ''}>💎 Hơi cao (&gt;50k)</option>
+                        </select>
+
+                        <select id="uniFilter" onchange="handleUniFilter(this)" class="px-3 py-2 bg-white border border-slate-200 rounded-xl text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm">
+                            <option value="Tất cả" ${currentUniversityFilter === 'Tất cả' ? 'selected' : ''}>Khu vực: Tất cả ĐH & CĐ</option>
+                            <option value="ĐH Bách Khoa" ${currentUniversityFilter === 'ĐH Bách Khoa' ? 'selected' : ''}>ĐH Bách Khoa (DUT)</option>
+                            <option value="ĐH Kinh Tế" ${currentUniversityFilter === 'ĐH Kinh Tế' ? 'selected' : ''}>ĐH Kinh Tế (DUE)</option>
+                            <option value="ĐH Sư Phạm" ${currentUniversityFilter === 'ĐH Sư Phạm' ? 'selected' : ''}>ĐH Sư Phạm (UED)</option>
+                            <option value="ĐH Ngoại Ngữ" ${currentUniversityFilter === 'ĐH Ngoại Ngữ' ? 'selected' : ''}>ĐH Ngoại Ngữ (UFL)</option>
+                            <option value="ĐH Sư Phạm Kỹ Thuật" ${currentUniversityFilter === 'ĐH Sư Phạm Kỹ Thuật' ? 'selected' : ''}>ĐH Sư Phạm Kỹ Thuật (UTE)</option>
+                            <option value="ĐH CNTT & Truyền Thông Việt - Hàn" ${currentUniversityFilter === 'ĐH CNTT & Truyền Thông Việt - Hàn' ? 'selected' : ''}>ĐH CNTT & TT Việt - Hàn (VKU)</option>
+                            <option value="ĐH Duy Tân" ${currentUniversityFilter === 'ĐH Duy Tân' ? 'selected' : ''}>ĐH Duy Tân</option>
+                            <option value="ĐH FPT Đà Nẵng" ${currentUniversityFilter === 'ĐH FPT Đà Nẵng' ? 'selected' : ''}>ĐH FPT Đà Nẵng</option>
+                            <option value="ĐH Kiến Trúc Đà Nẵng" ${currentUniversityFilter === 'ĐH Kiến Trúc Đà Nẵng' ? 'selected' : ''}>ĐH Kiến Trúc Đà Nẵng</option>
+                            <option value="ĐH Đông Á" ${currentUniversityFilter === 'ĐH Đông Á' ? 'selected' : ''}>ĐH Đông Á</option>
+                            <option value="CĐ Thương Mại" ${currentUniversityFilter === 'CĐ Thương Mại' ? 'selected' : ''}>CĐ Thương Mại</option>
+                        </select>
+                    </div>
+
+                    <div onclick="openRandomPicker()" class="bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl p-4 text-white shadow-md shadow-orange-100 flex items-center justify-between cursor-pointer hover:opacity-95 transition">
+                        <div class="space-y-1">
+                            <span class="px-2 py-0.5 bg-white/25 backdrop-blur-sm rounded-md text-[10px] font-semibold uppercase tracking-wider">Hôm nay ăn gì?</span>
+                            <h4 class="text-xs font-bold">Quay số ngẫu nhiên quán ngon cho sinh viên ngay!</h4>
+                        </div>
+                        <div class="w-10 h-10 bg-white/25 backdrop-blur-sm rounded-xl flex items-center justify-center shrink-0">
+                            <i data-lucide="sparkles" class="w-5 h-5"></i>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Danh sách cộng đồng chung (${filtered.length})</h3>
+                        </div>
+
+                        ${filtered.length === 0 ? `
+                            <div class="text-center py-10 bg-white rounded-2xl border border-slate-100 p-6">
+                                <i data-lucide="search-x" class="w-10 h-10 text-slate-300 mx-auto mb-2"></i>
+                                <p class="text-xs font-bold text-slate-700">Không tìm thấy quán phù hợp</p>
+                                <p class="text-[11px] text-slate-400 mt-1">Hãy đóng góp thêm quán mới để mọi người cùng thấy.</p>
+                            </div>
+                        ` : filtered.map(p => `
+                            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col hover:shadow-md transition">
+                                <div class="relative h-32 bg-slate-100 bg-cover bg-center cursor-pointer" style="background-image: url('${p.image}')" onclick="openDetailModal('${p.id}')">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                                    <div class="absolute top-2.5 left-2.5">
+                                        <span class="px-2 py-0.5 bg-white/90 backdrop-blur-sm text-slate-800 rounded-lg text-[10px] font-semibold">${p.category}</span>
+                                    </div>
+                                    <button onclick="event.stopPropagation(); toggleSave('${p.id}')" class="absolute top-2.5 right-2.5 p-1.5 bg-white/90 backdrop-blur-sm rounded-full text-slate-600 hover:text-orange-500 transition shadow-sm">
+                                        <i data-lucide="bookmark" class="w-3.5 h-3.5 ${p.saved ? 'fill-orange-500 text-orange-500' : ''}"></i>
+                                    </button>
+                                    <div class="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between text-white text-[11px]">
+                                        <span class="font-medium bg-black/40 px-2 py-0.5 rounded backdrop-blur-sm">${p.university}</span>
+                                        <div class="flex items-center space-x-1 font-bold bg-black/40 px-2 py-0.5 rounded backdrop-blur-sm text-amber-400">
+                                            <span>★</span><span>${p.rating}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-3.5 space-y-2">
+                                    <div>
+                                        <h4 onclick="openDetailModal('${p.id}')" class="text-xs font-bold text-slate-800 hover:text-orange-500 cursor-pointer truncate">${p.name}</h4>
+                                        <p class="text-[11px] text-slate-500 truncate mt-0.5 flex items-center space-x-1">
+                                            <i data-lucide="map-pin" class="w-3 h-3 text-slate-400 shrink-0"></i>
+                                            <span>${p.address}</span>
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-[11px]">
+                                        <span class="px-2 py-0.5 bg-orange-50 text-orange-600 font-semibold rounded-lg">${p.priceRange}</span>
+                                        <button onclick="openDetailModal('${p.id}')" class="text-orange-600 font-semibold hover:underline flex items-center space-x-1">
+                                            <span>Xem review</span>
+                                            <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderMapView() {
+            const unis = ['ĐH Bách Khoa', 'ĐH Kinh Tế', 'ĐH Sư Phạm', 'ĐH Ngoại Ngữ', 'ĐH Sư Phạm Kỹ Thuật', 'ĐH CNTT & Truyền Thông Việt - Hàn', 'ĐH Duy Tân', 'ĐH FPT Đà Nẵng', 'ĐH Kiến Trúc Đà Nẵng', 'ĐH Đông Á', 'CĐ Thương Mại'];
+            return `
+                <div class="p-4 space-y-4 text-xs">
+                    <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm space-y-1">
+                        <h3 class="font-bold text-slate-800 text-sm">Bản đồ cụm trường Đà Nẵng</h3>
+                        <p class="text-slate-500 text-[11px]">Chọn khu vực trường để lọc nhanh quán ăn chung lân cận.</p>
+                    </div>
+                    <div class="space-y-3">
+                        ${unis.map(uni => {
+                const count = places.filter(p => p.university === uni).length;
+                return `
+                                <div onclick="filterByUniFromMap('${uni}')" class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:border-orange-200 transition cursor-pointer flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-10 h-10 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center font-bold">🏫</div>
+                                        <div>
+                                            <h4 class="font-bold text-slate-800 text-sm">${uni}</h4>
+                                            <p class="text-[11px] text-slate-500">Có ${count} quán ăn đóng góp</p>
+                                        </div>
+                                    </div>
+                                    <div class="p-2 bg-slate-50 rounded-xl text-slate-400"><i data-lucide="chevron-right" class="w-4 h-4"></i></div>
+                                </div>
+                            `;
+            }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSavedView() {
+            const savedPlaces = places.filter(p => savedIds.includes(p.id));
+            return `
+                <div class="p-4 space-y-4 text-xs">
+                    <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+                        <h3 class="font-bold text-slate-800 text-sm">Quán đã lưu cá nhân ❤️</h3>
+                        <p class="text-slate-500 text-[11px]">Được lưu trữ trực tiếp trên thiết bị của bạn.</p>
+                    </div>
+                    ${savedPlaces.length === 0 ? `
+                        <div class="text-center py-12 bg-white rounded-2xl border border-slate-100 p-6">
+                            <i data-lucide="bookmark-minus" class="w-10 h-10 text-slate-300 mx-auto mb-2"></i>
+                            <p class="font-bold text-slate-700">Chưa có quán nào được lưu</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Bấm biểu tượng bookmark trên thẻ quán để lưu lại nhé.</p>
+                        </div>
+                    ` : `
+                        <div class="space-y-3">
+                            ${savedPlaces.map(p => `
+                                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-3 flex items-center justify-between">
+                                    <div class="flex items-center space-x-3 cursor-pointer" onclick="openDetailModal('${p.id}')">
+                                        <div class="w-12 h-12 rounded-xl bg-slate-100 bg-cover bg-center shrink-0" style="background-image: url('${p.image}')"></div>
+                                        <div>
+                                            <h4 class="font-bold text-slate-800">${p.name}</h4>
+                                            <p class="text-[11px] text-slate-500">${p.category} • <span class="text-orange-600 font-semibold">${p.priceRange}</span></p>
+                                        </div>
+                                    </div>
+                                    <button onclick="toggleSave('${p.id}')" class="p-2 text-orange-500 hover:bg-orange-50 rounded-xl transition">
+                                        <i data-lucide="bookmark" class="w-4 h-4 fill-orange-500"></i>
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        function renderProfileView() {
+            const total = places.length;
+            const savedCount = savedIds.length;
+            return `
+                <div class="p-4 space-y-4 text-xs">
+                    <div class="bg-gradient-to-r from-orange-500 to-amber-500 p-5 rounded-2xl text-white shadow-md shadow-orange-100 space-y-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-xl">🍲</div>
+                            <div>
+                                <h3 class="font-bold text-sm">Hệ thống Đóng góp Chung</h3>
+                                <p class="text-[11px] text-orange-100">Tất cả quán đóng góp sẽ hiển thị cho mọi sinh viên Đà Nẵng cùng xem!</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 pt-2 border-t border-white/20">
+                            <div class="bg-white/10 backdrop-blur-sm p-2.5 rounded-xl">
+                                <p class="text-orange-100 text-[10px]">Tổng quán trên hệ thống</p>
+                                <p class="font-bold text-white text-sm">${total} quán</p>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-sm p-2.5 rounded-xl">
+                                <p class="text-orange-100 text-[10px]">Quán bạn đã lưu</p>
+                                <p class="font-bold text-white text-sm">${savedCount} quán</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 space-y-3">
+                        <h4 class="font-bold text-slate-800 text-xs">💡 Tính năng cộng đồng</h4>
+                        <ul class="space-y-2 text-slate-600 text-[11px]">
+                            <li class="flex items-start space-x-2">
+                                <span class="text-orange-500 font-bold">✓</span>
+                                <span>Khi bạn bấm "Đóng góp ngay", dữ liệu sẽ lưu ngay lập tức vào thiết bị và đẩy lên đám mây chung.</span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <span class="text-orange-500 font-bold">✓</span>
+                                <span>Bạn bè hoặc sinh viên mở ứng dụng lên sẽ thấy ngay lập tức mà không sợ bị đơ hay lỗi.</span>
+                            </li>
+                        </ul>
+                        <button onclick="openAddModal()" class="w-full py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition shadow-md shadow-orange-100 flex items-center justify-center space-x-1.5">
+                            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                            <span>Thêm quán ăn mới ngay</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function setCategory(cat) {currentCategory = cat; renderTabContent();}
+        function handlePriceFilter(select) {currentPriceFilter = select.value; renderTabContent();}
+        function handleUniFilter(select) {currentUniversityFilter = select.value; renderTabContent();}
+        function handleSearchInput() {currentSearchQuery = document.getElementById('searchInput').value; renderTabContent();}
+        function filterByUniFromMap(uni) {currentUniversityFilter = uni; currentTab = 'explore'; switchTab('explore');}
+
+        function toggleSave(id) {
+            const index = savedIds.indexOf(id);
+            if (index > -1) {
+                savedIds.splice(index, 1);
+                showToast('Đã bỏ lưu quán');
+            } else {
+                savedIds.push(id);
+                showToast('Đã lưu quán thành công');
+            }
+            localStorage.setItem('student_danang_saved_ids', JSON.stringify(savedIds));
+            renderTabContent();
+        }
+
+        function openAddModal() {
+            document.getElementById('placeForm').reset();
+            document.getElementById('placeModal').classList.remove('hidden');
+        }
+
+        function closeAddModal() {
+            document.getElementById('placeModal').classList.add('hidden');
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('placeName').value.trim();
+            const category = document.getElementById('placeCategory').value;
+            const priceRange = document.getElementById('placePriceRange').value;
+            const university = document.getElementById('placeUniversity').value;
+            const address = document.getElementById('placeAddress').value.trim() || 'Đang cập nhật địa chỉ';
+            const rating = parseFloat(document.getElementById('placeRating').value);
+            const imageInput = document.getElementById('placeImage').value.trim();
+            const image = imageInput !== '' ? imageInput : 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80';
+            const review = document.getElementById('placeReview').value.trim() || 'Chưa có review chi tiết.';
+
+            const newPlace = {
+                id: 'contrib_' + Date.now(),
+                name,
+                category,
+                priceRange,
+                university,
+                address,
+                rating,
+                image,
+                review,
+                createdAt: Date.now()
+            };
+
+            localContributedPlaces.unshift(newPlace);
+            localStorage.setItem('student_danang_local_contribs', JSON.stringify(localContributedPlaces));
+
+            places.unshift(newPlace);
+            closeAddModal();
+            showToast('🎉 Đóng góp quán thành công lên hệ thống chung!');
+            renderTabContent();
+
+            if (window.firebaseModules && window.dbRef) {
+                window.firebaseModules.push(window.dbRef, {
+                    name,
+                    category,
+                    priceRange,
+                    university,
+                    address,
+                    rating,
+                    image,
+                    review
+                }).catch(err => {
+                    console.log('Đã lưu cục bộ, đồng bộ đám mây sẽ thử lại khi có mạng.');
+                });
+            }
+        }
+
+        function openDetailModal(id) {
+            const p = places.find(item => item.id === id);
+            if (!p) return;
+            selectedPlaceIdForDetail = id;
+
+            document.getElementById('detailModalHeader').style.backgroundImage = `url('${p.image}')`;
+            document.getElementById('detailCategoryBadge').innerText = p.category;
+            document.getElementById('detailName').innerText = p.name;
+            document.getElementById('detailAddress').innerText = p.address;
+            document.getElementById('detailPriceBadge').innerText = p.priceRange;
+            document.getElementById('detailUniversity').innerText = p.university;
+            document.getElementById('detailRating').innerText = `★★★★★ (${p.rating})`;
+            document.getElementById('detailReview').innerText = p.review || 'Chưa có review chi tiết.';
+
+            document.getElementById('detailSaveText').innerText = savedIds.includes(id) ? 'Đã lưu' : 'Lưu quán';
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+            selectedPlaceIdForDetail = null;
+        }
+
+        function toggleSaveFromDetail() {
+            if (selectedPlaceIdForDetail) {
+                toggleSave(selectedPlaceIdForDetail);
+                openDetailModal(selectedPlaceIdForDetail);
+            }
+        }
+
+        function openRandomPicker() {
+            document.getElementById('randomPlaceName').innerText = 'Sẵn sàng quay số chọn quán!';
+            document.getElementById('randomPlaceMeta').innerText = 'Nhấn nút bên dưới để chọn ngẫu nhiên quán ngon.';
+            document.getElementById('randomPlaceReview').innerText = '';
+            document.getElementById('randomModal').classList.remove('hidden');
+        }
+
+        function closeRandomPicker() {
+            document.getElementById('randomModal').classList.add('hidden');
+        }
+
+        function spinRandomPlace() {
+            if (places.length === 0) return;
+            let counter = 0;
+            const interval = setInterval(() => {
+                const randomItem = places[Math.floor(Math.random() * places.length)];
+                document.getElementById('randomPlaceName').innerText = randomItem.name;
+                document.getElementById('randomPlaceMeta').innerText = `${randomItem.category} • ${randomItem.priceRange} • ${randomItem.university}`;
+                document.getElementById('randomPlaceReview').innerText = `"${randomItem.review}"`;
+                counter++;
+                if (counter > 10) clearInterval(interval);
+            }, 50);
+        }
+    </script>
+</body>
+
+</html>
