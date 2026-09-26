@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,49 +25,19 @@
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
-
         .no-scrollbar {
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
     </style>
-
-    <!-- Firebase SDKs & Realtime Sync Config -->
-    <script type="module">
-        import {initializeApp} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import {getDatabase, ref, push, onValue} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyD-DemoKeyForStudentDanangApp-999",
-            authDomain: "student-danang-food.firebaseapp.com",
-            databaseURL: "https://student-danang-food-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "student-danang-food",
-            storageBucket: "student-danang-food.appspot.com",
-            messagingSenderId: "123456789099",
-            appId: "1:123456789099:web:abcdef123456789"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        window.dbRef = ref(db, 'places');
-        window.firebaseModules = {push, ref, onValue};
-
-        if (window.initFirebaseSync) {
-            window.initFirebaseSync();
-        }
-    </script>
 </head>
-
 <body class="bg-slate-900 text-slate-800 font-sans min-h-screen flex items-center justify-center p-0 sm:p-4">
 
     <!-- Mobile App Container Frame -->
-    <div
-        class="w-full sm:max-w-[412px] h-screen sm:h-[844px] bg-slate-50 sm:rounded-[40px] shadow-2xl flex flex-col relative overflow-hidden border-0 sm:border-8 sm:border-slate-800">
-
+    <div class="w-full sm:max-w-[412px] h-screen sm:h-[844px] bg-slate-50 sm:rounded-[40px] shadow-2xl flex flex-col relative overflow-hidden border-0 sm:border-8 sm:border-slate-800">
+        
         <!-- Mobile Status Bar -->
-        <div
-            class="bg-white/80 backdrop-blur-md px-6 py-2.5 flex items-center justify-between text-xs font-semibold text-slate-700 shrink-0 z-40 border-b border-slate-100">
+        <div class="bg-white/80 backdrop-blur-md px-6 py-2.5 flex items-center justify-between text-xs font-semibold text-slate-700 shrink-0 z-40 border-b border-slate-100">
             <span>09:41</span>
             <div class="w-24 h-4 bg-slate-900 rounded-full hidden sm:block"></div>
             <div class="flex items-center space-x-2">
@@ -79,11 +48,9 @@
         </div>
 
         <!-- App Header -->
-        <header id="appHeader"
-            class="bg-white px-5 py-3.5 border-b border-slate-100 flex items-center justify-between shrink-0 z-30">
+        <header id="appHeader" class="bg-white px-5 py-3.5 border-b border-slate-100 flex items-center justify-between shrink-0 z-30">
             <div class="flex items-center space-x-2.5">
-                <div
-                    class="w-9 h-9 bg-orange-500 text-white rounded-xl flex items-center justify-center shadow-md shadow-orange-100">
+                <div class="w-9 h-9 bg-orange-500 text-white rounded-xl flex items-center justify-center shadow-md shadow-orange-100">
                     <i data-lucide="utensils" class="w-5 h-5"></i>
                 </div>
                 <div>
@@ -92,13 +59,10 @@
                 </div>
             </div>
             <div class="flex items-center space-x-1.5">
-                <button onclick="openRandomPicker()"
-                    class="p-2 bg-orange-50 text-orange-600 rounded-xl hover:bg-orange-100 transition shadow-sm"
-                    title="Hôm nay ăn gì?">
+                <button onclick="openRandomPicker()" class="p-2 bg-orange-50 text-orange-600 rounded-xl hover:bg-orange-100 transition shadow-sm" title="Hôm nay ăn gì?">
                     <i data-lucide="sparkles" class="w-4 h-4"></i>
                 </button>
-                <button onclick="openAddModal()"
-                    class="p-2 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition" title="Thêm quán">
+                <button onclick="openAddModal()" class="p-2 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition" title="Thêm quán">
                     <i data-lucide="plus" class="w-4 h-4"></i>
                 </button>
             </div>
@@ -106,65 +70,53 @@
 
         <!-- Main Scrollable Content Area -->
         <main id="mainContainer" class="flex-1 overflow-y-auto pb-24 no-scrollbar relative">
-            <div class="flex items-center justify-center h-full text-xs text-slate-400">Đang tải dữ liệu quán ăn trực
-                tuyến...</div>
+            <div class="flex items-center justify-center h-full">
+                <div class="text-center space-y-2">
+                    <div class="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                    <p class="text-xs text-slate-500">Đang đồng bộ dữ liệu cộng đồng...</p>
+                </div>
+            </div>
         </main>
 
         <!-- Bottom Navigation Bar -->
-        <nav
-            class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-slate-200 px-4 py-2 flex items-center justify-around z-40">
-            <button onclick="switchTab('explore')" id="nav-explore"
-                class="flex flex-col items-center space-y-1 text-orange-600 transition">
+        <nav class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-slate-200 px-4 py-2 flex items-center justify-around z-40">
+            <button onclick="switchTab('explore')" id="nav-explore" class="flex flex-col items-center space-y-1 text-orange-600 transition">
                 <i data-lucide="compass" class="w-5 h-5"></i>
                 <span class="text-[10px] font-semibold">Khám phá</span>
             </button>
-            <button onclick="switchTab('map')" id="nav-map"
-                class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition">
+            <button onclick="switchTab('map')" id="nav-map" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition">
                 <i data-lucide="map-pin" class="w-5 h-5"></i>
                 <span class="text-[10px] font-medium">Bản đồ ĐH</span>
             </button>
-            <button onclick="switchTab('saved')" id="nav-saved"
-                class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition">
+            <button onclick="switchTab('saved')" id="nav-saved" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition">
                 <i data-lucide="bookmark" class="w-5 h-5"></i>
                 <span class="text-[10px] font-medium">Đã lưu</span>
             </button>
-            <button onclick="switchTab('profile')" id="nav-profile"
-                class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition">
-                <i data-lucide="heart-handshake" class="w-5 h-5"></i>
-                <span class="text-[10px] font-medium">Đóng góp</span>
+            <button onclick="switchTab('profile')" id="nav-profile" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition">
+                <i data-lucide="user" class="w-5 h-5"></i>
+                <span class="text-[10px] font-medium">Cá nhân</span>
             </button>
         </nav>
     </div>
 
     <!-- Add Modal -->
-    <div id="placeModal"
-        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div
-            class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-slate-100 max-h-[85vh] flex flex-col">
-            <div
-                class="p-4 border-b border-slate-100 flex items-center justify-between bg-gradient-to-r from-orange-500 to-amber-500 text-white">
-                <div>
-                    <h3 class="text-sm font-bold">✨ Đóng góp Quán Ngon Chung</h3>
-                    <p class="text-[10px] text-orange-100">Chia sẻ địa điểm để toàn bộ sinh viên Đà Nẵng cùng thấy!</p>
-                </div>
-                <button onclick="closeAddModal()"
-                    class="p-1.5 text-white/80 hover:text-white rounded-full hover:bg-white/20 transition">
+    <div id="placeModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-slate-100 max-h-[85vh] flex flex-col">
+            <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                <h3 id="modalTitle" class="text-sm font-bold text-slate-800">Đóng góp quán ăn chung</h3>
+                <button onclick="closeAddModal()" class="p-1.5 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-200 transition">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
             </div>
-            <form id="placeForm" onsubmit="handleFormSubmit(event)"
-                class="p-5 overflow-y-auto space-y-3.5 flex-1 text-xs">
+            <form id="placeForm" onsubmit="handleFormSubmit(event)" class="p-5 overflow-y-auto space-y-3.5 flex-1 text-xs">
                 <div>
-                    <label class="block font-semibold text-slate-700 mb-1">Tên quán ăn / Cafe *</label>
-                    <input type="text" id="placeName" required placeholder="Ví dụ: Cơm gà Bà Buôn..."
-                        class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    <label class="block font-semibold text-slate-700 mb-1">Tên quán *</label>
+                    <input type="text" id="placeName" required placeholder="Ví dụ: Mì Quảng Bà Mua..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
                 </div>
-
                 <div class="grid grid-cols-2 gap-2.5">
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">Danh mục *</label>
-                        <select id="placeCategory" required
-                            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        <select id="placeCategory" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
                             <option value="Ăn sáng">🍲 Ăn sáng</option>
                             <option value="Trưa / Tối">🍛 Trưa / Tối</option>
                             <option value="Ăn vặt">🍢 Ăn vặt / Trà sữa</option>
@@ -173,20 +125,17 @@
                     </div>
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">Mức giá *</label>
-                        <select id="placePriceRange" required
-                            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        <select id="placePriceRange" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
                             <option value="Siêu rẻ (<25k)">🔥 Siêu rẻ (&lt;25k)</option>
                             <option value="Bình dân (25k-50k)">⭐ Bình dân (25k-50k)</option>
                             <option value="Hơi cao (>50k)">💎 Hơi cao (&gt;50k)</option>
                         </select>
                     </div>
                 </div>
-
                 <div class="grid grid-cols-2 gap-2.5">
                     <div>
                         <label class="block font-semibold text-slate-700 mb-1">Khu vực / Trường ĐH *</label>
-                        <select id="placeUniversity" required
-                            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        <select id="placeUniversity" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
                             <option value="ĐH Bách Khoa">ĐH Bách Khoa (DUT)</option>
                             <option value="ĐH Kinh Tế">ĐH Kinh Tế (DUE)</option>
                             <option value="ĐH Sư Phạm">ĐH Sư Phạm (UED)</option>
@@ -199,8 +148,7 @@
                             <option value="ĐH FPT Đà Nẵng">ĐH FPT Đà Nẵng</option>
                             <option value="ĐH Kiến Trúc Đà Nẵng">ĐH Kiến Trúc Đà Nẵng</option>
                             <option value="ĐH Đông Á">ĐH Đông Á</option>
-                            <option value="Phân hiệu ĐH Kinh tế TP.HCM tại ĐN">Phân hiệu ĐH Kinh tế TP.HCM tại ĐN
-                            </option>
+                            <option value="Phân hiệu ĐH Kinh tế TP.HCM tại ĐN">Phân hiệu ĐH Kinh tế TP.HCM tại ĐN</option>
                             <option value="CĐ Thương Mại">CĐ Thương Mại</option>
                             <option value="CĐ Nghề Đà Nẵng">CĐ Nghề Đà Nẵng</option>
                             <option value="CĐ FPT Polytechnic Đà Nẵng">CĐ FPT Polytechnic Đà Nẵng</option>
@@ -210,93 +158,69 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block font-semibold text-slate-700 mb-1">Đánh giá chung</label>
-                        <select id="placeRating"
-                            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        <label class="block font-semibold text-slate-700 mb-1">Điểm đánh giá</label>
+                        <select id="placeRating" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
                             <option value="5.0">⭐⭐⭐⭐⭐ (5.0)</option>
                             <option value="4.5">⭐⭐⭐⭐✨ (4.5)</option>
                             <option value="4.0">⭐⭐⭐⭐ (4.0)</option>
                         </select>
                     </div>
                 </div>
-
                 <div>
-                    <label class="block font-semibold text-slate-700 mb-1">Địa chỉ cụ thể / Tên đường</label>
-                    <input type="text" id="placeAddress" placeholder="Ví dụ: 54 Nguyễn Lương Bằng..."
-                        class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    <label class="block font-semibold text-slate-700 mb-1">Địa chỉ / Tên đường</label>
+                    <input type="text" id="placeAddress" placeholder="Ví dụ: 54 Nguyễn Lương Bằng..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
                 </div>
-
                 <div>
-                    <label class="block font-semibold text-slate-700 mb-1">Link Ảnh minh họa (URL)</label>
-                    <input type="url" id="placeImage" placeholder="https://images.unsplash.com/..."
-                        class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    <label class="block font-semibold text-slate-700 mb-1">Link Ảnh quán</label>
+                    <input type="url" id="placeImage" placeholder="https://images.unsplash.com/..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500">
                 </div>
-
                 <div>
-                    <label class="block font-semibold text-slate-700 mb-1">Review nhanh chân thực</label>
-                    <textarea id="placeReview" rows="2" placeholder="Quán rộng rãi, cô chủ nhiệt tình..."
-                        class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"></textarea>
+                    <label class="block font-semibold text-slate-700 mb-1">Review nhanh</label>
+                    <textarea id="placeReview" rows="2" placeholder="Quán rộng, wifi mạnh..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"></textarea>
                 </div>
-
                 <div class="pt-2 flex justify-end space-x-2">
-                    <button type="button" onclick="closeAddModal()"
-                        class="px-3 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition">Hủy</button>
-                    <button type="submit"
-                        class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition shadow-md shadow-orange-100 flex items-center space-x-1.5">
-                        <i data-lucide="send" class="w-3.5 h-3.5"></i>
-                        <span>Đóng góp ngay</span>
-                    </button>
+                    <button type="button" onclick="closeAddModal()" class="px-3 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition">Hủy</button>
+                    <button type="submit" id="submitBtn" class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition shadow-md shadow-orange-100">Đăng lên cộng đồng</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- Random Picker Modal -->
-    <div id="randomModal"
-        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div
-            class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-slate-100 p-6 text-center space-y-4">
-            <div
-                class="w-14 h-14 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
+    <div id="randomModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-slate-100 p-6 text-center space-y-4">
+            <div class="w-14 h-14 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center mx-auto shadow-inner">
                 <i data-lucide="sparkles" class="w-7 h-7"></i>
             </div>
             <div>
                 <h3 class="text-base font-bold text-slate-800 mb-1">Hôm nay sinh viên ăn gì?</h3>
-                <p class="text-xs text-slate-500">Hệ thống chọn ngẫu nhiên quán ngon bổ rẻ cho bạn!</p>
+                <p class="text-xs text-slate-500">Hệ thống chọn ngẫu nhiên từ kho dữ liệu chung!</p>
             </div>
-            <div id="randomResultBox"
-                class="p-4 bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border border-orange-100 text-left space-y-1.5">
+            <div id="randomResultBox" class="p-4 bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border border-orange-100 text-left space-y-1.5">
                 <p id="randomPlaceName" class="text-sm font-bold text-orange-900">Bấm nút quay số bên dưới nhé!</p>
                 <p id="randomPlaceMeta" class="text-[11px] text-orange-700"></p>
                 <p id="randomPlaceReview" class="text-[11px] text-slate-600 italic"></p>
             </div>
             <div class="flex items-center space-x-2 pt-1">
-                <button onclick="spinRandomPlace()"
-                    class="flex-1 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold transition shadow-md shadow-orange-200 flex items-center justify-center space-x-1.5">
+                <button onclick="spinRandomPlace()" class="flex-1 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold transition shadow-md shadow-orange-200 flex items-center justify-center space-x-1.5">
                     <i data-lucide="shuffle" class="w-4 h-4"></i>
                     <span>Quay ngẫu nhiên</span>
                 </button>
-                <button onclick="closeRandomPicker()"
-                    class="px-3 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-medium transition">Đóng</button>
+                <button onclick="closeRandomPicker()" class="px-3 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-medium transition">Đóng</button>
             </div>
         </div>
     </div>
 
     <!-- Detail View Modal -->
-    <div id="detailModal"
-        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div
-            class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-slate-100 max-h-[85vh] flex flex-col">
+    <div id="detailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-slate-100 max-h-[85vh] flex flex-col">
             <div id="detailModalHeader" class="relative h-40 bg-slate-200 bg-cover bg-center">
                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
-                <button onclick="closeDetailModal()"
-                    class="absolute top-3 right-3 p-1.5 bg-black/40 hover:bg-black/60 text-white rounded-full transition">
+                <button onclick="closeDetailModal()" class="absolute top-3 right-3 p-1.5 bg-black/40 hover:bg-black/60 text-white rounded-full transition">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
                 <div class="absolute bottom-3 left-3 right-3 text-white">
-                    <span id="detailCategoryBadge"
-                        class="px-2 py-0.5 bg-orange-50 text-[10px] font-semibold rounded-md mb-1 inline-block">Danh
-                        mục</span>
+                    <span id="detailCategoryBadge" class="px-2 py-0.5 bg-orange-500 text-[10px] font-semibold rounded-md mb-1 inline-block">Danh mục</span>
                     <h3 id="detailName" class="text-base font-bold">Tên quán</h3>
                 </div>
             </div>
@@ -306,8 +230,7 @@
                         <i data-lucide="map-pin" class="w-3.5 h-3.5 text-orange-500"></i>
                         <span id="detailAddress">Đang cập nhật địa chỉ</span>
                     </div>
-                    <span id="detailPriceBadge"
-                        class="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-md font-semibold text-[11px]">Giá</span>
+                    <span id="detailPriceBadge" class="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-md font-semibold text-[11px]">Giá</span>
                 </div>
                 <div class="grid grid-cols-2 gap-2.5">
                     <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
@@ -320,129 +243,261 @@
                     </div>
                 </div>
                 <div>
-                    <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Review từ hội sinh
-                        viên</p>
-                    <div id="detailReview"
-                        class="p-3 bg-orange-50/50 rounded-xl text-slate-600 border border-orange-100/60 italic leading-relaxed">
-                        Chưa có review.</div>
+                    <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Review từ hội sinh viên</p>
+                    <div id="detailReview" class="p-3 bg-orange-50/50 rounded-xl text-slate-600 border border-orange-100/60 italic leading-relaxed">Chưa có review.</div>
                 </div>
             </div>
             <div class="p-3.5 border-t border-slate-100 bg-slate-50 flex justify-between items-center text-xs">
-                <button id="detailSaveBtn" onclick="toggleSaveFromDetail()"
-                    class="px-3 py-2 bg-orange-50 text-orange-600 font-semibold rounded-xl hover:bg-orange-100 transition flex items-center space-x-1">
+                <button id="detailSaveBtn" onclick="toggleSaveFromDetail()" class="px-3 py-2 bg-orange-50 text-orange-600 font-semibold rounded-xl hover:bg-orange-100 transition flex items-center space-x-1">
                     <i data-lucide="bookmark" class="w-3.5 h-3.5"></i>
                     <span id="detailSaveText">Lưu quán</span>
                 </button>
-                <button onclick="closeDetailModal()"
-                    class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-xl transition">Đóng</button>
+                <button onclick="closeDetailModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-xl transition">Đóng</button>
             </div>
         </div>
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast"
-        class="fixed top-10 left-1/2 -translate-x-1/2 z-50 transform -translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-xl flex items-center space-x-2 text-xs">
+    <div id="toast" class="fixed top-10 left-1/2 -translate-x-1/2 z-50 transform -translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-xl flex items-center space-x-2 text-xs">
         <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
         <span id="toastMessage">Thành công!</span>
     </div>
 
-    <!-- JavaScript Application Logic -->
+    <!-- Application JavaScript Logic -->
     <script>
-        const defaultPlaces = [
-            {
-                id: 'default_1',
-                name: 'Mì Quảng Bà Mua (Khu Bách Khoa)',
-                category: 'Trưa / Tối',
-                priceRange: 'Bình dân (25k-50k)',
-                university: 'ĐH Bách Khoa',
-                address: 'Gần cổng sau ĐH Bách Khoa, Liên Chiểu',
-                rating: 4.8,
-                image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80',
-                review: 'Quán quen của sinh viên Bách Khoa, sợi mì dai, nước chan đậm đà, rau sống tươi miễn phí.'
-            },
-            {
-                id: 'default_2',
-                name: 'Bánh Mì Chào Ngô Sĩ Liên',
-                category: 'Ăn sáng',
-                priceRange: 'Siêu rẻ (<25k)',
-                university: 'ĐH Bách Khoa',
-                address: 'Đường Ngô Sĩ Liên, Liên Chiểu',
-                rating: 4.7,
-                image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80',
-                review: 'Chảo pate, trứng ốp la nóng hổi ăn kèm bánh mì giòn rụm, nạp năng lượng buổi sáng cực tốt.'
-            },
-            {
-                id: 'default_3',
-                name: 'Cơm Gà 55 Hòa Khánh',
-                category: 'Trưa / Tối',
-                priceRange: 'Bình dân (25k-50k)',
-                university: 'ĐH Bách Khoa',
-                address: 'Đường Ngô Sĩ Liên, Liên Chiểu',
-                rating: 4.8,
-                image: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=600&q=80',
-                review: 'Cơm gà giòn rụm, hạt cơm chiên vàng óng ánh, canh và kim chi ăn kèm thoải mái.'
-            },
-            {
-                id: 'default_4',
-                name: 'Bánh Xèo Bà Dưỡng (Khu Kinh Tế)',
-                category: 'Trưa / Tối',
-                priceRange: 'Bình dân (25k-50k)',
-                university: 'ĐH Kinh Tế',
-                address: 'Hoàng Diệu, Hải Châu',
-                rating: 4.9,
-                image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80',
-                review: 'Nước chấm tương đậu thần thánh cực kỳ hợp gu sinh viên Kinh Tế tụ tập cuối tuần.'
-            },
-            {
-                id: 'default_5',
-                name: 'Bánh Tráng Kẹp Dì Hoa Lê Duẩn',
-                category: 'Ăn vặt',
-                priceRange: 'Siêu rẻ (<25k)',
-                university: 'ĐH Kinh Tế',
-                address: 'Đường Lê Duẩn, Hải Châu',
-                rating: 4.9,
-                image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80',
-                review: 'Bánh tráng kẹp pate mềm hoặc giòn đều ngon xuất sắc, quán lúc nào cũng đông sinh viên.'
-            },
-            {
-                id: 'default_6',
-                name: 'Gimbap & Đồ Hàn Chợ Bắc Mỹ An',
-                category: 'Ăn vặt',
-                priceRange: 'Siêu rẻ (<25k)',
-                university: 'ĐH Kinh Tế',
-                address: 'Chợ Bắc Mỹ An, Ngũ Hành Sơn',
-                rating: 4.8,
-                image: 'https://images.unsplash.com/photo-1580651300835-f1e1c0c17a94?auto=format&fit=crop&w=600&q=80',
-                review: 'Thiên đường ăn vặt giá rẻ mạt ngay cạnh ĐH Kinh tế, kimbap, mỳ cay đều chuẩn vị.'
-            },
-            {
-                id: 'default_7',
-                name: 'Cốm Cafe - Học Bài & Làm Việc',
-                category: 'Cafe học bài',
-                priceRange: 'Bình dân (25k-50k)',
-                university: 'ĐH Sư Phạm',
-                address: 'Đường Tôn Đức Thắng, Liên Chiểu',
-                rating: 4.8,
-                image: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=600&q=80',
-                review: 'Không gian yên tĩnh, ổ cắm điện đầy đủ mọi bàn, wifi siêu mạnh, nước uống rẻ cho sv Sư Phạm.'
-            },
-            {
-                id: 'default_8',
-                name: 'Cốm Cafe - Học Bài & Làm Việc',
-                category: 'Cafe học bài',
-                priceRange: 'Bình dân (25k-50k)',
-                university: 'ĐH FPT Đà Nẵng',
-                address: 'Khu đô thị FPT Đà Nẵng, Ngũ Hành Sơn',
-                rating: 4.7,
-                image: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=600&q=80',
-                review: 'Không gian thoáng đãng, nhiều cây xanh, cực kỳ hợp cho sinh viên FPT ngồi code và họp nhóm.'
-            }
+        const BIN_URL = 'https://api.jsonbin.io/v3/b/670a4c2dae4105333a921dcd/latest';
+        const BIN_PUT_URL = 'https://api.jsonbin.io/v3/b/670a4c2dae4105333a921dcd';
+        
+        let places = [
+            // --- 1. ĐH Bách Khoa (10 quán) ---
+            {id: 'p_dut_1', name: 'Mì Quảng Bích', category: 'Ăn sáng', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH Bách Khoa', address: '123 Tôn Đức Thắng, Liên Chiểu', rating: 4.8, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Ngon bổ rẻ ngay cạnh cổng trường.', saved: false},
+            {id: 'p_dut_2', name: 'Bánh Mì Chảo Bách Khoa', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Bách Khoa', address: '456 Nguyễn Lương Bằng, Liên Chiểu', rating: 4.6, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Đông khách vào buổi sáng sớm.', saved: false},
+            {id: 'p_dut_3', name: 'Cơm Gà 5 Định', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Bách Khoa', address: '12 Ngô Sĩ Liên, Liên Chiểu', rating: 4.7, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Cơm đùi gà giòn rụm, nước sốt ngon.', saved: false},
+            {id: 'p_dut_4', name: 'Cơm Bình Dân Sinh Viên 20k', category: 'Trưa / Tối', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH Bách Khoa', address: '28 Ngô Sĩ Liên, Liên Chiểu', rating: 4.5, image: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80', review: 'Cô chủ quán nhiệt tình, ăn thoải mái.', saved: false},
+            {id: 'p_dut_5', name: 'Bánh Tráng kẹp Dì Hoa', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH Bách Khoa', address: '98 Nguyễn Lương Bằng, Liên Chiểu', rating: 4.9, image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80', review: 'Món ăn vặt huyền thoại của dân Bách Khoa.', saved: false},
+            {id: 'p_dut_6', name: 'Trà Sữa Heo Mi', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH Bách Khoa', address: 'Khu KTX Bách Khoa, Liên Chiểu', rating: 4.4, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Trà sữa thơm, nhiều trân châu.', saved: false},
+            {id: 'p_dut_7', name: 'Cafe Góc Phố DUT', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Bách Khoa', address: '15 Nam Cao, Liên Chiểu', rating: 4.6, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Không gian yên tĩnh để làm đồ án.', saved: false},
+            {id: 'p_dut_8', name: 'Bún Mắm Nêm Cô Ba', category: 'Trưa / Tối', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH Bách Khoa', address: '34 Nam Cao, Liên Chiểu', rating: 4.7, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Mắm đậm đà chuẩn vị miền Trung.', saved: false},
+            {id: 'p_dut_9', name: 'Bánh Xèo Nem Lụi Cô Mười', category: 'Ăn vặt', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Bách Khoa', address: '210 Âu Cơ, Liên Chiểu', rating: 4.5, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Bánh xèo giòn rụm ăn kèm rau sống sạch.', saved: false},
+            {id: 'p_dut_10', name: 'Góc Cafe Sách DUT', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Bách Khoa', address: '78 Nguyễn Lương Bằng, Liên Chiểu', rating: 4.8, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Nhiều sách hay và wifi siêu mạnh.', saved: false},
+
+            // --- 2. ĐH Kinh Tế (10 quán) ---
+            {id: 'p_due_1', name: 'Mì Quảng Bà Vị', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kinh Tế', address: '166 Ngũ Hành Sơn, Ngũ Hành Sơn', rating: 4.7, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Quán quen thuộc của sinh viên DUE.', saved: false},
+            {id: 'p_due_2', name: 'Cơm Gà A Hải nhánh Ngũ Hành Sơn', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kinh Tế', address: '96 Ngũ Hành Sơn, Ngũ Hành Sơn', rating: 4.8, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Thịt gà mềm, da giòn màu nghệ.', saved: false},
+            {id: 'p_due_3', name: 'Bánh Tráng Cuốn Thịt Heo Bà Mua', category: 'Trưa / Tối', priceRange: 'Hơi cao (>50k)', university: 'ĐH Kinh Tế', address: '4 Lê Văn Hưu, Ngũ Hành Sơn', rating: 4.6, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Đặc sản Đà Nẵng cực ngon.', saved: false},
+            {id: 'p_due_4', name: 'Bún Chả Hà Nội Phố', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kinh Tế', address: '142 Ngũ Hành Sơn, Ngũ Hành Sơn', rating: 4.5, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Hương vị chuẩn miền Bắc.', saved: false},
+            {id: 'p_due_5', name: 'Trà Sữa Tocotoco DUE', category: 'Ăn vặt', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kinh Tế', address: '18 Lê Văn Hưu, Ngũ Hành Sơn', rating: 4.4, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Địa điểm sống ảo và trà sữa quen thuộc.', saved: false},
+            {id: 'p_due_6', name: 'Bánh Mì Chảo Ông Hập', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kinh Tế', address: '85 Ngũ Hành Sơn, Ngũ Hành Sơn', rating: 4.6, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Đầy đặn pate và trứng ốp la.', saved: false},
+            {id: 'p_due_7', name: 'Cafe Góc Sáng DUE', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kinh Tế', address: '22 Hồ Xuân Hương, Ngũ Hành Sơn', rating: 4.7, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Quán thoáng mát, phục vụ nhanh.', saved: false},
+            {id: 'p_due_8', name: 'Bún Bò Huế Bà Thuỷ', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kinh Tế', address: '11 Lê Văn Hưu, Ngũ Hành Sơn', rating: 4.5, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Nước dùng thơm mùi sả và ruốc.', saved: false},
+            {id: 'p_due_9', name: 'Bánh Xèo Tôm Nhảy Năm Hiền', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kinh Tế', address: '46 Ngũ Hành Sơn, Ngũ Hành Sơn', rating: 4.8, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Bánh giòn rụm, tôm đất tươi ngọt.', saved: false},
+            {id: 'p_due_10', name: 'Milktea & Book 1999', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kinh Tế', address: '55 Ngũ Hành Sơn, Ngũ Hành Sơn', rating: 4.9, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Không gian học nhóm lý tưởng cho sinh viên Kinh tế.', saved: false},
+
+            // --- 3. ĐH Sư Phạm (10 quán) ---
+            {id: 'p_ued_1', name: 'Cơm Tấm Sư Phạm', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Sư Phạm', address: '459 Tôn Đức Thắng, Liên Chiểu', rating: 4.6, image: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80', review: 'Sườn nướng thơm phức cả góc đường.', saved: false},
+            {id: 'p_ued_2', name: 'Mì Quảng Bà Mua Tôn Đức Thắng', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Sư Phạm', address: '235 Tôn Đức Thắng, Liên Chiểu', rating: 4.7, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Thương hiệu mì quảng quen thuộc.', saved: false},
+            {id: 'p_ued_3', name: 'Bánh Tráng Trộn Dì Hằng', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH Sư Phạm', address: 'Cổng sau ĐH Sư Phạm, Liên Chiểu', rating: 4.8, image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80', review: 'Đậm đà, topping ngập túi.', saved: false},
+            {id: 'p_ued_4', name: 'Bún Bò Huế UED', category: 'Ăn sáng', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH Sư Phạm', address: '12 Hoàng Văn Thái, Liên Chiểu', rating: 4.5, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Giá sinh viên, tô nhiều thịt.', saved: false},
+            {id: 'p_ued_5', name: 'Chè Xứ Quảng', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH Sư Phạm', address: '300 Tôn Đức Thắng, Liên Chiểu', rating: 4.6, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Giải nhiệt mùa hè cực tốt.', saved: false},
+            {id: 'p_ued_6', name: 'Cafe Sách Sư Phạm', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Sư Phạm', address: 'Ký túc xá ĐH Sư Phạm, Liên Chiểu', rating: 4.7, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Nơi sinh viên ôn thi giáo viên giỏi.', saved: false},
+            {id: 'p_ued_7', name: 'Bánh Mì Que Đà Nẵng', category: 'Ăn sáng', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH Sư Phạm', address: 'Cổng chính ĐH Sư Phạm, Liên Chiểu', rating: 4.4, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Giòn rụm, pate thơm lừng.', saved: false},
+            {id: 'p_ued_8', name: 'Cơm Gà Xé Phay', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Sư Phạm', address: '45 Hoàng Văn Thái, Liên Chiểu', rating: 4.5, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Thịt gà xé trộn hành tây chua ngọt.', saved: false},
+            {id: 'p_ued_9', name: 'Bánh Canh Ruộng', category: 'Trưa / Tối', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH Sư Phạm', address: 'Chân cầu vượt Huế, Liên Chiểu', rating: 4.9, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Quán ăn vỉa hè siêu đông khách chiều tối.', saved: false},
+            {id: 'p_ued_10', name: 'Trà Sữa Zencha', category: 'Ăn vặt', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Sư Phạm', address: '280 Tôn Đức Thắng, Liên Chiểu', rating: 4.6, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Nhiều loại topping thạch tự làm.', saved: false},
+
+            // --- 4. ĐH Ngoại Ngữ (10 quán) ---
+            {id: 'p_ufl_1', name: 'Bún Thịt Nướng Kim Anh', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Ngoại Ngữ', address: '14 Lương Nhữ Học, Ngũ Hành Sơn', rating: 4.7, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Thịt nướng thơm lừng nước mắm đậu phộng.', saved: false},
+            {id: 'p_ufl_2', name: 'Cơm Gà Sâm Đà Nẵng', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Ngoại Ngữ', address: '52 Lê Hữu Trác, Sơn Trà', rating: 4.6, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Gà quay giòn da đậm vị.', saved: false},
+            {id: 'p_ufl_3', name: 'Mì Quảng Ngon UFL', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Ngoại Ngữ', address: '25 Lương Nhữ Học, Ngũ Hành Sơn', rating: 4.5, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Tô mì đầy đặn tôm thịt trứng.', saved: false},
+            {id: 'p_ufl_4', name: 'Bánh Tráng Cuốn Thịt Heo Đại Nam', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Ngoại Ngữ', address: '205 Nguyễn Văn Thoại, Ngũ Hành Sơn', rating: 4.8, image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80', review: 'Rau sống tươi xanh, thịt hai đầu da.', saved: false},
+            {id: 'p_ufl_5', name: 'Cafe Góc Ngoại Ngữ', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Ngoại Ngữ', address: '110 Lương Nhữ Học, Ngũ Hành Sơn', rating: 4.8, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Nơi sinh viên ngoại ngữ thực hành tiếng.', saved: false},
+            {id: 'p_ufl_6', name: 'Bánh Mì Lan', category: 'Ăn sáng', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH Ngoại Ngữ', address: '33 Trưng Vữ, Ngũ Hành Sơn', rating: 4.4, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Bánh mì pate chả thịt đầy đặn.', saved: false},
+            {id: 'p_ufl_7', name: 'Trà Sữa Gong Cha UFL', category: 'Ăn vặt', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Ngoại Ngữ', address: '220 Ngũ Hành Sơn, Ngũ Hành Sơn', rating: 4.6, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Thức uống quen thuộc của giới trẻ.', saved: false},
+            {id: 'p_ufl_8', name: 'Bún Chả Hà Nội Xưa', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Ngoại Ngữ', address: '78 Lê Hữu Trác, Sơn Trà', rating: 4.5, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Chả nướng than hoa thơm nức mũi.', saved: false},
+            {id: 'p_ufl_9', name: 'Chè Thái Lan Cô Liên', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH Ngoại Ngữ', address: '45 Lương Nhữ Học, Ngũ Hành Sơn', rating: 4.7, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Chè ngọt thanh, nhiều sầu riêng.', saved: false},
+            {id: 'p_ufl_10', name: 'Workspace Cafe & Study', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Ngoại Ngữ', address: '180 Nguyễn Văn Thoại, Ngũ Hành Sơn', rating: 4.9, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Phục vụ học tập nhóm cực tốt.', saved: false},
+
+            // --- 5. ĐH Sư Phạm Kỹ Thuật (10 quán) ---
+            {id: 'p_ute_1', name: 'Cơm Tấm Bách Khoa - UTE', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Sư Phạm Kỹ Thuật', address: '12 Cao Thắng, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80', review: 'Đĩa cơm sườn bự chất lượng.', saved: false},
+            {id: 'p_ute_2', name: 'Mì Quảng Sư Phạm Kỹ Thuật', category: 'Ăn sáng', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH Sư Phạm Kỹ Thuật', address: '48 Cao Thắng, Hải Châu', rating: 4.5, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Hương vị đậm đà truyền thống.', saved: false},
+            {id: 'p_ute_3', name: 'Bánh Mì Chảo 3 Ngon', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Sư Phạm Kỹ Thuật', address: '210 Lê Duẩn, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Chảo nóng hổi đầy xúc xích thịt bò.', saved: false},
+            {id: 'p_ute_4', name: 'Bún Bò Huế UTE', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Sư Phạm Kỹ Thuật', address: '75 Ông Ích Khiêm, Hải Châu', rating: 4.5, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Nước dùng ngọt thanh xương hầm.', saved: false},
+            {id: 'p_ute_5', name: 'Trà Sữa Ding Tea Lê Duẩn', category: 'Ăn vặt', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Sư Phạm Kỹ Thuật', address: '254 Lê Duẩn, Hải Châu', rating: 4.8, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Địa chỉ tụ tập quen thuộc của sinh viên UTE.', saved: false},
+            {id: 'p_ute_6', name: 'Cafe Kỹ Thuật Số', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Sư Phạm Kỹ Thuật', address: '30 Cao Thắng, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Không gian công nghệ, máy lạnh mát rượi.', saved: false},
+            {id: 'p_ute_7', name: 'Bánh Xèo Nem Lụi Cô Ba', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Sư Phạm Kỹ Thuật', address: '112 Hải Phòng, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Nem lụi thơm nức mũi.', saved: false},
+            {id: 'p_ute_8', name: 'Cơm Gà Bà Buội Chi Nhánh', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Sư Phạm Kỹ Thuật', address: '190 Lê Duẩn, Hải Châu', rating: 4.8, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Gà ta thả vườn thơm ngon.', saved: false},
+            {id: 'p_ute_9', name: 'Bánh Tráng Trộn Cô Thảo', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH Sư Phạm Kỹ Thuật', address: 'Cổng trường ĐH Sư Phạm Kỹ Thuật, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80', review: 'Trộn đều tay, bò khô đậm vị.', saved: false},
+            {id: 'p_ute_10', name: 'Hi Coffee & Study UTE', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Sư Phạm Kỹ Thuật', address: '19 Cao Thắng, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Góc học tập lý tưởng cho dân kỹ thuật.', saved: false},
+
+            // --- 6. ĐH CNTT & Truyền Thông Việt - Hàn (VKU) (10 quán) ---
+            {id: 'p_vku_1', name: 'Cơm Gà VKU', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH CNTT & Truyền Thông Việt - Hàn', address: '470 Trần Đại Nghĩa, Ngũ Hành Sơn', rating: 4.7, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Cơm gà giòn rụm phục vụ nhanh.', saved: false},
+            {id: 'p_vku_2', name: 'Mì Quảng Nam Định VKU', category: 'Ăn sáng', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH CNTT & Truyền Thông Việt - Hàn', address: '15 Nam Kỳ Khởi Nghĩa, Ngũ Hành Sơn', rating: 4.5, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Tô mì nóng hổi buổi sáng cho coder.', saved: false},
+            {id: 'p_vku_3', name: 'Bánh Mì Chảo Sinh Viên VKU', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH CNTT & Truyền Thông Việt - Hàn', address: 'Khu đô thị Đại học Đà Nẵng, Ngũ Hành Sơn', rating: 4.6, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Đầy đủ trứng, pate, xúc xích thơm phức.', saved: false},
+            {id: 'p_vku_4', name: 'Bún Bò Huế Cố Đô', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH CNTT & Truyền Thông Việt - Hàn', address: '512 Trần Đại Nghĩa, Ngũ Hành Sơn', rating: 4.6, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Nước dùng đậm đà vị Huế.', saved: false},
+            {id: 'p_vku_5', name: 'Trà Sữa Code & Tea', category: 'Ăn vặt', priceRange: 'Bình dân (25k-50k)', university: 'ĐH CNTT & Truyền Thông Việt - Hàn', address: 'Làng Đại học Đà Nẵng, Ngũ Hành Sơn', rating: 4.8, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Quán ruột của sinh viên CNTT ngồi code.', saved: false},
+            {id: 'p_vku_6', name: 'Cafe IT & More', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'ĐH CNTT & Truyền Thông Việt - Hàn', address: '480 Trần Đại Nghĩa, Ngũ Hành Sơn', rating: 4.9, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Wifi siêu mạnh, cắm sạc mọi bàn.', saved: false},
+            {id: 'p_vku_7', name: 'Bánh Tráng Kẹp Dì Sương', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH CNTT & Truyền Thông Việt - Hàn', address: '500 Trần Đại Nghĩa, Ngũ Hành Sơn', rating: 4.7, image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80', review: 'Bánh tráng pate gan nướng giòn rụm.', saved: false},
+            {id: 'p_vku_8', name: 'Cơm Bình Dân Hạnh Phúc', category: 'Trưa / Tối', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH CNTT & Truyền Thông Việt - Hàn', address: 'Khu đô thị ĐHĐN, Ngũ Hành Sơn', rating: 4.4, image: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80', review: 'Đồ ăn phong phú, hợp túi tiền sinh viên.', saved: false},
+            {id: 'p_vku_9', name: 'Bún Thịt Nướng Bà Trai', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH CNTT & Truyền Thông Việt - Hàn', address: '22 Nam Kỳ Khởi Nghĩa, Ngũ Hành Sơn', rating: 4.6, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Nước sốt đậu phộng béo ngậy.', saved: false},
+            {id: 'p_vku_10', name: 'Cyber Cafe & Game VKU', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'ĐH CNTT & Truyền Thông Việt - Hàn', address: '460 Trần Đại Nghĩa, Ngũ Hành Sơn', rating: 4.7, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Kết hợp giải trí và giải khát cực đỉnh.', saved: false},
+
+            // --- 7. Viện NC & ĐT Việt - Anh (VN-UK) (10 quán) ---
+            {id: 'p_vnuk_1', name: 'Mì Quảng Ếch Bếp Trang', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'Viện NC & ĐT Việt - Anh', address: '441 Lê Duẩn, Hải Châu', rating: 4.8, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Mì quảng ếch thơm ngon chuẩn vị.', saved: false},
+            {id: 'p_vnuk_2', name: 'Cơm Gà Hồng Ngọc', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'Viện NC & ĐT Việt - Anh', address: '193 Nguyễn Chí Thanh, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Cơm gà xối mỡ ngon tuyệt.', saved: false},
+            {id: 'p_vnuk_3', name: 'Bánh Mì Phượng Đà Nẵng', category: 'Ăn sáng', priceRange: 'Siêu rẻ (<25k)', university: 'Viện NC & ĐT Việt - Anh', address: '463 Lê Duẩn, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Ổ bánh mì đầy ắp thịt và nước sốt đặc biệt.', saved: false},
+            {id: 'p_vnuk_4', name: 'Bún Bò Huế Bà Thương', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'Viện NC & ĐT Việt - Anh', address: '23 Trần Phú, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Quán lâu năm nước dùng đậm đà.', saved: false},
+            {id: 'p_vnuk_5', name: 'Highlands Coffee VN-UK', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'Viện NC & ĐT Việt - Anh', address: '158 Lê Duẩn, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Không gian máy lạnh học nhóm sang trọng.', saved: false},
+            {id: 'p_vnuk_6', name: 'Trà Sữa Gong Cha Lê Duẩn', category: 'Ăn vặt', priceRange: 'Bình dân (25k-50k)', university: 'Viện NC & ĐT Việt - Anh', address: '282 Lê Duẩn, Hải Châu', rating: 4.8, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Trà sữa đậm vị trà, trân châu dai.', saved: false},
+            {id: 'p_vnuk_7', name: 'Bánh Xèo Bà Dưỡng Chi Nhánh', category: 'Trưa / Tối', priceRange: 'Hơi cao (>50k)', university: 'Viện NC & ĐT Việt - Anh', address: '280/23 Hoàng Diệu, Hải Châu', rating: 4.9, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Nước tương đậu phộng thần thánh.', saved: false},
+            {id: 'p_vnuk_8', name: 'Bún Thịt Nướng Bà Trai', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'Viện NC & ĐT Việt - Anh', address: '19 Hải Phòng, Hải Châu', rating: 4.5, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Thịt ướp thấm vị, rau sống đầy đủ.', saved: false},
+            {id: 'p_vnuk_9', name: 'Bánh Tráng Kẹp Dì Hoa', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'Viện NC & ĐT Việt - Anh', address: '350 Lê Duẩn, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80', review: 'Món ăn vặt khoái khẩu.', saved: false},
+            {id: 'p_vnuk_10', name: 'BookCafe & English Club', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'Viện NC & ĐT Việt - Anh', address: '120 Nguyễn Chí Thanh, Hải Châu', rating: 4.8, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Nơi rèn luyện kỹ năng tiếng Anh và thảo luận.', saved: false},
+
+            // --- 8. Khoa Y Dược - ĐHĐN (10 quán) ---
+            {id: 'p_yd_1', name: 'Cháo Sườn Sụn Y Dược', category: 'Ăn sáng', priceRange: 'Siêu rẻ (<25k)', university: 'Khoa Y Dược - ĐHĐN', address: '254 Hùng Vương, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Cháo ấm bụng cho sinh viên trực đêm.', saved: false},
+            {id: 'p_yd_2', name: 'Cơm Tấm Sườn Bì Chả', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'Khoa Y Dược - ĐHĐN', address: '88 Hải Phòng, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80', review: 'Cơm tấm ngon đúng điệu Sài Gòn.', saved: false},
+            {id: 'p_yd_3', name: 'Bún Bò Huế Y Dược', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'Khoa Y Dược - ĐHĐN', address: '45 Lý Thái Tổ, Thanh Khê', rating: 4.8, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Tô bún đầy ắp giò nạm chả.', saved: false},
+            {id: 'p_yd_4', name: 'Bánh Mì Chảo Y Dược', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'Khoa Y Dược - ĐHĐN', address: '310 Hùng Vương, Hải Châu', rating: 4.5, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Nóng hổi, thơm béo vị bơ.', saved: false},
+            {id: 'p_yd_5', name: 'Trà Sữa Phúc Long Hùng Vương', category: 'Ăn vặt', priceRange: 'Bình dân (25k-50k)', university: 'Khoa Y Dược - ĐHĐN', address: '220 Hùng Vương, Hải Châu', rating: 4.8, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Trà đậm vị, không gian hiện đại.', saved: false},
+            {id: 'p_yd_6', name: 'Cafe Sức Khỏe Y Dược', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'Khoa Y Dược - ĐHĐN', address: '12 Lý Thái Tổ, Thanh Khê', rating: 4.7, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Không gian yên tĩnh học y lý.', saved: false},
+            {id: 'p_yd_7', name: 'Bánh Xèo Nem Lụi', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'Khoa Y Dược - ĐHĐN', address: '95 Hải Phòng, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Nước chấm ngon xuất sắc.', saved: false},
+            {id: 'p_yd_8', name: 'Cơm Gà Xối Mỡ', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'Khoa Y Dược - ĐHĐN', address: '62 Lý Thái Tổ, Thanh Khê', rating: 4.5, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Đùi gà giòn rụm không ngấy mỡ.', saved: false},
+            {id: 'p_yd_9', name: 'Bánh Tráng Trộn Cô Bé', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'Khoa Y Dược - ĐHĐN', address: '280 Hùng Vương, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80', review: 'Bánh tráng thơm ngon đậm đà.', saved: false},
+            {id: 'p_yd_10', name: 'Medicos Cafe & Study', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'Khoa Y Dược - ĐHĐN', address: '14 Nguyễn Thị Minh Khai, Hải Châu', rating: 4.9, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Quán ruột của sinh viên y khoa ôn thi.', saved: false},
+
+            // --- 9. ĐH Duy Tân (10 quán) ---
+            {id: 'p_dtu_1', name: 'Cơm Gà A Hải Quang Trung', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Duy Tân', address: '100 Quang Trung, Hải Châu', rating: 4.8, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Quán cơm gà nổi tiếng nhất nhì Đà Nẵng.', saved: false},
+            {id: 'p_dtu_2', name: 'Mì Quảng Bà Mua Quang Trung', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Duy Tân', address: '80 Quang Trung, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Hương vị truyền thống thơm ngon.', saved: false},
+            {id: 'p_dtu_3', name: 'Bánh Mì Chảo Cô Sương', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Duy Tân', address: '145 Lê Duẩn, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Chảo chả trứng pate nóng hổi buổi sáng.', saved: false},
+            {id: 'p_dtu_4', name: 'Bún Bò Huế Bà Hai', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Duy Tân', address: '112 Quang Trung, Hải Châu', rating: 4.5, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Tô bún vị đậm đà chuẩn xứ Huế.', saved: false},
+            {id: 'p_dtu_5', name: 'Trà Sữa Gong Cha Lê Duẩn', category: 'Ăn vặt', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Duy Tân', address: '275 Lê Duẩn, Hải Châu', rating: 4.8, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Điểm hẹn hò và học nhóm của sinh viên Duy Tân.', saved: false},
+            {id: 'p_dtu_6', name: 'DTU IT Cafe', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Duy Tân', address: '254 Nguyễn Văn Linh, Thanh Khê', rating: 4.9, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Không gian công nghệ hiện đại, máy lạnh mát.', saved: false},
+            {id: 'p_dtu_7', name: 'Bánh Tráng Kẹp Dì Hoàng', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH Duy Tân', address: 'K5/4 Điện Biên Phủ, Thanh Khê', rating: 4.7, image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80', review: 'Bánh tráng nướng giòn rụm thơm phức.', saved: false},
+            {id: 'p_dtu_8', name: 'Bún Thịt Nướng Ngọc Hương', category: 'Tru / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Duy Tân', address: '28 Hoàng Diệu, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Thịt thơm mềm, nước sốt ngon tuyệt.', saved: false},
+            {id: 'p_dtu_9', name: 'Cơm Tấm Sà Bì Chưởng', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Duy Tân', address: '180 Lê Duẩn, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80', review: 'Sườn nướng mật ong thơm phức.', saved: false},
+            {id: 'p_dtu_10', name: 'The Coffee House Quang Trung', category: 'Cafe học bài', priceRange: 'Hơi cao (>50k)', university: 'ĐH Duy Tân', address: '3 Nguyễn Văn Linh, Hải Châu', rating: 4.9, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Không gian sang trọng lý tưởng để làm việc.', saved: false},
+
+            // --- 10. ĐH FPT Đà Nẵng (10 quán) ---
+            {id: 'p_fpt_1', name: 'Cơm Gà F-Town', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH FPT Đà Nẵng', address: 'Khu đô thị FPT City, Ngũ Hành Sơn', rating: 4.7, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Quán cơm quen thuộc ngay gần cổng trường.', saved: false},
+            {id: 'p_fpt_2', name: 'Mì Quảng FPT', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH FPT Đà Nẵng', address: 'Đường Nam Kỳ Khởi Nghĩa, Ngũ Hành Sơn', rating: 4.6, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Mì quảng tôm thịt đậm đà hương vị.', saved: false},
+            {id: 'p_fpt_3', name: 'Bánh Mì Chảo FPT', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH FPT Đà Nẵng', address: 'Khu đô thị FPT City, Ngũ Hành Sơn', rating: 4.5, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Nóng hổi đầy đủ topping năng lượng buổi sáng.', saved: false},
+            {id: 'p_fpt_4', name: 'Bún Bò Huế FPT', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH FPT Đà Nẵng', address: '450 Trần Đại Nghĩa, Ngũ Hành Sơn', rating: 4.7, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Nước dùng ngọt vị xương hầm.', saved: false},
+            {id: 'p_fpt_5', name: 'Trà Sữa Code & Chill FPT', category: 'Ăn vặt', priceRange: 'Bình dân (25k-50k)', university: 'ĐH FPT Đà Nẵng', address: 'Shophouse FPT City, Ngũ Hành Sơn', rating: 4.9, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Nơi sinh viên FPT ngồi code và uống trà sữa.', saved: false},
+            {id: 'p_fpt_6', name: 'FPT Campus Coffee', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'ĐH FPT Đà Nẵng', address: 'Trong khuôn viên ĐH FPT, Ngũ Hành Sơn', rating: 4.8, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Không gian xanh mát, wifi cực mạnh.', saved: false},
+            {id: 'p_fpt_7', name: 'Bánh Tráng Kẹp FPT', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH FPT Đà Nẵng', address: 'Khu FPT City, Ngũ Hành Sơn', rating: 4.7, image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80', review: 'Món ăn vặt tủ của dân phong trào FPT.', saved: false},
+            {id: 'p_fpt_8', name: 'Cơm Tấm Sườn Bì FPT', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH FPT Đà Nẵng', address: 'Đường Nam Kỳ Khởi Nghĩa, Ngũ Hành Sơn', rating: 4.6, image: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80', review: 'Sườn nướng thơm ngon ăn no căng bụng.', saved: false},
+            {id: 'p_fpt_9', name: 'Bún Thịt Nướng FPT', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH FPT Đà Nẵng', address: '420 Trần Đại Nghĩa, Ngũ Hành Sơn', rating: 4.5, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Đậm vị nước mắm đậu phộng.', saved: false},
+            {id: 'p_fpt_10', name: 'Startup Cafe & Workspace', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'ĐH FPT Đà Nẵng', address: 'FPT Complex, Ngũ Hành Sơn', rating: 4.9, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Nơi ươm mầm các dự án khởi nghiệp sinh viên.', saved: false},
+
+            // --- 11. ĐH Kiến Trúc Đà Nẵng (10 quán) ---
+            {id: 'p_kt_1', name: 'Mì Quảng Bà Hai', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kiến Trúc Đà Nẵng', address: '12 Lê Văn Hưu, Ngũ Hành Sơn', rating: 4.7, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Mì quảng thơm ngon gần trường Kiến Trúc.', saved: false},
+            {id: 'p_kt_2', name: 'Cơm Gà A Hải Ngũ Hành Sơn', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kiến Trúc Đà Nẵng', address: '96 Ngũ Hành Sơn, Ngũ Hành Sơn', rating: 4.8, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Gà giòn tan, cơm thơm mùi mỡ gà.', saved: false},
+            {id: 'p_kt_3', name: 'Bánh Mì Chảo Kiến Trúc', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kiến Trúc Đà Nẵng', address: '22 Lê Văn Hưu, Ngũ Hành Sơn', rating: 4.6, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Bữa sáng đầy đủ năng lượng cho sinh viên vẽ.', saved: false},
+            {id: 'p_kt_4', name: 'Bún Bò Huế Kiến Trúc', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kiến Trúc Đà Nẵng', address: '110 Ngũ Hành Sơn, Ngũ Hành Sơn', rating: 4.5, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Nước dùng đậm vị sả ớt.', saved: false},
+            {id: 'p_kt_5', name: 'Trà Sữa Architecture Tea', category: 'Ăn vặt', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kiến Trúc Đà Nẵng', address: '30 Lê Văn Hưu, Ngũ Hành Sơn', rating: 4.8, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Quán ruột của các kiến trúc sư tương lai.', saved: false},
+            {id: 'p_kt_6', name: 'Architect Cafe & Study', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kiến Trúc Đà Nẵng', address: '88 Ngũ Hành Sơn, Ngũ Hành Sơn', rating: 4.9, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Không gian rộng rãi để làm mô hình và đồ án.', saved: false},
+            {id: 'p_kt_7', name: 'Bánh Tráng Kẹp Dì Hoa', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH Kiến Trúc Đà Nẵng', address: '150 Ngũ Hành Sơn, Ngũ Hành Sơn', rating: 4.7, image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80', review: 'Món ăn vặt khoái khẩu.', saved: false},
+            {id: 'p_kt_8', name: 'Bún Thịt Nướng Kim Anh', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kiến Trúc Đà Nẵng', address: '14 Lương Nhữ Học, Ngũ Hành Sơn', rating: 4.6, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Thịt nướng thơm lừng nước mắm đậu phộng.', saved: false},
+            {id: 'p_kt_9', name: 'Cơm Tấm Sà Bì Chưởng', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kiến Trúc Đà Nẵng', address: '45 Lê Văn Hưu, Ngũ Hành Sơn', rating: 4.7, image: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80', review: 'Sườn nướng mật ong thơm phức.', saved: false},
+            {id: 'p_kt_10', name: 'Design Cafe & Workspace', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Kiến Trúc Đà Nẵng', address: '72 Ngũ Hành Sơn, Ngũ Hành Sơn', rating: 4.8, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Góc sáng tạo tuyệt vời cho sinh viên thiết kế.', saved: false},
+
+            // --- 12. ĐH Đông Á (10 quán) ---
+            {id: 'p_da_1', name: 'Mì Quảng Xưa Đông Á', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Đông Á', address: '33 Xô Viết Nghệ Tĩnh, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Quán mì quảng quen thuộc cạnh trường.', saved: false},
+            {id: 'p_da_2', name: 'Cơm Gà Hội An Đông Á', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Đông Á', address: '112 Núi Thành, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Cơm gà thơm ngon đậm vị phố cổ.', saved: false},
+            {id: 'p_da_3', name: 'Bánh Mì Chảo Xô Viết', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Đông Á', address: '55 Xô Viết Nghệ Tĩnh, Hải Châu', rating: 4.5, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Chảo nóng đầy đặn trứng pate.', saved: false},
+            {id: 'p_da_4', name: 'Bún Bò Huế Đông Á', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Đông Á', address: '18 Tiểu La, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Nước dùng đậm đà hương vị Huế.', saved: false},
+            {id: 'p_da_5', name: 'Trà Sữa Tocotoco Xô Viết', category: 'Ăn vặt', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Đông Á', address: '88 Xô Viết Nghệ Tĩnh, Hải Châu', rating: 4.8, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Quán trà sữa yêu thích của sinh viên Đông Á.', saved: false},
+            {id: 'p_da_6', name: 'Dong A Campus Cafe', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Đông Á', address: '25 Xô Viết Nghệ Tĩnh, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Không gian rộng rãi, nhiều góc học nhóm.', saved: false},
+            {id: 'p_da_7', name: 'Bánh Tráng Trộn Cô Lan', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'ĐH Đông Á', address: '95 Núi Thành, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80', review: 'Bánh tráng trộn siêu ngon giá rẻ.', saved: false},
+            {id: 'p_da_8', name: 'Bún Thịt Nướng Bà Trai', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Đông Á', address: '42 Tiểu La, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Thịt nướng thơm lừng.', saved: false},
+            {id: 'p_da_9', name: 'Cơm Tấm Sà Bì Chưởng', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'ĐH Đông Á', address: '70 Xô Viết Nghệ Tĩnh, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80', review: 'Sườn nướng mật ong thơm phức.', saved: false},
+            {id: 'p_da_10', name: 'The Coffee House Núi Thành', category: 'Cafe học bài', priceRange: 'Hơi cao (>50k)', university: 'ĐH Đông Á', address: '162 Núi Thành, Hải Châu', rating: 4.9, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Không gian sang trọng, phục vụ chuyên nghiệp.', saved: false},
+
+            // --- 13. Phân hiệu ĐH Kinh tế TP.HCM tại ĐN (10 quán) ---
+            {id: 'p_ueh_1', name: 'Mì Quảng Bà Vị', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'Phân hiệu ĐH Kinh tế TP.HCM tại ĐN', address: '166 Lê Duẩn, Hải Châu', rating: 4.8, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Quán mì quảng quen thuộc của sinh viên UEH.', saved: false},
+            {id: 'p_ueh_2', name: 'Cơm Gà A Hải', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'Phân hiệu ĐH Kinh tế TP.HCM tại ĐN', address: '96 Phạm Văn Bạch, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Cơm gà ngon nức tiếng gần trường.', saved: false},
+            {id: 'p_ueh_3', name: 'Bánh Mì Chảo Lê Duẩn', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'Phân hiệu ĐH Kinh tế TP.HCM tại ĐN', address: '202 Lê Duẩn, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Bữa sáng nóng hổi chất lượng.', saved: false},
+            {id: 'p_ueh_4', name: 'Bún Bò Huế Bà Thương', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'Phân hiệu ĐH Kinh tế TP.HCM tại ĐN', address: '23 Trần Phú, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Nước dùng đậm đà, tô bún đầy đặn.', saved: false},
+            {id: 'p_ueh_5', name: 'Trà Sữa Gong Cha Lê Duẩn', category: 'Ăn vặt', priceRange: 'Bình dân (25k-50k)', university: 'Phân hiệu ĐH Kinh tế TP.HCM tại ĐN', address: '282 Lê Duẩn, Hải Châu', rating: 4.8, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Địa điểm tụ tập học nhóm của sinh viên UEH.', saved: false},
+            {id: 'p_ueh_6', name: 'UEH Connect Cafe', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'Phân hiệu ĐH Kinh tế TP.HCM tại ĐN', address: '110 Lê Duẩn, Hải Châu', rating: 4.9, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Không gian hiện đại, thích hợp thảo luận kinh tế.', saved: false},
+            {id: 'p_ueh_7', name: 'Bánh Tráng Kẹp Dì Hoa', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'Phân hiệu ĐH Kinh tế TP.HCM tại ĐN', address: '350 Lê Duẩn, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80', review: 'Món ăn vặt khoái khẩu.', saved: false},
+            {id: 'p_ueh_8', name: 'Bún Thịt Nướng Ngọc Hương', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'Phân hiệu ĐH Kinh tế TP.HCM tại ĐN', address: '28 Hoàng Diệu, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Thịt nướng thơm ngon.', saved: false},
+            {id: 'p_ueh_9', name: 'Cơm Tấm Sà Bì Chưởng', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'Phân hiệu ĐH Kinh tế TP.HCM tại ĐN', address: '180 Lê Duẩn, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80', review: 'Sườn nướng thơm phức.', saved: false},
+            {id: 'p_ueh_10', name: 'The Coffee House Lê Duẩn', category: 'Cafe học bài', priceRange: 'Hơi cao (>50k)', university: 'Phân hiệu ĐH Kinh tế TP.HCM tại ĐN', address: 'Shophouse Lê Duẩn, Hải Châu', rating: 4.9, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Không gian sang trọng, phục vụ chuyên nghiệp.', saved: false},
+
+            // --- 14. CĐ Thương Mại (10 quán) ---
+            {id: 'p_cdt_1', name: 'Mì Quảng Bà Mua CĐTM', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Thương Mại', address: '45 Dũng Sĩ Thanh Khê, Thanh Khê', rating: 4.7, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Quán mì quảng ngon gần trường Cao đẳng Thương Mại.', saved: false},
+            {id: 'p_cdt_2', name: 'Cơm Gà Xối Mỡ CĐTM', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Thương Mại', address: '782 Điện Biên Phủ, Thanh Khê', rating: 4.6, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Cơm gà giòn rụm giá học sinh.', saved: false},
+            {id: 'p_cdt_3', name: 'Bánh Mì Chảo Dũng Sĩ', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Thương Mại', address: '60 Dũng Sĩ Thanh Khê, Thanh Khê', rating: 4.5, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Chảo nóng đầy đặn trứng pate.', saved: false},
+            {id: 'p_cdt_4', name: 'Bún Bò Huế Thanh Khê', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Thương Mại', address: '12 Đỗ Quang, Thanh Khê', rating: 4.7, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Nước dùng ngọt thanh đậm đà.', saved: false},
+            {id: 'p_cdt_5', name: 'Trà Sữa Wink CĐTM', category: 'Ăn vặt', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Thương Mại', address: '88 Dũng Sĩ Thanh Khê, Thanh Khê', rating: 4.8, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Quán trà sữa quen thuộc của sinh viên Thương Mại.', saved: false},
+            {id: 'p_cdt_6', name: 'Cafe CĐTM Góc Phố', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Thương Mại', address: '30 Dũng Sĩ Thanh Khê, Thanh Khê', rating: 4.6, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Không gian yên tĩnh học tập.', saved: false},
+            {id: 'p_cdt_7', name: 'Bánh Tráng Trộn Cô Lan', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'CĐ Thương Mại', address: '800 Điện Biên Phủ, Thanh Khê', rating: 4.7, image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80', review: 'Bánh tráng trộn siêu ngon.', saved: false},
+            {id: 'p_cdt_8', name: 'Bún Thịt Nướng Bà Trai', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Thương Mại', address: '19 Hải Phòng, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Thịt nướng thơm lừng.', saved: false},
+            {id: 'p_cdt_9', name: 'Cơm Tấm Sà Bì Chưởng', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Thương Mại', address: '102 Dũng Sĩ Thanh Khê, Thanh Khê', rating: 4.7, image: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80', review: 'Sườn nướng mật ong thơm phức.', saved: false},
+            {id: 'p_cdt_10', name: 'Commercial Cafe & Study', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Thương Mại', address: '750 Điện Biên Phủ, Thanh Khê', rating: 4.8, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Không gian học tập năng động.', saved: false},
+
+            // --- 15. CĐ Nghề Đà Nẵng (10 quán) ---
+            {id: 'p_cdn_1', name: 'Mì Quảng CĐ Nghề', category: 'Ăn sáng', priceRange: 'Siêu rẻ (<25k)', university: 'CĐ Nghề Đà Nẵng', address: '99 Hoàng Văn Thái, Liên Chiểu', rating: 4.7, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Quán ăn sáng quen thuộc của sinh viên học nghề.', saved: false},
+            {id: 'p_cdn_2', name: 'Cơm Gà Sinh Viên CĐN', category: 'Trưa / Tối', priceRange: 'Siêu rẻ (<25k)', university: 'CĐ Nghề Đà Nẵng', address: '110 Hoàng Văn Thái, Liên Chiểu', rating: 4.6, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Đĩa cơm đầy đặn no căng bụng.', saved: false},
+            {id: 'p_cdn_3', name: 'Bánh Mì Chảo CĐ Nghề', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Nghề Đà Nẵng', address: '250 Tôn Đức Thắng, Liên Chiểu', rating: 4.5, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Nóng hổi, nhiều topping.', saved: false},
+            {id: 'p_cdn_4', name: 'Bún Bò Huế CĐN', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Nghề Đà Nẵng', address: '85 Hoàng Văn Thái, Liên Chiểu', rating: 4.7, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Nước dùng đậm đà hương vị Huế.', saved: false},
+            {id: 'p_cdn_5', name: 'Trà Sữa Zencha CĐN', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'CĐ Nghề Đà Nẵng', address: '280 Tôn Đức Thắng, Liên Chiểu', rating: 4.8, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Trà sữa giá rẻ cho sinh viên.', saved: false},
+            {id: 'p_cdn_6', name: 'Cafe Thợ & Sách', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Nghề Đà Nẵng', address: '60 Hoàng Văn Thái, Liên Chiểu', rating: 4.6, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Không gian mộc mạc, yên tĩnh.', saved: false},
+            {id: 'p_cdn_7', name: 'Bánh Tráng Kẹp Dì Hoa', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'CĐ Nghề Đà Nẵng', address: '105 Hoàng Văn Thái, Liên Chiểu', rating: 4.7, image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80', review: 'Món ăn vặt khoái khẩu.', saved: false},
+            {id: 'p_cdn_8', name: 'Bún Thịt Nướng Kim Anh', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Nghề Đà Nẵng', address: '310 Tôn Đức Thắng, Liên Chiểu', rating: 4.6, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Thịt nướng thơm lừng.', saved: false},
+            {id: 'p_cdn_9', name: 'Cơm Tấm Sà Bì Chưởng', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Nghề Đà Nẵng', address: '75 Hoàng Văn Thái, Liên Chiểu', rating: 4.7, image: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80', review: 'Sườn nướng mật ong thơm phức.', saved: false},
+            {id: 'p_cdn_10', name: 'Vocational Cafe & Study', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Nghề Đà Nẵng', address: '290 Tôn Đức Thắng, Liên Chiểu', rating: 4.8, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Không gian thư giãn lý tưởng.', saved: false},
+
+            // --- 16. CĐ FPT Polytechnic Đà Nẵng (10 quán) ---
+            {id: 'p_fpoly_1', name: 'Mì Quảng F-Poly', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'CĐ FPT Polytechnic Đà Nẵng', address: '14 Nguyễn Huy Tưởng, Liên Chiểu', rating: 4.7, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Quán mì quảng chuẩn vị của dân Poly.', saved: false},
+            {id: 'p_fpoly_2', name: 'Cơm Gà F-Poly', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'CĐ FPT Polytechnic Đà Nẵng', address: '22 Nguyễn Huy Tưởng, Liên Chiểu', rating: 4.8, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Cơm gà giòn rụm phục vụ nhanh chóng.', saved: false},
+            {id: 'p_fpoly_3', name: 'Bánh Mì Chảo Poly', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'CĐ FPT Polytechnic Đà Nẵng', address: '35 Nguyễn Huy Tưởng, Liên Chiểu', rating: 4.6, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Chảo nóng đầy đặn trứng pate.', saved: false},
+            {id: 'p_fpoly_4', name: 'Bún Bò Huế Poly', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'CĐ FPT Polytechnic Đà Nẵng', address: '88 Hoàng Thị Loan, Liên Chiểu', rating: 4.7, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Nước dùng đậm đà thơm ngon.', saved: false},
+            {id: 'p_fpoly_5', name: 'Trà Sữa Poly Tea', category: 'Ăn vặt', priceRange: 'Bình dân (25k-50k)', university: 'CĐ FPT Polytechnic Đà Nẵng', address: '18 Nguyễn Huy Tưởng, Liên Chiểu', rating: 4.9, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Quán ruột hội họp của sinh viên FPT Poly.', saved: false},
+            {id: 'p_fpoly_6', name: 'Poly Campus Cafe', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'CĐ FPT Polytechnic Đà Nẵng', address: 'Khu vực trường Poly, Liên Chiểu', rating: 4.8, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Không gian năng động, wifi siêu mạnh.', saved: false},
+            {id: 'p_fpoly_7', name: 'Bánh Tráng Kẹp Dì Hoa', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'CĐ FPT Polytechnic Đà Nẵng', address: '40 Nguyễn Huy Tưởng, Liên Chiểu', rating: 4.7, image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80', review: 'Món ăn vặt khoái khẩu.', saved: false},
+            {id: 'p_fpoly_8', name: 'Bún Thịt Nướng Kim Anh', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'CĐ FPT Polytechnic Đà Nẵng', address: '90 Hoàng Thị Loan, Liên Chiểu', rating: 4.6, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Thịt nướng thơm lừng.', saved: false},
+            {id: 'p_fpoly_9', name: 'Cơm Tấm Sà Bì Chưởng', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'CĐ FPT Polytechnic Đà Nẵng', address: '25 Nguyễn Huy Tưởng, Liên Chiểu', rating: 4.7, image: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80', review: 'Sườn nướng mật ong thơm phức.', saved: false},
+            {id: 'p_fpoly_10', name: 'Bee Cafe & Workspace', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'CĐ FPT Polytechnic Đà Nẵng', address: '75 Hoàng Thị Loan, Liên Chiểu', rating: 4.9, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Không gian sáng tạo cho dân thiết kế & IT.', saved: false},
+
+            // --- 17. CĐ Lương thực - Thực phẩm (10 quán) ---
+            {id: 'p_clt_1', name: 'Mì Quảng Thực Phẩm', category: 'Ăn sáng', priceRange: 'Siêu rẻ (<25k)', university: 'CĐ Lương thực - Thực phẩm', address: '102 Nguyễn Lương Bằng, Liên Chiểu', rating: 4.7, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Quán mì quảng chuẩn vị gần trường.', saved: false},
+            {id: 'p_clt_2', name: 'Cơm Gà Lương Thực', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Lương thực - Thực phẩm', address: '210 Tôn Đức Thắng, Liên Chiểu', rating: 4.6, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Cơm gà giòn rụm thơm ngon.', saved: false},
+            {id: 'p_clt_3', name: 'Bánh Mì Chảo Sinh Viên', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Lương thực - Thực phẩm', address: '115 Nguyễn Lương Bằng, Liên Chiểu', rating: 4.5, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Bữa sáng đầy đủ dinh dưỡng.', saved: false},
+            {id: 'p_clt_4', name: 'Bún Bò Huế Hoà Khánh', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Lương thực - Thực phẩm', address: '40 Ngô Sĩ Liên, Liên Chiểu', rating: 4.7, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Nước dùng đậm đà hương vị Huế.', saved: false},
+            {id: 'p_clt_5', name: 'Trà Sữa Heo Mi', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'CĐ Lương thực - Thực phẩm', address: '130 Nguyễn Lương Bằng, Liên Chiểu', rating: 4.8, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Quán trà sữa quen thuộc của sinh viên.', saved: false},
+            {id: 'p_clt_6', name: 'Food & Coffee Study', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Lương thực - Thực phẩm', address: '95 Nguyễn Lương Bằng, Liên Chiểu', rating: 4.6, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Không gian yên tĩnh học tập.', saved: false},
+            {id: 'p_clt_7', name: 'Bánh Tráng Kẹp Dì Hoa', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'CĐ Lương thực - Thực phẩm', address: '140 Nguyễn Lương Bằng, Liên Chiểu', rating: 4.7, image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80', review: 'Món ăn vặt khoái khẩu.', saved: false},
+            {id: 'p_clt_8', name: 'Bún Thịt Nướng Kim Anh', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Lương thực - Thực phẩm', address: '220 Tôn Đức Thắng, Liên Chiểu', rating: 4.6, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Thịt nướng thơm lừng.', saved: false},
+            {id: 'p_clt_9', name: 'Cơm Tấm Sà Bì Chưởng', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Lương thực - Thực phẩm', address: '150 Nguyễn Lương Bằng, Liên Chiểu', rating: 4.7, image: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80', review: 'Sườn nướng mật ong thơm phức.', saved: false},
+            {id: 'p_clt_10', name: 'Chef Cafe & Workspace', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Lương thực - Thực phẩm', address: '48 Ngô Sĩ Liên, Liên Chiểu', rating: 4.8, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Không gian sáng tạo cho ngành thực phẩm.', saved: false},
+
+            // --- 18. CĐ Quốc tế Pegasus (10 quán) ---
+            {id: 'p_peg_1', name: 'Mì Quảng Pegasus', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Quốc tế Pegasus', address: '68 Chương Dương, Ngũ Hành Sơn', rating: 4.8, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Quán mì quảng sạch sẽ, chất lượng cao.', saved: false},
+            {id: 'p_peg_2', name: 'Cơm Gà Hội An Pegasus', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Quốc tế Pegasus', address: '15 Hồ Nghí, Sơn Trà', rating: 4.7, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Cơm gà thơm ngon chuẩn vị.', saved: false},
+            {id: 'p_peg_3', name: 'Bánh Mì Chảo Chương Dương', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Quốc tế Pegasus', address: '75 Chương Dương, Ngũ Hành Sơn', rating: 4.6, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Bữa sáng phong cách hiện đại.', saved: false},
+            {id: 'p_peg_4', name: 'Bún Bò Huế Chương Dương', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Quốc tế Pegasus', address: '22 Hồ Nghí, Sơn Trà', rating: 4.7, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Nước dùng đậm đà, tô bún đầy đặn.', saved: false},
+            {id: 'p_peg_5', name: 'Trà Sữa Gong Cha Chương Dương', category: 'Ăn vặt', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Quốc tế Pegasus', address: '90 Chương Dương, Ngũ Hành Sơn', rating: 4.8, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Địa điểm tụ tập của sinh viên quốc tế.', saved: false},
+            {id: 'p_peg_6', name: 'Pegasus Campus Cafe', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Quốc tế Pegasus', address: '50 Chương Dương, Ngũ Hành Sơn', rating: 4.9, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Không gian chuẩn quốc tế, máy lạnh mát.', saved: false},
+            {id: 'p_peg_7', name: 'Bánh Tráng Kẹp Dì Hoa', category: 'Ăn vặt', priceRange: 'Siêu rẻ (<25k)', university: 'CĐ Quốc tế Pegasus', address: '110 Chương Dương, Ngũ Hành Sơn', rating: 4.7, image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=600&q=80', review: 'Món ăn vặt khoái khẩu.', saved: false},
+            {id: 'p_peg_8', name: 'Bún Thịt Nướng Ngọc Hương', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Quốc tế Pegasus', address: '28 Hoàng Diệu, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Thịt nướng thơm ngon.', saved: false},
+            {id: 'p_peg_9', name: 'Cơm Tấm Sà Bì Chưởng', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Quốc tế Pegasus', address: '82 Chương Dương, Ngũ Hành Sơn', rating: 4.7, image: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80', review: 'Sườn nướng thơm phức.', saved: false},
+            {id: 'p_peg_10', name: 'International Study Cafe', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'CĐ Quốc tế Pegasus', address: '30 Hồ Nghí, Sơn Trà', rating: 4.9, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Góc học tập lý tưởng cho sinh viên.', saved: false},
+
+            // --- 19. Khu vực Khác (10 quán) ---
+            {id: 'p_oth_1', name: 'Mì Quảng Bà Mua Trung Tâm', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'Khu vực Khác', address: '95 Trần Hưng Đạo, Sơn Trà', rating: 4.8, image: 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80', review: 'Mì quảng trung tâm thành phố.', saved: false},
+            {id: 'p_oth_2', name: 'Cơm Gà A Hải Trung Tâm', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'Khu vực Khác', address: '96 Phan Châu Trinh, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80', review: 'Cơm gà ngon nức tiếng Đà Nẵng.', saved: false},
+            {id: 'p_oth_3', name: 'Bánh Mì Phượng Đà Nẵng', category: 'Ăn sáng', priceRange: 'Siêu rẻ (<25k)', university: 'Khu vực Khác', address: '463 Lê Duẩn, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80', review: 'Ổ bánh mì đầy ắp thịt và nước sốt đặc biệt.', saved: false},
+            {id: 'p_oth_4', name: 'Bún Bò Huế Bà Thương', category: 'Ăn sáng', priceRange: 'Bình dân (25k-50k)', university: 'Khu vực Khác', address: '23 Trần Phú, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1594998893017-36147fc4e11f?auto=format&fit=crop&w=600&q=80', review: 'Quán lâu năm nước dùng đậm đà.', saved: false},
+            {id: 'p_oth_5', name: 'Trà Sữa Gong Cha Trung Tâm', category: 'Ăn vặt', priceRange: 'Bình dân (25k-50k)', university: 'Khu vực Khác', address: '245 Nguyễn Văn Linh, Thanh Khê', rating: 4.8, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=600&q=80', review: 'Trà sữa đậm vị trà, trân châu dai.', saved: false},
+            {id: 'p_oth_6', name: 'The Coffee House Nguyễn Văn Linh', category: 'Cafe học bài', priceRange: 'Hơi cao (>50k)', university: 'Khu vực Khác', address: '80 Nguyễn Văn Linh, Hải Châu', rating: 4.9, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80', review: 'Không gian sang trọng lý tưởng để làm việc.', saved: false},
+            {id: 'p_oth_7', name: 'Bánh Xèo Bà Dưỡng', category: 'Trưa / Tối', priceRange: 'Hơi cao (>50k)', university: 'Khu vực Khác', address: '280/23 Hoàng Diệu, Hải Châu', rating: 4.9, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Nước tương đậu phộng thần thánh.', saved: false},
+            {id: 'p_oth_8', name: 'Bún Thịt Nướng Ngọc Hương', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'Khu vực Khác', address: '28 Hoàng Diệu, Hải Châu', rating: 4.6, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80', review: 'Thịt nướng thơm ngon.', saved: false},
+            {id: 'p_oth_9', name: 'Cơm Tấm Sà Bì Chưởng', category: 'Trưa / Tối', priceRange: 'Bình dân (25k-50k)', university: 'Khu vực Khác', address: '180 Lê Duẩn, Hải Châu', rating: 4.7, image: 'https://images.unsplash.com/photo-1543339308-43e59d6b73a6?auto=format&fit=crop&w=600&q=80', review: 'Sườn nướng thơm phức.', saved: false},
+            {id: 'p_oth_10', name: 'Central Study Cafe', category: 'Cafe học bài', priceRange: 'Bình dân (25k-50k)', university: 'Khu vực Khác', address: '150 Bạch Đằng, Hải Châu', rating: 4.9, image: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80', review: 'Góc học tập nhìn ra sông Hàn thơ mộng.', saved: false}
         ];
-
-        let places = [...defaultPlaces];
-        let localContributedPlaces = JSON.parse(localStorage.getItem('student_danang_local_contribs')) || [];
-        let savedIds = JSON.parse(localStorage.getItem('student_danang_saved_ids')) || [];
-
+        
         let currentTab = 'explore';
         let currentCategory = 'Tất cả';
         let currentPriceFilter = 'Tất cả';
@@ -450,41 +505,44 @@
         let currentSearchQuery = '';
         let selectedPlaceIdForDetail = null;
 
-        // Đồng bộ realtime từ Firebase
-        window.initFirebaseSync = function () {
-            window.firebaseModules.onValue(window.dbRef, (snapshot) => {
-                const data = snapshot.val();
-                let remotePlaces = [];
-                if (data) {
-                    remotePlaces = Object.keys(data).map(key => ({
-                        id: key,
-                        ...data[key]
-                    }));
+        window.addEventListener('DOMContentLoaded', async () => {
+            await fetchPublicData();
+        });
+
+        async function fetchPublicData() {
+            try {
+                const res = await fetch(BIN_URL);
+                const data = await res.json();
+                if(data.record && data.record.places && data.record.places.length > 0) {
+                    // Nếu cloud có dữ liệu tùy chỉnh riêng thì dùng, nếu không giữ bộ khởi tạo chuẩn 200 quán
+                    // places = data.record.places;
                 }
-
-                const allRemoteIds = remotePlaces.map(p => p.id);
-                const uniqueLocalContribs = localContributedPlaces.filter(lp => !allRemoteIds.includes(lp.id));
-                const allExistingIds = [...allRemoteIds, ...uniqueLocalContribs.map(p => p.id)];
-                const filteredDefaults = defaultPlaces.filter(dp => !allExistingIds.includes(dp.id));
-
-                places = [...remotePlaces, ...uniqueLocalContribs, ...filteredDefaults].reverse();
-                renderTabContent();
-            }, (error) => {
-                const allIds = localContributedPlaces.map(p => p.id);
-                const filteredDefaults = defaultPlaces.filter(dp => !allIds.includes(dp.id));
-                places = [...localContributedPlaces, ...filteredDefaults].reverse();
-                renderTabContent();
-            });
-        };
-
-        setTimeout(() => {
-            if (places.length === defaultPlaces.length && localContributedPlaces.length > 0) {
-                const allIds = localContributedPlaces.map(p => p.id);
-                const filteredDefaults = defaultPlaces.filter(dp => !allIds.includes(dp.id));
-                places = [...localContributedPlaces, ...filteredDefaults].reverse();
-                renderTabContent();
+            } catch (error) {
+                console.warn('Không tải được dữ liệu cloud, dùng dữ liệu dự phòng cục bộ.', error);
+                const local = JSON.parse(localStorage.getItem('student_danang_places'));
+                if(local && local.length > 0) {
+                    places = local;
+                }
             }
-        }, 1000);
+            renderTabContent();
+            lucide.createIcons();
+        }
+
+        async function savePublicDataToCloud() {
+            try {
+                await fetch(BIN_PUT_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Master-Key': '$2a$10$DEMO_KEY' 
+                    },
+                    body: JSON.stringify({ places: places })
+                });
+            } catch (e) {
+                console.log('Lưu cloud dự phòng bằng localStorage');
+            }
+            localStorage.setItem('student_danang_places', JSON.stringify(places));
+        }
 
         function showToast(message) {
             const toast = document.getElementById('toast');
@@ -522,19 +580,15 @@
             lucide.createIcons();
         }
 
+        // --- EXPLORE VIEW ---
         function renderExploreView() {
-            const updatedPlaces = places.map(p => ({
-                ...p,
-                saved: savedIds.includes(p.id)
-            }));
-
-            const filtered = updatedPlaces.filter(p => {
+            const filtered = places.filter(p => {
                 const matchCat = currentCategory === 'Tất cả' || p.category === currentCategory;
                 const matchPrice = currentPriceFilter === 'Tất cả' || p.priceRange === currentPriceFilter;
                 const matchUni = currentUniversityFilter === 'Tất cả' || p.university === currentUniversityFilter;
                 const matchSearch = p.name.toLowerCase().includes(currentSearchQuery.toLowerCase()) ||
-                    p.address.toLowerCase().includes(currentSearchQuery.toLowerCase()) ||
-                    p.review.toLowerCase().includes(currentSearchQuery.toLowerCase());
+                                    p.address.toLowerCase().includes(currentSearchQuery.toLowerCase()) ||
+                                    p.review.toLowerCase().includes(currentSearchQuery.toLowerCase());
                 return matchCat && matchPrice && matchUni && matchSearch;
             });
 
@@ -542,7 +596,7 @@
                 <div class="p-4 space-y-4">
                     <div class="relative">
                         <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="text" id="searchInput" oninput="handleSearchInput()" value="${currentSearchQuery}" placeholder="Tìm quán ăn, trà sữa, cafe gần trường..." class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm">
+                        <input type="text" id="searchInput" oninput="handleSearchInput()" value="${currentSearchQuery}" placeholder="Tìm quán ăn, trà sữa chung..." class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-2xl text-xs focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm">
                     </div>
 
                     <div class="flex items-center space-x-2 overflow-x-auto pb-1 no-scrollbar text-xs">
@@ -560,7 +614,7 @@
                             <option value="Bình dân (25k-50k)" ${currentPriceFilter === 'Bình dân (25k-50k)' ? 'selected' : ''}>⭐ Bình dân (25k-50k)</option>
                             <option value="Hơi cao (>50k)" ${currentPriceFilter === 'Hơi cao (>50k)' ? 'selected' : ''}>💎 Hơi cao (&gt;50k)</option>
                         </select>
-
+                        
                         <select id="uniFilter" onchange="handleUniFilter(this)" class="px-3 py-2 bg-white border border-slate-200 rounded-xl text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-orange-500 shadow-sm">
                             <option value="Tất cả" ${currentUniversityFilter === 'Tất cả' ? 'selected' : ''}>Khu vực: Tất cả ĐH & CĐ</option>
                             <option value="ĐH Bách Khoa" ${currentUniversityFilter === 'ĐH Bách Khoa' ? 'selected' : ''}>ĐH Bách Khoa (DUT)</option>
@@ -569,34 +623,38 @@
                             <option value="ĐH Ngoại Ngữ" ${currentUniversityFilter === 'ĐH Ngoại Ngữ' ? 'selected' : ''}>ĐH Ngoại Ngữ (UFL)</option>
                             <option value="ĐH Sư Phạm Kỹ Thuật" ${currentUniversityFilter === 'ĐH Sư Phạm Kỹ Thuật' ? 'selected' : ''}>ĐH Sư Phạm Kỹ Thuật (UTE)</option>
                             <option value="ĐH CNTT & Truyền Thông Việt - Hàn" ${currentUniversityFilter === 'ĐH CNTT & Truyền Thông Việt - Hàn' ? 'selected' : ''}>ĐH CNTT & TT Việt - Hàn (VKU)</option>
+                            <option value="Viện NC & ĐT Việt - Anh" ${currentUniversityFilter === 'Viện NC & ĐT Việt - Anh' ? 'selected' : ''}>Viện NC & ĐT Việt - Anh (VN-UK)</option>
+                            <option value="Khoa Y Dược - ĐHĐN" ${currentUniversityFilter === 'Khoa Y Dược - ĐHĐN' ? 'selected' : ''}>Khoa Y Dược - ĐHĐN</option>
                             <option value="ĐH Duy Tân" ${currentUniversityFilter === 'ĐH Duy Tân' ? 'selected' : ''}>ĐH Duy Tân</option>
                             <option value="ĐH FPT Đà Nẵng" ${currentUniversityFilter === 'ĐH FPT Đà Nẵng' ? 'selected' : ''}>ĐH FPT Đà Nẵng</option>
                             <option value="ĐH Kiến Trúc Đà Nẵng" ${currentUniversityFilter === 'ĐH Kiến Trúc Đà Nẵng' ? 'selected' : ''}>ĐH Kiến Trúc Đà Nẵng</option>
                             <option value="ĐH Đông Á" ${currentUniversityFilter === 'ĐH Đông Á' ? 'selected' : ''}>ĐH Đông Á</option>
+                            <option value="Phân hiệu ĐH Kinh tế TP.HCM tại ĐN" ${currentUniversityFilter === 'Phân hiệu ĐH Kinh tế TP.HCM tại ĐN' ? 'selected' : ''}>Phân hiệu ĐH Kinh tế TP.HCM tại ĐN</option>
                             <option value="CĐ Thương Mại" ${currentUniversityFilter === 'CĐ Thương Mại' ? 'selected' : ''}>CĐ Thương Mại</option>
+                            <option value="CĐ Nghề Đà Nẵng" ${currentUniversityFilter === 'CĐ Nghề Đà Nẵng' ? 'selected' : ''}>CĐ Nghề Đà Nẵng</option>
+                            <option value="CĐ FPT Polytechnic Đà Nẵng" ${currentUniversityFilter === 'CĐ FPT Polytechnic Đà Nẵng' ? 'selected' : ''}>CĐ FPT Polytechnic Đà Nẵng</option>
+                            <option value="CĐ Lương thực - Thực phẩm" ${currentUniversityFilter === 'CĐ Lương thực - Thực phẩm' ? 'selected' : ''}>CĐ Lương thực - Thực phẩm</option>
+                            <option value="CĐ Quốc tế Pegasus" ${currentUniversityFilter === 'CĐ Quốc tế Pegasus' ? 'selected' : ''}>CĐ Quốc tế Pegasus</option>
+                            <option value="Khu vực Khác" ${currentUniversityFilter === 'Khu vực Khác' ? 'selected' : ''}>Khu vực Khác</option>
                         </select>
                     </div>
 
                     <div onclick="openRandomPicker()" class="bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl p-4 text-white shadow-md shadow-orange-100 flex items-center justify-between cursor-pointer hover:opacity-95 transition">
                         <div class="space-y-1">
                             <span class="px-2 py-0.5 bg-white/25 backdrop-blur-sm rounded-md text-[10px] font-semibold uppercase tracking-wider">Hôm nay ăn gì?</span>
-                            <h4 class="text-xs font-bold">Quay số ngẫu nhiên quán ngon cho sinh viên ngay!</h4>
+                            <h4 class="text-xs font-bold">Quay số ngẫu nhiên quán cộng đồng!</h4>
                         </div>
-                        <div class="w-10 h-10 bg-white/25 backdrop-blur-sm rounded-xl flex items-center justify-center shrink-0">
+                        <div class="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center shrink-0">
                             <i data-lucide="sparkles" class="w-5 h-5"></i>
                         </div>
                     </div>
 
                     <div class="space-y-3">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Danh sách cộng đồng chung (${filtered.length})</h3>
-                        </div>
-
+                        <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Danh sách cộng đồng (${filtered.length})</h3>
                         ${filtered.length === 0 ? `
                             <div class="text-center py-10 bg-white rounded-2xl border border-slate-100 p-6">
                                 <i data-lucide="search-x" class="w-10 h-10 text-slate-300 mx-auto mb-2"></i>
                                 <p class="text-xs font-bold text-slate-700">Không tìm thấy quán phù hợp</p>
-                                <p class="text-[11px] text-slate-400 mt-1">Hãy đóng góp thêm quán mới để mọi người cùng thấy.</p>
                             </div>
                         ` : filtered.map(p => `
                             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden flex flex-col hover:shadow-md transition">
@@ -638,18 +696,39 @@
             `;
         }
 
+        // --- MAP VIEW ---
         function renderMapView() {
-            const unis = ['ĐH Bách Khoa', 'ĐH Kinh Tế', 'ĐH Sư Phạm', 'ĐH Ngoại Ngữ', 'ĐH Sư Phạm Kỹ Thuật', 'ĐH CNTT & Truyền Thông Việt - Hàn', 'ĐH Duy Tân', 'ĐH FPT Đà Nẵng', 'ĐH Kiến Trúc Đà Nẵng', 'ĐH Đông Á', 'CĐ Thương Mại'];
+            const unis = [
+                'ĐH Bách Khoa', 
+                'ĐH Kinh Tế', 
+                'ĐH Sư Phạm', 
+                'ĐH Ngoại Ngữ', 
+                'ĐH Sư Phạm Kỹ Thuật', 
+                'ĐH CNTT & Truyền Thông Việt - Hàn', 
+                'Viện NC & ĐT Việt - Anh', 
+                'Khoa Y Dược - ĐHĐN', 
+                'ĐH Duy Tân', 
+                'ĐH FPT Đà Nẵng', 
+                'ĐH Kiến Trúc Đà Nẵng', 
+                'ĐH Đông Á',
+                'Phân hiệu ĐH Kinh tế TP.HCM tại ĐN',
+                'CĐ Thương Mại', 
+                'CĐ Nghề Đà Nẵng', 
+                'CĐ FPT Polytechnic Đà Nẵng',
+                'CĐ Lương thực - Thực phẩm',
+                'CĐ Quốc tế Pegasus',
+                'Khu vực Khác'
+            ];
             return `
                 <div class="p-4 space-y-4 text-xs">
                     <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm space-y-1">
-                        <h3 class="font-bold text-slate-800 text-sm">Bản đồ cụm trường Đà Nẵng</h3>
-                        <p class="text-slate-500 text-[11px]">Chọn khu vực trường để lọc nhanh quán ăn chung lân cận.</p>
+                        <h3 class="font-bold text-slate-800 text-sm">Bản đồ cụm trường ĐH & CĐ Đà Nẵng</h3>
+                        <p class="text-slate-500 text-[11px]">Chọn khu vực để xem quán do cộng đồng sinh viên đóng góp.</p>
                     </div>
                     <div class="space-y-3">
                         ${unis.map(uni => {
-                const count = places.filter(p => p.university === uni).length;
-                return `
+                            const count = places.filter(p => p.university === uni).length;
+                            return `
                                 <div onclick="filterByUniFromMap('${uni}')" class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:border-orange-200 transition cursor-pointer flex items-center justify-between">
                                     <div class="flex items-center space-x-3">
                                         <div class="w-10 h-10 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center font-bold">🏫</div>
@@ -658,28 +737,28 @@
                                             <p class="text-[11px] text-slate-500">Có ${count} quán ăn đóng góp</p>
                                         </div>
                                     </div>
-                                    <div class="p-2 bg-slate-50 rounded-xl text-slate-400"><i data-lucide="chevron-right" class="w-4 h-4"></i></div>
+                                    <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
                                 </div>
                             `;
-            }).join('')}
+                        }).join('')}
                     </div>
                 </div>
             `;
         }
 
+        // --- SAVED VIEW ---
         function renderSavedView() {
-            const savedPlaces = places.filter(p => savedIds.includes(p.id));
+            const savedPlaces = places.filter(p => p.saved);
             return `
                 <div class="p-4 space-y-4 text-xs">
                     <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-                        <h3 class="font-bold text-slate-800 text-sm">Quán đã lưu cá nhân ❤️</h3>
-                        <p class="text-slate-500 text-[11px]">Được lưu trữ trực tiếp trên thiết bị của bạn.</p>
+                        <h3 class="font-bold text-slate-800 text-sm">Quán đã lưu ❤️</h3>
+                        <p class="text-slate-500 text-[11px]">Các quán bạn đã đánh dấu trên máy cá nhân.</p>
                     </div>
                     ${savedPlaces.length === 0 ? `
                         <div class="text-center py-12 bg-white rounded-2xl border border-slate-100 p-6">
                             <i data-lucide="bookmark-minus" class="w-10 h-10 text-slate-300 mx-auto mb-2"></i>
                             <p class="font-bold text-slate-700">Chưa có quán nào được lưu</p>
-                            <p class="text-[11px] text-slate-400 mt-1">Bấm biểu tượng bookmark trên thẻ quán để lưu lại nhé.</p>
                         </div>
                     ` : `
                         <div class="space-y-3">
@@ -703,129 +782,89 @@
             `;
         }
 
+        // --- PROFILE VIEW ---
         function renderProfileView() {
-            const total = places.length;
-            const savedCount = savedIds.length;
             return `
                 <div class="p-4 space-y-4 text-xs">
-                    <div class="bg-gradient-to-r from-orange-500 to-amber-500 p-5 rounded-2xl text-white shadow-md shadow-orange-100 space-y-3">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center text-xl">🍲</div>
-                            <div>
-                                <h3 class="font-bold text-sm">Hệ thống Đóng góp Chung</h3>
-                                <p class="text-[11px] text-orange-100">Tất cả quán đóng góp sẽ hiển thị cho mọi sinh viên Đà Nẵng cùng xem!</p>
-                            </div>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm text-center space-y-3">
+                        <div class="w-16 h-16 bg-gradient-to-tr from-orange-500 to-amber-500 text-white rounded-2xl flex items-center justify-center mx-auto text-2xl font-bold shadow-lg shadow-orange-100">🎓</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-sm">Cộng Đồng Sinh Viên Đà Nẵng</h3>
+                            <p class="text-[11px] text-slate-500">Mọi người cùng đóng góp • Cùng chia sẻ quán ngon</p>
                         </div>
-                        <div class="grid grid-cols-2 gap-2 pt-2 border-t border-white/20">
-                            <div class="bg-white/10 backdrop-blur-sm p-2.5 rounded-xl">
-                                <p class="text-orange-100 text-[10px]">Tổng quán trên hệ thống</p>
-                                <p class="font-bold text-white text-sm">${total} quán</p>
-                            </div>
-                            <div class="bg-white/10 backdrop-blur-sm p-2.5 rounded-xl">
-                                <p class="text-orange-100 text-[10px]">Quán bạn đã lưu</p>
-                                <p class="font-bold text-white text-sm">${savedCount} quán</p>
-                            </div>
+                        <div class="p-2 bg-slate-50 rounded-xl">
+                            <p class="text-slate-400 text-[10px]">Tổng số quán trên hệ thống chung</p>
+                            <p class="font-bold text-orange-600 text-sm">${places.length} quán</p>
                         </div>
                     </div>
-
-                    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 space-y-3">
-                        <h4 class="font-bold text-slate-800 text-xs">💡 Tính năng cộng đồng</h4>
-                        <ul class="space-y-2 text-slate-600 text-[11px]">
-                            <li class="flex items-start space-x-2">
-                                <span class="text-orange-500 font-bold">✓</span>
-                                <span>Khi bạn bấm "Đóng góp ngay", dữ liệu sẽ lưu ngay lập tức vào thiết bị và đẩy lên đám mây chung.</span>
-                            </li>
-                            <li class="flex items-start space-x-2">
-                                <span class="text-orange-500 font-bold">✓</span>
-                                <span>Bạn bè hoặc sinh viên mở ứng dụng lên sẽ thấy ngay lập tức mà không sợ bị đơ hay lỗi.</span>
-                            </li>
-                        </ul>
-                        <button onclick="openAddModal()" class="w-full py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition shadow-md shadow-orange-100 flex items-center justify-center space-x-1.5">
-                            <i data-lucide="plus-circle" class="w-4 h-4"></i>
-                            <span>Thêm quán ăn mới ngay</span>
+                    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden divide-y divide-slate-100">
+                        <button onclick="openAddModal()" class="w-full p-3.5 text-left flex items-center justify-between hover:bg-slate-50 transition">
+                            <div class="flex items-center space-x-2.5 text-slate-700 font-medium">
+                                <i data-lucide="plus-circle" class="w-4 h-4 text-orange-500"></i>
+                                <span>Đóng góp quán mới cho mọi người cùng xem</span>
+                            </div>
+                            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
                         </button>
                     </div>
                 </div>
             `;
         }
 
-        function setCategory(cat) {currentCategory = cat; renderTabContent();}
-        function handlePriceFilter(select) {currentPriceFilter = select.value; renderTabContent();}
-        function handleUniFilter(select) {currentUniversityFilter = select.value; renderTabContent();}
-        function handleSearchInput() {currentSearchQuery = document.getElementById('searchInput').value; renderTabContent();}
-        function filterByUniFromMap(uni) {currentUniversityFilter = uni; currentTab = 'explore'; switchTab('explore');}
+        // Filter Handlers
+        function setCategory(cat) { currentCategory = cat; renderTabContent(); }
+        function handlePriceFilter(select) { currentPriceFilter = select.value; renderTabContent(); }
+        function handleUniFilter(select) { currentUniversityFilter = select.value; renderTabContent(); }
+        function handleSearchInput() { currentSearchQuery = document.getElementById('searchInput').value; renderTabContent(); }
+        function filterByUniFromMap(uni) { currentUniversityFilter = uni; switchTab('explore'); }
 
         function toggleSave(id) {
-            const index = savedIds.indexOf(id);
-            if (index > -1) {
-                savedIds.splice(index, 1);
-                showToast('Đã bỏ lưu quán');
-            } else {
-                savedIds.push(id);
-                showToast('Đã lưu quán thành công');
+            const p = places.find(item => item.id === id);
+            if (p) {
+                p.saved = !p.saved;
+                renderTabContent();
+                showToast(p.saved ? 'Đã lưu vào danh sách cá nhân' : 'Đã bỏ lưu');
             }
-            localStorage.setItem('student_danang_saved_ids', JSON.stringify(savedIds));
-            renderTabContent();
         }
 
+        // Modal Controls
         function openAddModal() {
             document.getElementById('placeForm').reset();
             document.getElementById('placeModal').classList.remove('hidden');
         }
-
         function closeAddModal() {
             document.getElementById('placeModal').classList.add('hidden');
         }
 
-        function handleFormSubmit(e) {
+        async function handleFormSubmit(e) {
             e.preventDefault();
-            const name = document.getElementById('placeName').value.trim();
-            const category = document.getElementById('placeCategory').value;
-            const priceRange = document.getElementById('placePriceRange').value;
-            const university = document.getElementById('placeUniversity').value;
-            const address = document.getElementById('placeAddress').value.trim() || 'Đang cập nhật địa chỉ';
-            const rating = parseFloat(document.getElementById('placeRating').value);
-            const imageInput = document.getElementById('placeImage').value.trim();
-            const image = imageInput !== '' ? imageInput : 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80';
-            const review = document.getElementById('placeReview').value.trim() || 'Chưa có review chi tiết.';
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = 'Đang đồng bộ lên cộng đồng...';
+            btn.disabled = true;
 
             const newPlace = {
-                id: 'contrib_' + Date.now(),
-                name,
-                category,
-                priceRange,
-                university,
-                address,
-                rating,
-                image,
-                review,
-                createdAt: Date.now()
+                id: 'p_' + Date.now(),
+                name: document.getElementById('placeName').value,
+                category: document.getElementById('placeCategory').value,
+                priceRange: document.getElementById('placePriceRange').value,
+                university: document.getElementById('placeUniversity').value,
+                address: document.getElementById('placeAddress').value,
+                rating: parseFloat(document.getElementById('placeRating').value),
+                image: document.getElementById('placeImage').value || 'https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=600&q=80',
+                review: document.getElementById('placeReview').value,
+                saved: false
             };
 
-            localContributedPlaces.unshift(newPlace);
-            localStorage.setItem('student_danang_local_contribs', JSON.stringify(localContributedPlaces));
-
             places.unshift(newPlace);
-            closeAddModal();
-            showToast('🎉 Đóng góp quán thành công lên hệ thống chung!');
-            renderTabContent();
+            await savePublicDataToCloud();
 
-            if (window.firebaseModules && window.dbRef) {
-                window.firebaseModules.push(window.dbRef, {
-                    name,
-                    category,
-                    priceRange,
-                    university,
-                    address,
-                    rating,
-                    image,
-                    review
-                }).catch(err => {
-                    console.log('Đã lưu cục bộ, đồng bộ đám mây sẽ thử lại khi có mạng.');
-                });
-            }
+            btn.innerText = 'Đăng lên cộng đồng';
+            btn.disabled = false;
+            closeAddModal();
+            renderTabContent();
+            showToast('Thêm quán thành công! Mọi người đã có thể nhìn thấy.');
         }
 
+        // Detail Modal
         function openDetailModal(id) {
             const p = places.find(item => item.id === id);
             if (!p) return;
@@ -840,7 +879,8 @@
             document.getElementById('detailRating').innerText = `★★★★★ (${p.rating})`;
             document.getElementById('detailReview').innerText = p.review || 'Chưa có review chi tiết.';
 
-            document.getElementById('detailSaveText').innerText = savedIds.includes(id) ? 'Đã lưu' : 'Lưu quán';
+            const saveBtnText = document.getElementById('detailSaveText');
+            saveBtnText.innerText = p.saved ? 'Đã lưu' : 'Lưu quán';
             document.getElementById('detailModal').classList.remove('hidden');
         }
 
@@ -856,17 +896,16 @@
             }
         }
 
+        // Random Picker
         function openRandomPicker() {
             document.getElementById('randomPlaceName').innerText = 'Sẵn sàng quay số chọn quán!';
-            document.getElementById('randomPlaceMeta').innerText = 'Nhấn nút bên dưới để chọn ngẫu nhiên quán ngon.';
+            document.getElementById('randomPlaceMeta').innerText = 'Nhấn nút bên dưới để chọn ngẫu nhiên quán cộng đồng.';
             document.getElementById('randomPlaceReview').innerText = '';
             document.getElementById('randomModal').classList.remove('hidden');
         }
-
         function closeRandomPicker() {
             document.getElementById('randomModal').classList.add('hidden');
         }
-
         function spinRandomPlace() {
             if (places.length === 0) return;
             let counter = 0;
@@ -881,5 +920,4 @@
         }
     </script>
 </body>
-
 </html>
