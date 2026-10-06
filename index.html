@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sinh Viên Đà Nẵng - Roadmap & Campus Assistant</title>
+    <title>Sinh Viên Đà Nẵng - Academic Roadmap & Budget Hub</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -72,7 +72,7 @@
                 </div>
                 <div>
                     <h1 class="text-sm font-extrabold text-slate-800 leading-tight">Sinh Viên Đà Nẵng 🍀</h1>
-                    <p class="text-[10px] font-medium text-emerald-600">Trợ lý & Roadmap • ĐH FPT Đà Nẵng</p>
+                    <p class="text-[10px] font-medium text-emerald-600">Trợ lý toàn năng • Lộ trình ĐH FPT</p>
                 </div>
             </div>
             <div class="flex items-center space-x-1.5">
@@ -88,20 +88,20 @@
             <div class="flex items-center justify-center h-full">
                 <div class="text-center space-y-2">
                     <div class="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-                    <p class="text-xs text-slate-500">Đang khởi tạo Lộ trình học tập ĐH FPT...</p>
+                    <p class="text-xs text-slate-500">Đang khởi tạo lộ trình FPT & hệ thống...</p>
                 </div>
             </div>
         </main>
 
-        <!-- Bottom Navigation Bar -->
+        <!-- Bottom Navigation Bar (5 Main Tabs) -->
         <nav class="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-emerald-100 px-2 py-2 flex items-center justify-around z-40 shadow-lg">
             <button onclick="switchTab('explore')" id="nav-explore" class="flex flex-col items-center space-y-1 text-emerald-600 transition">
                 <i data-lucide="map-pin" class="w-5 h-5"></i>
                 <span class="text-[9px] font-bold">Địa Điểm</span>
             </button>
             <button onclick="switchTab('academic')" id="nav-academic" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition">
-                <i data-lucide="map" class="w-5 h-5"></i>
-                <span class="text-[9px] font-semibold">Roadmap</span>
+                <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                <span class="text-[9px] font-semibold">Lộ Trình Học</span>
             </button>
             <button onclick="switchTab('finance')" id="nav-finance" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition">
                 <i data-lucide="wallet" class="w-5 h-5"></i>
@@ -118,7 +118,7 @@
         </nav>
     </div>
 
-    <!-- Expense Modal -->
+    <!-- Add Custom Expense Modal -->
     <div id="expenseModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-emerald-100 flex flex-col">
             <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-emerald-50/50">
@@ -126,12 +126,14 @@
                     <i data-lucide="plus-circle" class="w-4 h-4 text-emerald-600"></i>
                     <span>Thêm khoản chi tiêu mới</span>
                 </h3>
-                <button onclick="closeExpenseModal()" class="p-1 text-slate-400 hover:text-slate-600 rounded-full"><i data-lucide="x" class="w-4 h-4"></i></button>
+                <button onclick="closeExpenseModal()" class="p-1 text-slate-400 hover:text-slate-600 rounded-full">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
             </div>
             <form onsubmit="handleAddExpense(event)" class="p-4 space-y-3 text-xs">
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">Tên khoản chi *</label>
-                    <input type="text" id="expenseTitle" required placeholder="Ví dụ: Tiền giáo trình, Cà phê..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <input type="text" id="expenseTitle" required placeholder="Ví dụ: Tiền mua giáo trình, Ăn đồ nướng..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
                 </div>
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">Số tiền (VNĐ) *</label>
@@ -174,19 +176,37 @@
                         <i data-lucide="map-pin" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></i>
                         <span id="detailAddress" class="font-medium leading-relaxed">Đang cập nhật địa chỉ...</span>
                     </div>
+                    <span id="detailPriceBadge" class="px-2 py-1 bg-emerald-50 text-emerald-700 rounded-md font-semibold text-[10px] shrink-0 whitespace-nowrap">Dịch vụ</span>
                 </div>
-                <div id="detailReview" class="p-3 bg-emerald-50/60 rounded-xl text-slate-600 border border-emerald-100 leading-relaxed italic">
-                    Chưa có đánh giá.
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div class="bg-emerald-50/50 p-2.5 rounded-xl border border-emerald-100/60 space-y-0.5">
+                        <p class="text-[10px] font-medium text-slate-400">Độ Uy Tín & An Toàn</p>
+                        <p id="detailTrustLevel" class="font-bold text-amber-600">⭐⭐⭐⭐⭐ (5.0/5)</p>
+                    </div>
+                    <div class="bg-emerald-50/50 p-2.5 rounded-xl border border-emerald-100/60 space-y-0.5">
+                        <p class="text-[10px] font-medium text-slate-400">Phạm Vi Vị Trí</p>
+                        <p id="detailUniversity" class="font-bold text-slate-700 truncate">Khu vực FPT & VKU</p>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Mô Tả Thực Tế & Lưu Ý</p>
+                    <div id="detailReview" class="p-3 bg-emerald-50/60 rounded-xl text-slate-600 border border-emerald-100 leading-relaxed italic">
+                        Chưa có đánh giá.
+                    </div>
                 </div>
                 <div class="pt-1">
-                    <a id="detailGoogleMapLink" href="#" target="_blank" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold flex items-center justify-center space-x-2 transition">
+                    <a id="detailGoogleMapLink" href="#" target="_blank" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold flex items-center justify-center space-x-2 transition shadow-md shadow-emerald-100">
                         <i data-lucide="navigation-2" class="w-4 h-4"></i>
                         <span>Chỉ đường trên Google Maps</span>
                     </a>
                 </div>
             </div>
-            <div class="p-3.5 border-t border-slate-100 bg-slate-50 flex justify-end">
-                <button onclick="closeDetailModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-xl">Đóng</button>
+            <div class="p-3.5 border-t border-slate-100 bg-slate-50 flex justify-between items-center text-xs">
+                <button id="detailSaveBtn" onclick="toggleSaveFromDetail()" class="px-3.5 py-2 bg-emerald-50 text-emerald-700 font-semibold rounded-xl hover:bg-emerald-100 transition flex items-center space-x-1.5 border border-emerald-200/50">
+                    <i data-lucide="bookmark" class="w-3.5 h-3.5"></i>
+                    <span id="detailSaveText">Lưu lại</span>
+                </button>
+                <button onclick="closeDetailModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-xl transition">Đóng</button>
             </div>
         </div>
     </div>
@@ -199,6 +219,7 @@
 
     <!-- Application JavaScript Logic -->
     <script>
+        // Data Stores
         let places = [
             {
                 id: 'atm_1',
@@ -207,133 +228,358 @@
                 priceRange: 'Nộp & Rút tiền (CDM/LiveBank)',
                 university: 'ĐH FPT & Khu FPT City',
                 address: 'Shophouse Plaza FPT City, Đường Trần Quốc Vượng, Hòa Hải (Cách ĐH FPT 400m)',
-                trustRating: '5.0/5.0 - Rất Uy Tín',
-                safetyBadge: '🛡️ Bảo vệ 24/7 • CCCD gắn chip',
+                trustRating: '5.0/5.0 - Rất Uy Tín (An Toàn Tuyệt Đối)',
+                safetyBadge: '🛡️ Bảo vệ 24/7 • CCCD gắn chip • Máy lạnh',
                 image: 'https://images.unsplash.com/photo-1601597111158-2fceff292cdc?auto=format&fit=crop&w=600&q=80',
-                review: 'Hỗ trợ nộp tiền mặt trực tiếp 24/7 vào tài khoản. Rút tiền bằng mã QR trên App TPBank hoặc CCCD.',
+                review: 'Hỗ trợ nộp tiền mặt trực tiếp 24/7 vào tài khoản. Rút tiền bằng mã QR trên App TPBank hoặc CCCD cực kỳ tiện cho sinh viên FPT.',
+                saved: false
+            },
+            {
+                id: 'atm_2',
+                name: 'ATM Agribank - Cây Xăng Hòa Quý',
+                category: 'Agribank',
+                priceRange: 'Rút tiền mặt 24/7',
+                university: 'Trục Nam Kỳ Khởi Nghĩa',
+                address: 'Cây xăng Petrolimex Hòa Quý, Ngã tư Nam Kỳ Khởi Nghĩa & Trần Đại Nghĩa (Cách VKU 500m)',
+                trustRating: '4.8/5.0 - Cao (Tụ Điểm Đông Đúc)',
+                safetyBadge: '💡 Đèn sáng rực • Có cây xăng trực đêm',
+                image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=600&q=80',
+                review: 'Cây ATM đông đúc và an toàn bậc nhất ngã tư Hòa Quý. Phù hợp cho sinh viên VKU & FPT đi đường chính ghé rút tiền.',
+                saved: false
+            },
+            {
+                id: 'atm_3',
+                name: 'ATM Vietcombank - KTX ĐH VKU',
+                category: 'Vietcombank',
+                priceRange: 'Rút tiền mặt 24/7',
+                university: 'ĐH VKU (Việt - Hàn)',
+                address: 'Tầng 1 KTX Trường ĐH CNTT & TT Việt - Hàn, Nam Kỳ Khởi Nghĩa',
+                trustRating: '4.9/5.0 - Rất Cao (Trong Trường)',
+                safetyBadge: '👮 Bảo vệ KTX túc trực 24/7',
+                image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=600&q=80',
+                review: 'Nằm gọn trong KTX VKU nên cực kỳ an toàn. Rút thẻ VCB cực nhanh mà không cần ra ngoài cổng trường.',
                 saved: false
             }
         ];
 
-        // 4-YEAR MAJORS ROADMAP STORE (ĐẠI HỌC FPT ĐÀ NẴNG)
-        let majorRoadmaps = [
-            {
-                id: 'se',
-                name: 'Software Engineering (Kỹ Thuật Phần Mềm)',
+        // --- FPT UNIVERSITY MAJORS ROADMAP DATA ---
+        let selectedMajorKey = 'SE'; // Default: Software Engineering
+        let activeSemesterFilter = 'All'; // 'All' or semester number 1-9
+
+        const fptRoadmaps = {
+            SE: {
+                name: 'Kỹ Thuật Phần Mềm (Software Engineering)',
                 code: 'SE',
-                icon: 'code-2',
-                description: 'Lộ trình từ Lập trình căn bản đến Kỹ sư Phần mềm Chuyên nghiệp, Thực tập OJT tại doanh nghiệp công nghệ.',
+                badgeColor: 'bg-emerald-600',
+                description: 'Lộ trình từ lập trình C căn bản đến Kiến trúc phần mềm, Web/Mobile App và Đồ án tốt nghiệp OJT.',
                 semesters: [
-                    { sem: 'Nền tảng (Giai đoạn chuẩn bị)', subjects: 'Rèn luyện Quân sự (QP201), Tiếng Anh Dự Bị (Preparation English Level 1-6), Nhạc cụ Dân tộc (Traditional Instruments).' },
-                    { sem: 'Học Kỳ 1 (Nền tảng IT)', subjects: 'CSI106 (C Programming), MAE101 (Calculus 1), SSG104 (Communication Skills), CEA201 (Computer Architecture).' },
-                    { sem: 'Học Kỳ 2 (Lập trình Hướng đối tượng)', subjects: 'PRO192 (OOP Java), MAD101 (Discrete Mathematics), OSG202 (Operating Systems), NWC203c (Computer Networking).' },
-                    { sem: 'Học Kỳ 3 (Cơ sở dữ liệu & Cấu trúc dữ liệu)', subjects: 'DBI202 (Database Systems), CSD201 (Data Structures & Algorithms), JPD113 (Japanese Level 1/2), WED201c (Web Design HTML/CSS).' },
-                    { sem: 'Học Kỳ 4 (Lập trình Web & Thiết kế PM)', subjects: 'PRJ301 (Java Web Applications), SWE201 (Software Engineering), SWR302 (Software Requirements), SWE202 (Software Architecture).' },
-                    { sem: 'Học Kỳ 5 (Dự án Thực tế & Công nghệ nâng cao)', subjects: 'SWP391 (Software Development Project), PRN211 (.NET / C#), PRM392 (Mobile App Dev - Android/Flutter).' },
-                    { sem: 'Học Kỳ 6 (On-the-Job Training - OJT)', subjects: 'OJT490 (Thực tập thực tế 4-8 tháng tại FPT Software Đà Nẵng, Viettel, Enclave hoặc các Doanh nghiệp CNTT đối tác).' },
-                    { sem: 'Học Kỳ 7 & 8 (Chuyên sâu & Khóa luận)', subjects: 'SWT301 (Software Testing), PRJ321 (Advanced Web), BLA301 (Business Law), Capstone Project (Đồ án Tốt nghiệp Kỹ sư phần mềm).' }
+                    {
+                        sem: 1,
+                        title: 'Nền Tảng Lập Trình & Tư Duy',
+                        courses: [
+                            { code: 'CSI106', name: 'Introduction to Computer Science / C Programming', credits: 3, type: 'Cơ sở ngành', desc: 'Học C, biến, con trỏ, cấp phát động, hàm.' },
+                            { code: 'MAE101', name: 'Calculus 1', credits: 3, type: 'Đại cương', desc: 'Đạo hàm, tích phân, chuỗi & ứng dụng.' },
+                            { code: 'SSL101c', name: 'Academic Skills for University Success', credits: 3, type: 'Đại cương', desc: 'Kỹ năng học tập đại học chuẩn FPT.' }
+                        ]
+                    },
+                    {
+                        sem: 2,
+                        title: 'Cấu Trúc Dữ Liệu & Hướng Đối Tượng',
+                        courses: [
+                            { code: 'PRF192', name: 'Programming Fundamentals (C/C++)', credits: 3, type: 'Cơ sở ngành', desc: 'Xử lý mảng, con trỏ nâng cao, struct.' },
+                            { code: 'PRO192', name: 'Object-Oriented Programming (Java)', credits: 3, type: 'Cơ sở ngành', desc: 'OOP: Đóng gói, kế thừa, đa hình, giao diện.' },
+                            { code: 'MAD101', name: 'Discrete Mathematics', credits: 3, type: 'Đại cương', desc: 'Toán rời rạc, đồ thị, lý thuyết tập hợp.' }
+                        ]
+                    },
+                    {
+                        sem: 3,
+                        title: 'Cơ Sở Dữ Liệu & Cấu Trúc Giải Thuật',
+                        courses: [
+                            { code: 'CSD201', name: 'Data Structures and Algorithms', credits: 3, type: 'Chuyên ngành', desc: 'Danh sách liên kết, Cây, Đồ thị, Sắp xếp.' },
+                            { code: 'DBI202', name: 'Introduction to Databases (SQL)', credits: 3, type: 'Cơ sở ngành', desc: 'Thiết kế ERD, truy vấn SQL Server, Trigger/Procedure.' },
+                            { code: 'CEA201', name: 'Computer Organization and Architecture', credits: 3, type: 'Cơ sở ngành', desc: 'MIPS Assembly, Bộ nhớ, CPU logic.' }
+                        ]
+                    },
+                    {
+                        sem: 4,
+                        title: 'Lập Trình Web & Quy Trình Phần Mềm',
+                        courses: [
+                            { code: 'PRJ301', name: 'Java Web Application Development', credits: 3, type: 'Chuyên ngành', desc: 'JSP, Servlet, MVC, JDBC, Authentication.' },
+                            { code: 'SWE201c', name: 'Software Engineering Introduction', credits: 3, type: 'Chuyên ngành', desc: 'Mô hình Agile, Scrum, Waterfall, Requirements.' },
+                            { code: 'MAS291', name: 'Statistics and Probability', credits: 3, type: 'Đại cương', desc: 'Xác suất thống kê dành cho ngành CNTT.' }
+                        ]
+                    },
+                    {
+                        sem: 5,
+                        title: 'Kiến Trúc Phần Mềm & Kiểm Thử',
+                        courses: [
+                            { code: 'SWP391', name: 'Software Development Project', credits: 3, type: 'Đồ án', desc: 'Làm dự án thực tế theo nhóm 5 người.' },
+                            { code: 'SWT301', name: 'Software Testing', credits: 3, type: 'Chuyên ngành', desc: 'Kiểm thử hộp đen/trắng, Selenium, Unit Test.' },
+                            { code: 'SWR302', name: 'Software Requirement Engineering', credits: 3, type: 'Chuyên ngành', desc: 'Phân tích & Quản lý yêu cầu phần mềm.' }
+                        ]
+                    },
+                    {
+                        sem: 6,
+                        title: 'Thực Tập Doanh Nghiệp (OJT - On the Job Training)',
+                        courses: [
+                            { code: 'OJT401', name: 'On-the-Job Training at IT Companies', credits: 9, type: 'Thực tập', desc: 'Thực tập 4-8 tháng tại FPT Software hay các cty IT.' }
+                        ]
+                    },
+                    {
+                        sem: 7,
+                        title: 'Chuyên Sâu Chuyên Ngành (Specialization)',
+                        courses: [
+                            { code: 'PRN211', name: 'Basic Cross-Platform Application Dev (.NET/C#)', credits: 3, type: 'Chuyên ngành', desc: 'C# .NET Core, Web API, Entity Framework.' },
+                            { code: 'WDP301', name: 'Web Front-End Development (ReactJS)', credits: 3, type: 'Chuyên ngành', desc: 'ReactJS, Redux, TailwindCSS, REST API.' }
+                        ]
+                    },
+                    {
+                        sem: 8,
+                        title: 'Đồ Án Tốt Nghiệp (CapStone Project)',
+                        courses: [
+                            { code: 'SEP490', name: 'Capstone Project (Software Engineering)', credits: 10, type: 'Đồ án', desc: 'Xây dựng sản phẩm hoàn chỉnh bảo vệ trước hội đồng.' }
+                        ]
+                    }
                 ]
             },
-            {
-                id: 'ai',
-                name: 'Artificial Intelligence (Trí Tuệ Nhân Tạo)',
+            AI: {
+                name: 'Trí Tuệ Nhân Tạo (Artificial Intelligence)',
                 code: 'AI',
-                icon: 'bot',
-                description: 'Tập trung vào Machine Learning, Deep Learning, Xử lý Ngôn ngữ Tự nhiên (NLP) và Thị giác Máy tính.',
+                badgeColor: 'bg-teal-600',
+                description: 'Lộ trình từ Toán cao cấp, Python, Machine Learning đến Deep Learning, Computer Vision & NLP.',
                 semesters: [
-                    { sem: 'Nền tảng & Tiếng Anh', subjects: 'Giai đoạn Chuẩn bị Tiếng Anh Academic, Giáo dục Quốc phòng, Võ Thuật Vovinam.' },
-                    { sem: 'Học Kỳ 1 & 2 (Cơ sở Toán & Lập trình Python)', subjects: 'PRF192 (Programming Fundamentals), PRP201 (Python for AI), MAS291 (Statistics & Probability), MAE101 (Calculus).' },
-                    { sem: 'Học Kỳ 3 & 4 (Khoa học Dữ liệu & ML)', subjects: 'DSI201 (Data Science Fundamentals), AIL101 (Machine Learning), DBI202 (Database Systems), CSD201 (Algorithms).' },
-                    { sem: 'Học Kỳ 5 (Deep Learning & AI nâng cao)', subjects: 'DLG301 (Deep Learning Frameworks - PyTorch/TensorFlow), AI-CV (Computer Vision), AI-NLP (Natural Language Processing).' },
-                    { sem: 'Học Kỳ 6 (OJT - Thực tập Doanh nghiệp)', subjects: 'Thực tập tại các viện nghiên cứu AI, FPT Software AI Center Đà Nẵng, các dự án AI thực tế.' },
-                    { sem: 'Học Kỳ 7 & 8 (Chuyên sâu AI & Khóa luận)', subjects: 'AI Ethics & Applications, Advanced Reinforcement Learning, Khóa luận Tốt nghiệp Trí tuệ Nhân tạo.' }
+                    {
+                        sem: 1,
+                        title: 'Lập Trình Cơ Bản & Đại Số Tuyến Tính',
+                        courses: [
+                            { code: 'CSI106', name: 'C Programming & Logic', credits: 3, type: 'Cơ sở ngành', desc: 'Nền tảng tư duy lập trình căn bản.' },
+                            { code: 'MAE101', name: 'Calculus 1', credits: 3, type: 'Đại cương', desc: 'Vi tích phân cho khoa học dữ liệu.' },
+                            { code: 'MAS291', name: 'Statistics & Probability', credits: 3, type: 'Đại cương', desc: 'Thống kê ứng dụng trong AI/ML.' }
+                        ]
+                    },
+                    {
+                        sem: 2,
+                        title: 'Lập Trình Python & Cấu Trúc Dữ Liệu',
+                        courses: [
+                            { code: 'PYP101', name: 'Python Programming for AI', credits: 3, type: 'Cơ sở ngành', desc: 'Numpy, Pandas, Matplotlib, Scipy.' },
+                            { code: 'CSD201', name: 'Data Structures & Algorithms', credits: 3, type: 'Cơ sở ngành', desc: 'Giải thuật tối ưu hóa xử lý dữ liệu.' },
+                            { code: 'DBI202', name: 'Database Systems', credits: 3, type: 'Cơ sở ngành', desc: 'Truy vấn & Lưu trữ dữ liệu.' }
+                        ]
+                    },
+                    {
+                        sem: 3,
+                        title: 'Học Máy Căn Bản (Machine Learning)',
+                        courses: [
+                            { code: 'PML301', name: 'Principles of Machine Learning', credits: 3, type: 'Chuyên ngành', desc: 'Hồi quy, Phân loại, SVM, Decision Trees.' },
+                            { code: 'AIL101c', name: 'AI Fundamentals & Ethics', credits: 3, type: 'Chuyên ngành', desc: 'Tổng quan AI & Đạo đức trí tuệ nhân tạo.' }
+                        ]
+                    },
+                    {
+                        sem: 4,
+                        title: 'Học Sâu (Deep Learning) & Thị Giác Máy Tính',
+                        courses: [
+                            { code: 'DLG301', name: 'Deep Learning & Neural Networks', credits: 3, type: 'Chuyên ngành', desc: 'ANN, CNN, RNN, PyTorch / TensorFlow.' },
+                            { code: 'CVP301', name: 'Computer Vision', credits: 3, type: 'Chuyên ngành', desc: 'Xử lý ảnh, OpenCV, Nhận diện khuôn mặt/vật thể.' }
+                        ]
+                    },
+                    {
+                        sem: 5,
+                        title: 'Xử Lý Ngôn Ngữ Tự Nhiên (NLP) & GenAI',
+                        courses: [
+                            { code: 'NLP301', name: 'Natural Language Processing', credits: 3, type: 'Chuyên ngành', desc: 'Transformers, LLM, Fine-tuning, RAG.' },
+                            { code: 'AIP391', name: 'AI Project', credits: 3, type: 'Đồ án', desc: 'Thực hiện mô hình AI ứng dụng thực tế.' }
+                        ]
+                    },
+                    {
+                        sem: 6,
+                        title: 'Thực Tập Doanh Nghiệp (OJT)',
+                        courses: [
+                            { code: 'OJT401', name: 'AI Engineering Internship', credits: 9, type: 'Thực tập', desc: 'Thực tập vị trí AI/Data Engineer.' }
+                        ]
+                    },
+                    {
+                        sem: 7,
+                        title: 'Đồ Án Tốt Nghiệp AI (CapStone)',
+                        courses: [
+                            { code: 'AIP490', name: 'AI Capstone Project', credits: 10, type: 'Đồ án', desc: 'Nghiên cứu & phát triển hệ thống AI hoàn chỉnh.' }
+                        ]
+                    }
                 ]
             },
-            {
-                id: 'ia',
-                name: 'Information Assurance (An Toàn Thông Tin)',
+            IA: {
+                name: 'An Toàn Thông Tin (Information Assurance)',
                 code: 'IA',
-                icon: 'shield-alert',
-                description: 'Đào tạo Chuyên gia Bảo mật, Kiểm thử Năng lực Hệ thống (Penetration Testing) và Phòng vệ Mạng.',
+                badgeColor: 'bg-emerald-700',
+                description: 'Mạng máy tính, An ninh mạng, Thẩm định lỗ hổng, Cryptography & Digital Forensics.',
                 semesters: [
-                    { sem: 'Học Kỳ 1 & 2 (Nền tảng Mạng & Lập trình)', subjects: 'NWC203c (Networking), CSI106 (C Programming), OSG202 (Linux/Windows Systems), MAE101.' },
-                    { sem: 'Học Kỳ 3 & 4 (Mật mã học & An ninh Mạng)', subjects: 'CRY301 (Cryptography), IAP101 (Information Security Principles), NWC302 (Network Security), System Administration.' },
-                    { sem: 'Học Kỳ 5 (Ethical Hacking & Forensics)', subjects: 'SEC301 (Penetration Testing / Ethical Hacking), FOR301 (Digital Forensics), Web Security & Malware Analysis.' },
-                    { sem: 'Học Kỳ 6 (OJT - Thực tập Thực tế)', subjects: 'Thực tập tại các Trung tâm SOC, Doanh nghiệp An toàn Thông tin, Ngân hàng & Tập đoàn Đa quốc gia.' },
-                    { sem: 'Học Kỳ 7 & 8 (Chính sách Bảo mật & Đồ án)', subjects: 'Security Standards (ISO 27001), Security Risk Management, Capstone Project An toàn Thông tin.' }
+                    {
+                        sem: 1,
+                        title: 'Mạng Máy Tính & Lập Trình Cơ Bản',
+                        courses: [
+                            { code: 'NWC203c', name: 'Computer Networking', credits: 3, type: 'Cơ sở ngành', desc: 'Mô hình OSI, TCP/IP, Routing & Switching.' },
+                            { code: 'PRF192', name: 'Programming Fundamentals (C)', credits: 3, type: 'Cơ sở ngành', desc: 'Nền tảng lập trình hệ thống.' }
+                        ]
+                    },
+                    {
+                        sem: 2,
+                        title: 'Mật Mã Học & Hệ Điều Hành',
+                        courses: [
+                            { code: 'CRY301', name: 'Cryptography and Network Security', credits: 3, type: 'Chuyên ngành', desc: 'Mã hóa AES, RSA, Chữ ký số, SSL/TLS.' },
+                            { code: 'OSG202', name: 'Operating Systems (Linux/Unix)', credits: 3, type: 'Cơ sở ngành', desc: 'Quản trị Linux, Shell Scripting, Kernel.' }
+                        ]
+                    },
+                    {
+                        sem: 3,
+                        title: 'Hacker Mũ Trắng & Kiểm Thử An Ninh',
+                        courses: [
+                            { code: 'ETH301', name: 'Ethical Hacking & Penetration Testing', credits: 3, type: 'Chuyên ngành', desc: 'Burp Suite, Metasploit, Khai thác lỗ hổng Web.' },
+                            { code: 'IAI201', name: 'Information Assurance Introduction', credits: 3, type: 'Chuyên ngành', desc: 'Tiêu chuẩn ISO 27001, Chính sách an toàn.' }
+                        ]
+                    },
+                    {
+                        sem: 4,
+                        title: 'Thực Tập & Đồ Án Bảo Mật',
+                        courses: [
+                            { code: 'OJT401', name: 'OJT - Security Analyst / SOC', credits: 9, type: 'Thực tập', desc: 'Thực tập tại Trung tâm An ninh mạng (SOC).' },
+                            { code: 'IAP490', name: 'Information Security Capstone', credits: 10, type: 'Đồ án', desc: 'Đánh giá an ninh & giải pháp bảo mật.' }
+                        ]
+                    }
                 ]
             },
-            {
-                id: 'gd',
-                name: 'Graphic Design (Thiết Kế Đồ Họa / Truyền Thông)',
+            GD: {
+                name: 'Thiết Kế Đồ Họa (Digital Art & Design)',
                 code: 'GD',
-                icon: 'palette',
-                description: 'Sáng tạo Mỹ thuật Số, UI/UX Design, Đồ họa 2D/3D, Animation và Bối cảnh Truyền thông Thương hiệu.',
+                badgeColor: 'bg-purple-600',
+                description: 'Lộ trình Mỹ thuật số, Thiết kế UI/UX, Đồ họa chuyển động 2D/3D & Branding Identity.',
                 semesters: [
-                    { sem: 'Học Kỳ 1 & 2 (Nghệ thuật & Công cụ Cơ bản)', subjects: 'ART101 (Mỹ thuật Căn bản), DGD101 (Digital Graphic Tools - Photoshop/Illustrator), Typography, Color Theory.' },
-                    { sem: 'Học Kỳ 3 & 4 (Thiết kế Thương hiệu & UI/UX)', subjects: 'BRD201 (Brand Identity Design), UI/UX Design for Mobile & Web, Layout & Publication, Photography Fundamentals.' },
-                    { sem: 'Học Kỳ 5 (Đồ họa Chuyển động & 3D)', subjects: 'ANI301 (Motion Graphics - After Effects), 3D Modeling Basics (Blender/Maya), Video Editing & Post-Production.' },
-                    { sem: 'Học Kỳ 6 (OJT - Thực tập Studio/Agency)', subjects: 'Thực tập tại các Agency Truyền thông, Studio Thiết kế, Công ty Game & Phim Ảnh tại Đà Nẵng.' },
-                    { sem: 'Học Kỳ 7 & 8 (Triển lãm & Khóa luận Tốt nghiệp)', subjects: 'Portfolio Design, Portfolio Exhibition, Capstone Graduation Project (Đồ án Truyền thông Thị giác).' }
+                    {
+                        sem: 1,
+                        title: 'Nền Tảng Mỹ Thuật & Màu Sắc',
+                        courses: [
+                            { code: 'ART101', name: 'Drawing & Illustration Fundamentals', credits: 3, type: 'Cơ sở ngành', desc: 'Hình họa căn bản, dựng hình, phác thảo.' },
+                            { code: 'CLR102', name: 'Color Theory & Typography', credits: 3, type: 'Cơ sở ngành', desc: 'Phối màu, quy chuẩn chữ trong thiết kế.' }
+                        ]
+                    },
+                    {
+                        sem: 2,
+                        title: 'Phần Mềm Đồ Họa Chuyên Nghiệp',
+                        courses: [
+                            { code: 'PSD201', name: 'Adobe Photoshop & Illustrator Advanced', credits: 3, type: 'Chuyên ngành', desc: 'Xử lý ảnh & thiết kế đồ họa Vector.' },
+                            { code: 'UIX202', name: 'UI/UX Design for Mobile & Web (Figma)', credits: 3, type: 'Chuyên ngành', desc: 'Thiết kế giao diện người dùng, Prototype.' }
+                        ]
+                    },
+                    {
+                        sem: 3,
+                        title: 'Đồ Họa Chuyển Động & 3D',
+                        courses: [
+                            { code: 'MGN301', name: 'Motion Graphics (After Effects)', credits: 3, type: 'Chuyên ngành', desc: 'Hoạt họa 2D, hiệu ứng hình ảnh video.' },
+                            { code: 'BLD302', name: '3D Modeling & Animation (Blender)', credits: 3, type: 'Chuyên ngành', desc: 'Dựng mô hình 3D, ánh sáng, Render.' }
+                        ]
+                    },
+                    {
+                        sem: 4,
+                        title: 'Thực Tập OJT & Đồ Án Tốt Nghiệp',
+                        courses: [
+                            { code: 'OJT401', name: 'OJT - Designer at Creative Agency', credits: 9, type: 'Thực tập', desc: 'Thực tập tại agency, công ty truyền thông.' },
+                            { code: 'GDP490', name: 'Graphic Design Capstone Project', credits: 10, type: 'Đồ án', desc: 'Xây dựng bộ nhận diện thương hiệu hoàn chỉnh.' }
+                        ]
+                    }
                 ]
             },
-            {
-                id: 'ba',
-                name: 'Business Administration (Quản Trị Kinh Doanh / Digital Marketing)',
-                code: 'BA/MKT',
-                icon: 'briefcase',
-                description: 'Đào tạo Nhà quản trị Kinh doanh Thời đại Số, Marketing kĩ thuật số và Khởi nghiệp Công nghệ.',
+            MKT: {
+                name: 'Quản Trị Kinh Doanh & Marketing',
+                code: 'MKT',
+                badgeColor: 'bg-amber-600',
+                description: 'Tổng quan Quản trị, Digital Marketing, SEO/SEM, Content Strategy & Thương mại điện tử.',
                 semesters: [
-                    { sem: 'Học Kỳ 1 & 2 (Nền tảng Kinh tế & Quản trị)', subjects: 'ECO111 (Microeconomics), ECO121 (Macroeconomics), MGT103 (Management Principles), MKT101 (Marketing Fundamentals).' },
-                    { sem: 'Học Kỳ 3 & 4 (Kinh doanh Số & Tài chính)', subjects: 'FIN202 (Corporate Finance), ACC101 (Financial Accounting), MKT201 (Digital Marketing Strategy), SEO/SEM & Content Marketing.' },
-                    { sem: 'Học Kỳ 5 (Quản trị Chiến lược & Thương mại Điện tử)', subjects: 'STR301 (Strategic Management), E-Commerce Systems, Social Media Marketing, Data Analytics for Business.' },
-                    { sem: 'Học Kỳ 6 (OJT - Thực tập Doanh nghiệp)', subjects: 'Thực tập vị trí Business Analyst, Marketing Executive tại các Tập đoàn & Công ty Đa quốc gia.' },
-                    { sem: 'Học Kỳ 7 & 8 (Khởi nghiệp & Khóa luận Tốt nghiệp)', subjects: 'ENT301 (Entrepreneurship / Khởi nghiệp), Supply Chain Management, Business Graduation Project.' }
-                ]
-            },
-            {
-                id: 'hm',
-                name: 'Hotel Management (Quản Trị Khách Sạn / Du Lịch)',
-                code: 'HM',
-                icon: 'hotel',
-                description: 'Chuẩn năng lực Quản lý Khách sạn Chuẩn Quốc tế, Dịch vụ F&B, Event Management và Vận hành Resort 5 sao.',
-                semesters: [
-                    { sem: 'Học Kỳ 1 & 2 (Tổng quan Ngành Dịch vụ Hàng hải)', subjects: 'HOS101 (Introduction to Hospitality), FOO101 (Front Office Operations), HKP101 (Housekeeping Management).' },
-                    { sem: 'Học Kỳ 3 & 4 (Quản trị Nhà hàng & Sự kiện)', subjects: 'FBO201 (Food & Beverage Operations), EVM201 (Event & Wedding Management), Hospitality English, Service Excellence.' },
-                    { sem: 'Học Kỳ 5 (Quản trị Doanh thu & Nhân sự Khách sạn)', subjects: 'REV301 (Revenue Management in Hotels), HRM201 (Human Resource in Hospitality), Hotel Property Management Systems (PMS).' },
-                    { sem: 'Học Kỳ 6 (OJT - Thực tập Resort 5 sao)', subjects: 'Thực tập 6 tháng tại các Chuỗi Khách sạn & Resort 5 sao Đà Nẵng - Hội An (InterContinental, Marriott, Vinpearl).' },
-                    { sem: 'Học Kỳ 7 & 8 (Chiến lược & Đồ án Tốt nghiệp)', subjects: 'Strategic Hospitality Management, Sustainable Tourism, Capstone Project Quản trị Khách sạn.' }
+                    {
+                        sem: 1,
+                        title: 'Nhập Môn Quản Trị & Kinh Tế',
+                        courses: [
+                            { code: 'MGT101', name: 'Introduction to Management', credits: 3, type: 'Cơ sở ngành', desc: 'Nguyên lý quản trị doanh nghiệp.' },
+                            { code: 'ECO111', name: 'Microeconomics', credits: 3, type: 'Đại cương', desc: 'Kinh tế học vi mô.' }
+                        ]
+                    },
+                    {
+                        sem: 2,
+                        title: 'Digital Marketing & Truyền Thông',
+                        courses: [
+                            { code: 'MKT201', name: 'Principles of Marketing', credits: 3, type: 'Chuyên ngành', desc: 'Chiến lược Marketing 4P/7P.' },
+                            { code: 'DGM301', name: 'Digital Marketing & Social Media', credits: 3, type: 'Chuyên ngành', desc: 'Quảng cáo Facebook, Google Ads, TikTok Shop.' }
+                        ]
+                    },
+                    {
+                        sem: 3,
+                        title: 'Nghiên Cứu Thị Trường & Thương Mại Điện Tử',
+                        courses: [
+                            { code: 'MRS301', name: 'Marketing Research', credits: 3, type: 'Chuyên ngành', desc: 'Khai thác hành vi khách hàng.' },
+                            { code: 'ECM302', name: 'E-Commerce Strategy', credits: 3, type: 'Chuyên ngành', desc: 'Vận hành sàn TMĐT & Chuỗi cung ứng.' }
+                        ]
+                    },
+                    {
+                        sem: 4,
+                        title: 'Thực Tập & Đồ Án Tốt Nghiệp',
+                        courses: [
+                            { code: 'OJT401', name: 'OJT - Marketing Specialist Internship', credits: 9, type: 'Thực tập', desc: 'Thực tập vị trí Marketing/Sales/HR.' },
+                            { code: 'MKP490', name: 'Business Administration Capstone', credits: 10, type: 'Đồ án', desc: 'Lập Kế hoạch Kinh doanh & Marketing cho DN.' }
+                        ]
+                    }
                 ]
             }
-        ];
+        };
 
-        let selectedMajorId = 'se';
         let glossaryList = [
-            { term: 'ĐKTC (Đăng ký tín chỉ)', desc: 'Quá trình sinh viên tự chọn môn học, thời gian và giảng viên trên portal trường.', tag: 'Thủ Tục' },
-            { term: 'GPA / CPA', desc: 'GPA là điểm trung bình học kỳ. CPA là điểm trung bình tích lũy toàn khóa.', tag: 'Học Tập' },
-            { term: 'OJT (On-the-Job Training)', desc: 'Học kỳ thực tập thực tế tại doanh nghiệp (kéo dài 4-8 tháng từ học kỳ 6), điểm đặc trưng của SV Đại học FPT.', tag: 'Thực Tập' },
-            { term: 'RBL (Research-Based Learning)', desc: 'Phương pháp học tập dựa trên nghiên cứu khoa học tại ĐH FPT Đà Nẵng.', tag: 'ĐH FPT' }
+            { term: 'ĐKTC (Đăng ký tín chỉ)', desc: 'Quá trình sinh viên tự chọn môn học, thời gian và giảng viên trên portal trường cho học kỳ tiếp theo. Yêu cầu bình tĩnh và canh giờ chuẩn!', tag: 'Thủ Tục' },
+            { term: 'GPA / CPA', desc: 'GPA (Grade Point Average) là điểm trung bình học kỳ. CPA (Cumulative Grade Point Average) là điểm trung bình tích lũy từ đầu khóa học.', tag: 'Học Tập' },
+            { term: 'RBL (Research-Based Learning)', desc: 'Phương pháp học tập dựa trên nghiên cứu khoa học, đặc thù trong các môn CNTT & SE tại Đại học FPT/VKU.', tag: 'ĐH FPT' },
+            { term: 'Prerequisite Course (Môn tiên quyết)', desc: 'Môn học bạn bắt buộc phải qua (Pass) trước khi được đăng ký môn học tiếp theo. Ví dụ: PRF192 là môn tiên quyết của PRO192.', tag: 'ĐH FPT' },
+            { term: 'PE (Practical Exam) & FE (Final Exam)', desc: 'PE là bài thi thực hành trên máy (chiếm tỷ trọng cao môn code). FE là bài thi lý thuyết/trắc nghiệm cuối kỳ trên phần mềm EOS.', tag: 'Khảo Thí' },
+            { term: 'OJT (On the Job Training)', desc: 'Học kỳ thực tập thực tế 4-8 tháng tại doanh nghiệp đối tác của FPT từ kỳ 6 trở đi.', tag: 'Thực Tập' }
         ];
 
-        let currentTab = 'academic'; // Default tab set to Academic/Roadmap
+        let dealsList = [
+            { title: 'Giảm 50% Vé Xem Phim CGV/Lotte', category: 'Giải trí', desc: 'Đồng giá sinh viên từ thứ 2 đến thứ 6 khi xuất trình thẻ sinh viên FPT / VKU.' },
+            { title: 'Gói GitHub Student Developer Pack', category: 'Công nghệ', desc: 'Miễn phí Copilot, Domain .me, Canva Pro, JetBrains cho sinh viên IT.' },
+            { title: 'Tuyển Dev C/C++ / Web Thực Tập', category: 'Việc làm', desc: 'Công ty FPT Software Tuyển Thực Tập Sinh 2026 - Hỗ trợ phụ cấp 3.000.000đ/tháng.' }
+        ];
+
+        let currentTab = 'explore';
+        let selectedPlaceIdForDetail = null;
+
+        // Custom Finance State Management
         let monthlyBudget = 3500000;
         let expenses = [
             { id: 'exp_1', title: 'Tiền phòng trọ / KTX', amount: 1200000, category: 'Nhà ở' },
-            { id: 'exp_2', title: 'Tiền ăn uống nửa đầu tháng', amount: 1100000, category: 'Ăn uống' }
+            { id: 'exp_2', title: 'Tiền ăn uống nửa đầu tháng', amount: 1100000, category: 'Ăn uống' },
+            { id: 'exp_3', title: 'In ấn tài liệu & Giáo trình', amount: 150000, category: 'Học tập' },
+            { id: 'exp_4', title: 'Xăng xe & Gửi xe trường', amount: 200000, category: 'Khác' }
         ];
 
         window.addEventListener('DOMContentLoaded', () => {
+            const savedBudget = localStorage.getItem('student_monthly_budget');
+            const savedExpenses = localStorage.getItem('student_expenses_list');
+            if (savedBudget) monthlyBudget = parseFloat(savedBudget);
+            if (savedExpenses) expenses = JSON.parse(savedExpenses);
+
             renderTabContent();
             lucide.createIcons();
         });
+
+        function saveFinanceData() {
+            localStorage.setItem('student_monthly_budget', monthlyBudget);
+            localStorage.setItem('student_expenses_list', JSON.stringify(expenses));
+        }
 
         function switchTab(tab) {
             currentTab = tab;
             ['explore', 'academic', 'finance', 'community', 'glossary'].forEach(t => {
                 const btn = document.getElementById(`nav-${t}`);
                 if (btn) {
-                    if (t === tab) btn.className = "flex flex-col items-center space-y-1 text-emerald-600 transition";
-                    else btn.className = "flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition";
+                    if (t === tab) {
+                        btn.className = "flex flex-col items-center space-y-1 text-emerald-600 transition";
+                    } else {
+                        btn.className = "flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition";
+                    }
                 }
             });
             renderTabContent();
@@ -349,21 +595,47 @@
             lucide.createIcons();
         }
 
+        // --- 1. EXPLORE VIEW ---
         function renderExploreView() {
             return `
                 <div class="p-4 space-y-3.5">
                     <div class="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl p-4 text-white shadow-md flex items-center justify-between">
                         <div>
-                            <span class="px-2 py-0.5 bg-white/20 backdrop-blur-sm rounded text-[10px] font-bold uppercase">Bản Đồ ATM 2026</span>
-                            <h4 class="text-xs font-extrabold mt-1">Cây ATM & PGD An Toàn Hòa Quý</h4>
+                            <span class="px-2 py-0.5 bg-white/20 backdrop-blur-sm rounded text-[10px] font-bold uppercase tracking-wider">Hệ Thống Bản Đồ 2026</span>
+                            <h4 class="text-xs font-extrabold mt-1">ATM & Địa Điểm An Toàn Hòa Quý</h4>
+                            <p class="text-[10px] text-emerald-100 mt-0.5">Xác thực 100% quanh ĐH FPT & VKU</p>
                         </div>
-                        <i data-lucide="shield-check" class="w-8 h-8 text-white/80"></i>
+                        <div class="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center shrink-0">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-white"></i>
+                        </div>
                     </div>
+
                     <div class="space-y-3 pt-1">
                         ${places.map(p => `
-                            <div class="bg-white rounded-2xl border border-emerald-100 shadow-sm p-3 space-y-1 cursor-pointer" onclick="openDetailModal('${p.id}')">
-                                <h4 class="text-xs font-bold text-slate-800">${p.name}</h4>
-                                <p class="text-[11px] text-slate-500">${p.address}</p>
+                            <div class="bg-white rounded-2xl border border-emerald-100 shadow-sm overflow-hidden flex flex-col hover:shadow-md transition">
+                                <div class="relative h-36 bg-slate-100 bg-cover bg-center cursor-pointer" style="background-image: url('${p.image}')" onclick="openDetailModal('${p.id}')">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                                    <div class="absolute top-2.5 left-2.5">
+                                        <span class="px-2.5 py-1 bg-white/95 backdrop-blur-sm text-emerald-800 rounded-lg text-[10px] font-bold shadow-sm">${p.category}</span>
+                                    </div>
+                                    <div class="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between text-white text-[11px]">
+                                        <span class="font-medium bg-black/50 px-2 py-0.5 rounded backdrop-blur-sm text-[10px]">${p.university}</span>
+                                        <div class="flex items-center space-x-1 font-bold bg-emerald-600/90 px-2 py-0.5 rounded text-[10px]">
+                                            <span>⭐ 5.0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-3.5 space-y-2">
+                                    <h4 onclick="openDetailModal('${p.id}')" class="text-xs font-extrabold text-slate-800 hover:text-emerald-600 cursor-pointer">${p.name}</h4>
+                                    <p class="text-[11px] text-slate-500 truncate flex items-center space-x-1">
+                                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i>
+                                        <span>${p.address}</span>
+                                    </p>
+                                    <div class="p-2 bg-emerald-50/60 rounded-xl border border-emerald-100 text-[10px] text-emerald-800 font-medium flex items-center space-x-1.5">
+                                        <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i>
+                                        <span class="truncate">${p.safetyBadge}</span>
+                                    </div>
+                                </div>
                             </div>
                         `).join('')}
                     </div>
@@ -371,65 +643,247 @@
             `;
         }
 
-        // --- NEW ROADMAP VIEW (4-YEAR MAJOR ROADMAP FOR FPT UNIVERSITY DANANG) ---
+        // --- 2. ACADEMIC VIEW (FPT MAJORS ROADMAP HUB) ---
         function renderAcademicRoadmapView() {
-            const currentMajor = majorRoadmaps.find(m => m.id === selectedMajorId) || majorRoadmaps[0];
+            const majorData = fptRoadmaps[selectedMajorKey] || fptRoadmaps.SE;
+            
+            // Calculate total courses & total credits
+            let totalCourses = 0;
+            let totalCredits = 0;
+            majorData.semesters.forEach(s => {
+                totalCourses += s.courses.length;
+                s.courses.forEach(c => totalCredits += c.credits);
+            });
+
+            // Filter semesters if tab selected
+            const displaySemesters = activeSemesterFilter === 'All' 
+                ? majorData.semesters 
+                : majorData.semesters.filter(s => s.sem === parseInt(activeSemesterFilter));
 
             return `
                 <div class="p-4 space-y-4 text-xs">
-                    <!-- Title Banner -->
-                    <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm space-y-2">
-                        <div class="flex items-center space-x-2 text-emerald-600 font-bold">
-                            <i data-lucide="compass" class="w-4.5 h-4.5"></i>
-                            <h3 class="text-sm text-slate-800">Lộ Trình Học Tập 4 Năm Đại Học</h3>
+                    
+                    <!-- Major Selection Selector Header -->
+                    <div class="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 text-white p-4 rounded-2xl shadow-md space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 rounded text-[10px] font-bold border border-emerald-500/30 uppercase tracking-wider">Lộ Trình ĐH FPT</span>
+                            <span class="text-[10px] text-slate-300 font-semibold">Khóa K19 - K22</span>
                         </div>
-                        <p class="text-[11px] text-slate-500 leading-relaxed">Chi tiết môn học & khung chương trình từng học kỳ chuẩn Đại học FPT Đà Nẵng.</p>
+
+                        <div>
+                            <h3 class="text-sm font-extrabold text-white leading-tight">${majorData.name}</h3>
+                            <p class="text-[10px] text-slate-300 mt-1 leading-relaxed">${majorData.description}</p>
+                        </div>
+
+                        <!-- Major Selector Tabs -->
+                        <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 pt-1 no-scrollbar text-[10px]">
+                            ${Object.keys(fptRoadmaps).map(key => `
+                                <button onclick="changeMajor('${key}')" class="px-3 py-1.5 rounded-xl font-bold transition whitespace-nowrap ${selectedMajorKey === key ? 'bg-emerald-500 text-white shadow-md' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">
+                                    ${fptRoadmaps[key].code}
+                                </button>
+                            `).join('')}
+                        </div>
+
+                        <!-- Progress Bar & Quick Stats -->
+                        <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-[10px] text-slate-300">
+                            <div class="flex items-center space-x-1">
+                                <i data-lucide="book-open" class="w-3.5 h-3.5 text-emerald-400"></i>
+                                <span>Tổng: <strong>${totalCourses} Môn</strong></span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <i data-lucide="award" class="w-3.5 h-3.5 text-amber-400"></i>
+                                <span>Tích Lũy: <strong>${totalCredits} Tín Chỉ</strong></span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <i data-lucide="clock" class="w-3.5 h-3.5 text-teal-400"></i>
+                                <span>Thời gian: <strong>9 Học Kỳ</strong></span>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Major Selector Tabs -->
-                    <div class="space-y-1.5">
-                        <label class="block font-bold text-slate-700 text-[11px]">Chọn Ngành Học Của Bạn:</label>
-                        <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 no-scrollbar text-[10px]">
-                            ${majorRoadmaps.map(m => `
-                                <button onclick="selectMajor('${m.id}')" class="px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition flex items-center space-x-1 ${selectedMajorId === m.id ? 'bg-emerald-600 text-white shadow-md shadow-emerald-100' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'}">
-                                    <i data-lucide="${m.icon}" class="w-3.5 h-3.5"></i>
-                                    <span>${m.code}</span>
-                                </button>
+                    <!-- Semester Quick Filter Buttons -->
+                    <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 no-scrollbar text-[11px]">
+                        <button onclick="filterSemester('All')" class="px-3 py-1 rounded-xl font-bold whitespace-nowrap transition ${activeSemesterFilter === 'All' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600'}">
+                            Tất Cả Học Kỳ
+                        </button>
+                        ${majorData.semesters.map(s => `
+                            <button onclick="filterSemester('${s.sem}')" class="px-2.5 py-1 rounded-xl font-bold whitespace-nowrap transition ${activeSemesterFilter == s.sem ? 'bg-emerald-600 text-white shadow-sm' : 'bg-white border border-slate-200 text-slate-600'}">
+                                Kỳ ${s.sem}
+                            </button>
+                        `).join('')}
+                    </div>
+
+                    <!-- Calculator Card -->
+                    <div class="bg-white p-3.5 rounded-2xl border border-emerald-100 shadow-sm space-y-2.5">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-1.5 text-emerald-600 font-bold">
+                                <i data-lucide="calculator" class="w-4 h-4"></i>
+                                <h3 class="text-xs text-slate-800">Công Cụ Tính Điểm Final Exam (EOS)</h3>
+                            </div>
+                            <span class="text-[9px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md font-bold">Quy Chuẩn FPT</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[10px] text-slate-500 mb-1">Chuyên cần + Quá trình (40%)</label>
+                                <input type="number" id="scoreMid" value="7.5" max="10" step="0.1" class="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-slate-500 mb-1">Thi PE/Đồ án trước (nếu có)</label>
+                                <input type="number" id="scoreCc" value="6.0" max="10" step="0.1" class="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-xs">
+                            </div>
+                        </div>
+                        <button onclick="calculateFinalScore()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl transition shadow-md shadow-emerald-100 flex items-center justify-center space-x-1.5 text-xs">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                            <span>Tính Điểm Thi FE Cần Để Qua Môn</span>
+                        </button>
+                        <div id="calcResult" class="hidden p-2.5 bg-emerald-50/80 rounded-xl border border-emerald-200 text-emerald-900 font-medium leading-relaxed"></div>
+                    </div>
+
+                    <!-- ROADMAP TIMELINE LIST -->
+                    <div class="space-y-4 pt-1">
+                        ${displaySemesters.map(sem => `
+                            <div class="bg-white rounded-2xl border border-emerald-100 shadow-sm overflow-hidden">
+                                <!-- Semester Header -->
+                                <div class="bg-emerald-50/70 border-b border-emerald-100 p-3 flex items-center justify-between">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="w-6 h-6 bg-emerald-600 text-white rounded-lg flex items-center justify-center font-extrabold text-[11px]">K${sem.sem}</span>
+                                        <h4 class="font-extrabold text-slate-800 text-xs">${sem.title}</h4>
+                                    </div>
+                                    <span class="text-[10px] font-bold text-emerald-700 bg-white px-2 py-0.5 rounded-md border border-emerald-200/60">
+                                        ${sem.courses.length} Môn học
+                                    </span>
+                                </div>
+
+                                <!-- Courses List -->
+                                <div class="p-3 space-y-2.5">
+                                    ${sem.courses.map(c => `
+                                        <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-100 space-y-1 hover:border-emerald-200 transition">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center space-x-1.5">
+                                                    <span class="font-extrabold text-emerald-800 text-[11px] bg-emerald-100 px-1.5 py-0.5 rounded">${c.code}</span>
+                                                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded ${c.type === 'Cơ sở ngành' ? 'bg-blue-100 text-blue-800' : c.type === 'Chuyên ngành' ? 'bg-purple-100 text-purple-800' : c.type === 'Đồ án' ? 'bg-amber-100 text-amber-800' : 'bg-slate-200 text-slate-700'}">${c.type}</span>
+                                                </div>
+                                                <span class="text-[10px] font-semibold text-slate-400">${c.credits} Tín chỉ</span>
+                                            </div>
+                                            <h5 class="font-bold text-slate-800 text-[11px] leading-snug">${c.name}</h5>
+                                            <p class="text-[10px] text-slate-500 leading-relaxed">${c.desc}</p>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <!-- FPT Academic Advice Card -->
+                    <div class="bg-gradient-to-r from-teal-500 to-emerald-600 text-white p-4 rounded-2xl shadow-md space-y-2">
+                        <div class="flex items-center space-x-1.5 font-bold text-xs">
+                            <i data-lucide="lightbulb" class="w-4 h-4 text-amber-300"></i>
+                            <h4>Bí Kíp Sống Còn Tại ĐH FPT</h4>
+                        </div>
+                        <ul class="list-disc list-inside text-[10px] space-y-1 text-emerald-50 leading-relaxed">
+                            <li><strong>Prerequisite:</strong> Tuyệt đối không để rớt các môn tiên quyết (như PRF192, PRO192) kẻo bị delay học kỳ.</li>
+                            <li><strong>Điểm thi PE:</strong> Luôn đọc kỹ TestCase và giữ lại file Code chuẩn trước khi nộp bài.</li>
+                            <li><strong>Chuyên cần 20%:</strong> Nghỉ quá 20% tổng số buổi học sẽ lập tức bị cấm thi (Drop môn).</li>
+                        </ul>
+                    </div>
+
+                </div>
+            `;
+        }
+
+        // --- 3. CUSTOM SMART BUDGETING VIEW ---
+        function renderFinanceView() {
+            const totalSpent = expenses.reduce((acc, curr) => acc + curr.amount, 0);
+            const remaining = monthlyBudget - totalSpent;
+            const percentSpent = monthlyBudget > 0 ? Math.min(100, Math.round((totalSpent / monthlyBudget) * 100)) : 0;
+
+            return `
+                <div class="p-4 space-y-4 text-xs">
+                    <!-- Customizable Budget Card -->
+                    <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white p-4 rounded-2xl shadow-md space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">Cấu Hình Ngân Sách Sinh Viên</span>
+                            <button onclick="updateMonthlyBudgetPrompt()" class="px-2 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 rounded-lg text-[10px] font-semibold border border-emerald-500/30 flex items-center space-x-1">
+                                <i data-lucide="edit-3" class="w-3 h-3"></i>
+                                <span>Đặt Ngân Sách</span>
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 border-y border-slate-700/80 py-2.5">
+                            <div>
+                                <p class="text-[10px] text-slate-400">Tổng ngân sách tháng:</p>
+                                <h4 class="text-sm font-extrabold text-white">${monthlyBudget.toLocaleString()} VNĐ</h4>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-slate-400">Còn lại có thể chi:</p>
+                                <h4 class="text-sm font-extrabold ${remaining < 0 ? 'text-rose-400' : 'text-emerald-400'}">${remaining.toLocaleString()} VNĐ</h4>
+                            </div>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-[10px] text-slate-300">
+                                <span>Đã tiêu: ${totalSpent.toLocaleString()} VNĐ</span>
+                                <span>${percentSpent}%</span>
+                            </div>
+                            <div class="w-full bg-slate-700 h-2.5 rounded-full overflow-hidden">
+                                <div class="h-full transition-all duration-500 ${percentSpent > 85 ? 'bg-rose-500' : 'bg-emerald-400'}" style="width: ${percentSpent}%"></div>
+                            </div>
+                        </div>
+
+                        <p class="text-[10px] text-slate-300 italic">
+                            ${remaining < 0 ? '🚨 CẢNH BÁO: Bạn đã vượt quá ngân sách đặt ra!' : percentSpent > 75 ? '⚠️ Sắp chạm ngưỡng hạn mức! Hãy thắt chặt chi tiêu nhé.' : '✅ Tài chính an toàn. Chuẩn bị tiết kiệm được dư dả!'}
+                        </p>
+                    </div>
+
+                    <!-- Custom Expense Itemization -->
+                    <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-slate-800 text-xs flex items-center space-x-1.5">
+                                <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-600"></i>
+                                <span>Danh Sách Khoản Chi Theo Mục</span>
+                            </h4>
+                            <button onclick="openExpenseModal()" class="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-[10px] shadow-sm flex items-center space-x-1">
+                                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                                <span>Thêm Mục Chi</span>
+                            </button>
+                        </div>
+
+                        <!-- Expense Items List -->
+                        <div class="space-y-2 pt-1">
+                            ${expenses.length === 0 ? `
+                                <p class="text-center text-slate-400 text-[11px] py-4">Chưa có khoản chi nào. Nhấn "Thêm Mục Chi" để cài đặt!</p>
+                            ` : expenses.map(exp => `
+                                <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between">
+                                    <div class="space-y-0.5">
+                                        <div class="flex items-center space-x-1.5">
+                                            <span class="font-bold text-slate-800 text-[11px]">${exp.title}</span>
+                                            <span class="px-1.5 py-0.2 bg-emerald-100 text-emerald-800 rounded text-[9px] font-bold">${exp.category}</span>
+                                        </div>
+                                        <p class="text-[10px] font-extrabold text-emerald-700">${exp.amount.toLocaleString()} VNĐ</p>
+                                    </div>
+                                    <button onclick="deleteExpense('${exp.id}')" class="p-1.5 text-slate-400 hover:text-rose-600 transition" title="Xóa khoản chi">
+                                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                    </button>
+                                </div>
                             `).join('')}
                         </div>
                     </div>
 
-                    <!-- Selected Major Info Box -->
-                    <div class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white p-4 rounded-2xl shadow-sm space-y-1">
-                        <div class="flex items-center justify-between">
-                            <span class="px-2 py-0.5 bg-white/20 backdrop-blur-sm rounded text-[9px] font-extrabold uppercase">Khung Chương Trình Chuẩn FPT</span>
-                            <span class="text-[10px] font-bold text-emerald-100">8 - 9 Học Kỳ</span>
-                        </div>
-                        <h4 class="text-sm font-extrabold mt-1">${currentMajor.name}</h4>
-                        <p class="text-[10px] text-emerald-100 leading-relaxed">${currentMajor.description}</p>
-                    </div>
-
-                    <!-- Timeline Semesters Breakdown -->
-                    <div class="space-y-3 pt-1">
-                        <h4 class="font-bold text-slate-800 text-xs flex items-center space-x-1.5">
-                            <i data-lucide="milestone" class="w-4 h-4 text-emerald-600"></i>
-                            <span>Lộ Trình Từng Học Kỳ (Semester Breakdown)</span>
+                    <!-- Săn Deal -->
+                    <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm space-y-3">
+                        <h4 class="font-bold text-slate-800 text-xs flex items-center space-x-1">
+                            <i data-lucide="tag" class="w-3.5 h-3.5 text-emerald-600"></i>
+                            <span>Ưu Đãi & Deal Sinh Viên Giúp Tiết Kiệm</span>
                         </h4>
-
-                        <div class="relative border-l-2 border-emerald-300/70 ml-2 pl-4 space-y-3.5">
-                            ${currentMajor.semesters.map((s, index) => `
-                                <div class="relative group">
-                                    <!-- Timeline Node Circle -->
-                                    <div class="absolute -left-[23px] top-1.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white shadow-sm group-hover:scale-125 transition"></div>
-                                    
-                                    <!-- Card Content -->
-                                    <div class="bg-white p-3.5 rounded-2xl border border-emerald-100 shadow-sm space-y-1 hover:border-emerald-300 transition">
-                                        <div class="flex items-center justify-between">
-                                            <span class="font-bold text-emerald-800 text-xs">${s.sem}</span>
-                                            <span class="text-[9px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold border border-emerald-200/50">Kỳ ${index + 1}</span>
-                                        </div>
-                                        <p class="text-[11px] text-slate-700 font-medium leading-relaxed pt-0.5">${s.subjects}</p>
+                        <div class="space-y-2">
+                            ${dealsList.map(d => `
+                                <div class="p-3 bg-emerald-50/40 rounded-xl border border-emerald-100/60 space-y-1">
+                                    <div class="flex items-center justify-between">
+                                        <span class="font-bold text-slate-800 text-[11px]">${d.title}</span>
+                                        <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[9px]">${d.category}</span>
                                     </div>
+                                    <p class="text-[10px] text-slate-600 leading-relaxed">${d.desc}</p>
                                 </div>
                             `).join('')}
                         </div>
@@ -438,25 +892,174 @@
             `;
         }
 
-        function renderFinanceView() {
-            return `<div class="p-4 text-xs"><div class="bg-white p-4 rounded-2xl border border-emerald-100 font-bold">Quản lý tài chính cá nhân sinh viên</div></div>`;
-        }
-        function renderCommunityView() { return `<div class="p-4 text-xs"><div class="bg-white p-4 rounded-2xl border border-emerald-100 font-bold">Diễn đàn kết nối sinh viên</div></div>`; }
-        function renderGlossaryView() { return `<div class="p-4 text-xs"><div class="bg-white p-4 rounded-2xl border border-emerald-100 font-bold">Sổ tay thuật ngữ đại học</div></div>`; }
+        // --- 4. COMMUNITY VIEW ---
+        function renderCommunityView() {
+            return `
+                <div class="p-4 space-y-4 text-xs">
+                    <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm space-y-2">
+                        <div class="flex items-center space-x-2 text-emerald-600 font-bold">
+                            <i data-lucide="users" class="w-4 h-4"></i>
+                            <h3 class="text-sm text-slate-800">Tìm Bạn Học Nhóm & Ở Ghép</h3>
+                        </div>
+                        <p class="text-[11px] text-slate-500 leading-relaxed">Gắn kết sinh viên ĐH FPT & VKU Đà Nẵng cùng khu vực ở trọ Hòa Quý.</p>
+                        <button onclick="showToast('Đã mở tính năng ghép đôi học tập!')" class="w-full py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold rounded-xl transition text-[11px] border border-emerald-200/60">
+                            + Đăng Tin Tìm Bạn Học / Ở Ghép
+                        </button>
+                    </div>
 
-        function selectMajor(id) {
-            selectedMajorId = id;
+                    <div class="bg-gradient-to-r from-emerald-500 to-teal-600 text-white p-4 rounded-2xl shadow-md space-y-2.5">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 bg-white/20 backdrop-blur-sm rounded text-[10px] font-bold">Mental Health 💚</span>
+                            <i data-lucide="heart-pulse" class="w-4 h-4"></i>
+                        </div>
+                        <h4 class="font-bold text-xs">Góc Giải Tỏa Tâm Lý & Stress</h4>
+                        <p class="text-[10px] text-emerald-100 leading-relaxed">Cảm thấy áp lực với môi trường đại học mới? Làm bài trắc nghiệm ngắn để kiểm tra mức độ stress nhé.</p>
+                        <button onclick="showToast('Đang tải bài test tâm lý DASS-21...')" class="px-3 py-1.5 bg-white text-emerald-800 font-bold rounded-xl text-[10px] shadow-sm hover:bg-emerald-50 transition">
+                            Làm bài test DASS-21 (2 phút)
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- 5. GLOSSARY VIEW ---
+        function renderGlossaryView() {
+            return `
+                <div class="p-4 space-y-3.5 text-xs">
+                    <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm space-y-1">
+                        <h3 class="font-extrabold text-slate-800 text-sm">Sổ Tay Thuật Ngữ Đại Học FPT 📖</h3>
+                        <p class="text-slate-500 text-[11px]">Giải mã toàn bộ các khái niệm đặc thù dành riêng cho tân sinh viên.</p>
+                    </div>
+
+                    <div class="space-y-2.5">
+                        ${glossaryList.map(g => `
+                            <div class="bg-white p-3.5 rounded-2xl border border-emerald-100 shadow-sm space-y-1 hover:border-emerald-300 transition">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="font-bold text-emerald-800 text-xs">${g.term}</h4>
+                                    <span class="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded text-[9px] font-bold border border-emerald-200/50">${g.tag}</span>
+                                </div>
+                                <p class="text-[11px] text-slate-600 leading-relaxed">${g.desc}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- ACADEMIC ROADMAP HANDLERS ---
+        function changeMajor(key) {
+            selectedMajorKey = key;
+            activeSemesterFilter = 'All';
+            renderTabContent();
+            showToast(`Đã chuyển sang lộ trình: ${fptRoadmaps[key].name}`);
+        }
+
+        function filterSemester(sem) {
+            activeSemesterFilter = sem;
             renderTabContent();
         }
 
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMessage').innerText = msg;
-            toast.classList.remove('-translate-y-20', 'opacity-0');
-            setTimeout(() => toast.classList.add('-translate-y-20', 'opacity-0'), 2500);
+        function calculateFinalScore() {
+            const cc = parseFloat(document.getElementById('scoreMid').value) || 0;
+            const mid = parseFloat(document.getElementById('scoreCc').value) || 0;
+            const currentTotal = (cc * 0.4) + (mid * 0.2); // Weighted components
+
+            const neededFor4 = Math.max(4.0, ((4.0 - currentTotal) / 0.4)).toFixed(1);
+            const neededFor7 = Math.max(4.0, ((7.0 - currentTotal) / 0.4)).toFixed(1);
+
+            const resultDiv = document.getElementById('calcResult');
+            resultDiv.classList.remove('hidden');
+            resultDiv.innerHTML = `
+                <p class="font-bold text-xs text-emerald-950 mb-1">🎯 Điểm Thi FE Cần Đạt (Trọng số 40%):</p>
+                <ul class="list-disc list-inside space-y-1 text-[11px]">
+                    <li>Để <strong>Qua môn (Điểm D)</strong>: Cần đạt tối thiểu <strong>${neededFor4}</strong> / 10 điểm FE.</li>
+                    <li>Để đạt <strong>Điểm Khá/Giỏi (Điểm B/A)</strong>: Cần đạt khoảng <strong>${neededFor7}</strong> / 10 điểm FE.</li>
+                </ul>
+            `;
         }
-        function openDetailModal(id) { document.getElementById('detailModal').classList.remove('hidden'); }
-        function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
+
+        // --- FINANCE LOGIC & HANDLERS ---
+        function updateMonthlyBudgetPrompt() {
+            const input = prompt("Nhập tổng ngân sách chi tiêu tháng mới (VNĐ):", monthlyBudget);
+            if (input !== null && !isNaN(input) && parseFloat(input) >= 0) {
+                monthlyBudget = parseFloat(input);
+                saveFinanceData();
+                renderTabContent();
+                showToast("Cập nhật tổng ngân sách thành công!");
+            }
+        }
+
+        function openExpenseModal() {
+            document.getElementById('expenseModal').classList.remove('hidden');
+        }
+
+        function closeExpenseModal() {
+            document.getElementById('expenseModal').classList.add('hidden');
+        }
+
+        function handleAddExpense(e) {
+            e.preventDefault();
+            const title = document.getElementById('expenseTitle').value;
+            const amount = parseFloat(document.getElementById('expenseAmount').value) || 0;
+            const category = document.getElementById('expenseCategory').value;
+
+            const newExp = {
+                id: 'exp_' + Date.now(),
+                title: title,
+                amount: amount,
+                category: category
+            };
+
+            expenses.unshift(newExp);
+            saveFinanceData();
+            closeExpenseModal();
+            renderTabContent();
+            showToast("Đã thêm mục chi tiêu thành công!");
+        }
+
+        function deleteExpense(id) {
+            expenses = expenses.filter(e => e.id !== id);
+            saveFinanceData();
+            renderTabContent();
+            showToast("Đã xóa khoản chi!");
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = message;
+            toast.classList.remove('-translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('-translate-y-20', 'opacity-0');
+            }, 2500);
+        }
+
+        function openDetailModal(id) {
+            const p = places.find(item => item.id === id);
+            if (!p) return;
+            selectedPlaceIdForDetail = id;
+
+            document.getElementById('detailModalHeader').style.backgroundImage = `url('${p.image}')`;
+            document.getElementById('detailCategoryBadge').innerText = p.category;
+            document.getElementById('detailName').innerText = p.name;
+            document.getElementById('detailAddress').innerText = p.address;
+            document.getElementById('detailPriceBadge').innerText = p.priceRange;
+            document.getElementById('detailUniversity').innerText = p.university;
+            document.getElementById('detailTrustLevel').innerText = p.trustRating;
+            document.getElementById('detailReview').innerText = p.review;
+
+            const googleMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.name + ' ' + p.address)}`;
+            document.getElementById('detailGoogleMapLink').href = googleMapUrl;
+
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+        }
+
+        function toggleSaveFromDetail() {
+            showToast('Đã lưu địa điểm cá nhân!');
+        }
     </script>
 </body>
 
