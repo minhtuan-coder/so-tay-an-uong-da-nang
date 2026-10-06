@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sinh Viên Đà Nẵng - Academic & Finance Hub</title>
+    <title>Sinh Viên Đà Nẵng - Roadmap & Campus Assistant</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -72,7 +72,7 @@
                 </div>
                 <div>
                     <h1 class="text-sm font-extrabold text-slate-800 leading-tight">Sinh Viên Đà Nẵng 🍀</h1>
-                    <p class="text-[10px] font-medium text-emerald-600">Trợ lý toàn năng • Khu FPT & VKU</p>
+                    <p class="text-[10px] font-medium text-emerald-600">Trợ lý & Roadmap • ĐH FPT Đà Nẵng</p>
                 </div>
             </div>
             <div class="flex items-center space-x-1.5">
@@ -88,7 +88,7 @@
             <div class="flex items-center justify-center h-full">
                 <div class="text-center space-y-2">
                     <div class="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-                    <p class="text-xs text-slate-500">Đang tải kho tài liệu & hệ thống môn học...</p>
+                    <p class="text-xs text-slate-500">Đang khởi tạo Lộ trình học tập ĐH FPT...</p>
                 </div>
             </div>
         </main>
@@ -100,8 +100,8 @@
                 <span class="text-[9px] font-bold">Địa Điểm</span>
             </button>
             <button onclick="switchTab('academic')" id="nav-academic" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition">
-                <i data-lucide="graduation-cap" class="w-5 h-5"></i>
-                <span class="text-[9px] font-semibold">Học Tập</span>
+                <i data-lucide="map" class="w-5 h-5"></i>
+                <span class="text-[9px] font-semibold">Roadmap</span>
             </button>
             <button onclick="switchTab('finance')" id="nav-finance" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition">
                 <i data-lucide="wallet" class="w-5 h-5"></i>
@@ -118,65 +118,6 @@
         </nav>
     </div>
 
-    <!-- DOCUMENT PREVIEW MODAL (DOCUMENT VIEWER UI LIKE PDF/DOCX) -->
-    <div id="docPreviewModal" class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
-        <div class="bg-slate-100 w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-slate-200 max-h-[90vh] flex flex-col">
-            <!-- Modal Header Toolbar -->
-            <div class="p-3 border-b border-slate-200 flex items-center justify-between bg-white shrink-0">
-                <div class="flex items-center space-x-2">
-                    <span id="previewSubjectBadge" class="px-2 py-0.5 bg-emerald-600 text-white font-bold rounded text-[10px]">CSI106</span>
-                    <h3 id="previewTitleHeader" class="text-xs font-bold text-slate-800 truncate max-w-[180px]">Xem Trước Tài Liệu</h3>
-                </div>
-                <div class="flex items-center space-x-1">
-                    <button onclick="showToast('Tính năng phóng to')" class="p-1 text-slate-500 hover:bg-slate-100 rounded-lg"><i data-lucide="zoom-in" class="w-4 h-4"></i></button>
-                    <button onclick="closeDocPreviewModal()" class="p-1 text-slate-400 hover:text-slate-600 rounded-full"><i data-lucide="x" class="w-4 h-4"></i></button>
-                </div>
-            </div>
-            
-            <!-- Document Reader Page Simulation -->
-            <div class="p-3 overflow-y-auto space-y-3 flex-1 text-xs">
-                <!-- PDF Toolbar Bar -->
-                <div class="bg-slate-200/80 px-3 py-1.5 rounded-xl flex items-center justify-between text-[10px] text-slate-600 font-semibold">
-                    <div class="flex items-center space-x-1">
-                        <i data-lucide="file-text" class="w-3.5 h-3.5 text-emerald-600"></i>
-                        <span>Chế độ đọc PDF</span>
-                    </div>
-                    <span>Trang 1 / 10</span>
-                </div>
-
-                <!-- White Paper Sheet -->
-                <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 text-slate-800 space-y-3 font-sans leading-relaxed min-h-[320px]">
-                    <div class="border-b border-slate-100 pb-2 flex justify-between items-start">
-                        <div>
-                            <p class="text-[9px] font-bold text-emerald-700 uppercase tracking-wide">TRƯỜNG ĐẠI HỌC FPT / VKU ĐÀ NẴNG</p>
-                            <h4 id="docPaperTitle" class="text-xs font-extrabold text-slate-900 mt-0.5">Tên Tài Liệu</h4>
-                        </div>
-                        <span id="previewDocAuthor" class="text-[9px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">Tác giả</span>
-                    </div>
-
-                    <!-- Main Readable Document Content -->
-                    <div id="previewDocContent" class="text-[11px] space-y-2 text-slate-700">
-                        <!-- Rendered Document View -->
-                    </div>
-                </div>
-
-                <div class="p-2.5 bg-emerald-50 rounded-xl border border-emerald-100 text-[10px] text-emerald-800 flex items-center justify-between">
-                    <span id="previewDocDetails">Dung lượng: 4.2 MB</span>
-                    <span class="font-bold">Đã kiểm duyệt 100%</span>
-                </div>
-            </div>
-
-            <!-- Action Bottom Bar -->
-            <div class="p-3 border-t border-slate-200 bg-white flex items-center justify-between shrink-0">
-                <button onclick="closeDocPreviewModal()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs">Đóng</button>
-                <button id="downloadModalBtn" onclick="" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-md shadow-emerald-100 flex items-center space-x-1.5">
-                    <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                    <span>Tải File Đầy Đủ</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Expense Modal -->
     <div id="expenseModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-emerald-100 flex flex-col">
@@ -190,7 +131,7 @@
             <form onsubmit="handleAddExpense(event)" class="p-4 space-y-3 text-xs">
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">Tên khoản chi *</label>
-                    <input type="text" id="expenseTitle" required placeholder="Ví dụ: Tiền mua giáo trình, Cà phê..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <input type="text" id="expenseTitle" required placeholder="Ví dụ: Tiền giáo trình, Cà phê..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
                 </div>
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">Số tiền (VNĐ) *</label>
@@ -274,151 +215,107 @@
             }
         ];
 
-        // Extended Academic Documents Store (12 Subject Categories)
-        let academicDocs = [
-            { 
-                id: 'doc_1', 
-                subject: 'CSI106', 
-                title: 'Bộ 50 Đề Thi Practical Exam (PE) C Programming & Đáp Án Mẫu', 
-                type: 'Đề Thi PE/FE', 
-                size: '4.2 MB', 
-                author: 'Thầy Cường FPT',
-                previewHTML: `
-                    <p class="font-bold text-slate-900">PHẦN 1: BÀI TẬP KIỂM TRA SỐ NGUYÊN TỐ & MẢNG 1 CHIỀU</p>
-                    <p><strong>Câu 1 (3.0 điểm):</strong> Viết chương trình nhập vào một mảng n số nguyên từ bàn phím. Hãy thực hiện:</p>
-                    <ul class="list-disc list-inside pl-2 space-y-1 my-1.5 text-slate-600">
-                        <li>Xuất danh sách các số nguyên tố có trong mảng.</li>
-                        <li>Tính tổng và trung bình cộng các số ở vị trí chẵn.</li>
-                    </ul>
-                    <p class="font-bold text-slate-900 mt-2">HƯỚNG DẪN GIẢI MẪU (SOLUTION):</p>
-                    <p class="bg-slate-50 p-2 rounded border border-slate-200 text-[10px]">Học sinh chú ý khai báo hàm <code>checkPrime(int n)</code> trước hàm <code>main()</code>. Sử dụng vòng lặp từ 2 đến sqrt(n) để tối ưu thời gian chạy bài thi PE.</p>
-                `
+        // 4-YEAR MAJORS ROADMAP STORE (ĐẠI HỌC FPT ĐÀ NẴNG)
+        let majorRoadmaps = [
+            {
+                id: 'se',
+                name: 'Software Engineering (Kỹ Thuật Phần Mềm)',
+                code: 'SE',
+                icon: 'code-2',
+                description: 'Lộ trình từ Lập trình căn bản đến Kỹ sư Phần mềm Chuyên nghiệp, Thực tập OJT tại doanh nghiệp công nghệ.',
+                semesters: [
+                    { sem: 'Nền tảng (Giai đoạn chuẩn bị)', subjects: 'Rèn luyện Quân sự (QP201), Tiếng Anh Dự Bị (Preparation English Level 1-6), Nhạc cụ Dân tộc (Traditional Instruments).' },
+                    { sem: 'Học Kỳ 1 (Nền tảng IT)', subjects: 'CSI106 (C Programming), MAE101 (Calculus 1), SSG104 (Communication Skills), CEA201 (Computer Architecture).' },
+                    { sem: 'Học Kỳ 2 (Lập trình Hướng đối tượng)', subjects: 'PRO192 (OOP Java), MAD101 (Discrete Mathematics), OSG202 (Operating Systems), NWC203c (Computer Networking).' },
+                    { sem: 'Học Kỳ 3 (Cơ sở dữ liệu & Cấu trúc dữ liệu)', subjects: 'DBI202 (Database Systems), CSD201 (Data Structures & Algorithms), JPD113 (Japanese Level 1/2), WED201c (Web Design HTML/CSS).' },
+                    { sem: 'Học Kỳ 4 (Lập trình Web & Thiết kế PM)', subjects: 'PRJ301 (Java Web Applications), SWE201 (Software Engineering), SWR302 (Software Requirements), SWE202 (Software Architecture).' },
+                    { sem: 'Học Kỳ 5 (Dự án Thực tế & Công nghệ nâng cao)', subjects: 'SWP391 (Software Development Project), PRN211 (.NET / C#), PRM392 (Mobile App Dev - Android/Flutter).' },
+                    { sem: 'Học Kỳ 6 (On-the-Job Training - OJT)', subjects: 'OJT490 (Thực tập thực tế 4-8 tháng tại FPT Software Đà Nẵng, Viettel, Enclave hoặc các Doanh nghiệp CNTT đối tác).' },
+                    { sem: 'Học Kỳ 7 & 8 (Chuyên sâu & Khóa luận)', subjects: 'SWT301 (Software Testing), PRJ321 (Advanced Web), BLA301 (Business Law), Capstone Project (Đồ án Tốt nghiệp Kỹ sư phần mềm).' }
+                ]
             },
-            { 
-                id: 'doc_2', 
-                subject: 'MAE101', 
-                title: 'Tóm Tắt Công Thức Đạo Hàm, Tích Phân & Bài Tập Ôn Thi FE Calculus 1', 
-                type: 'Tài Liệu Ôn Thi', 
-                size: '2.8 MB', 
-                author: 'Ban Cố Vấn MAE',
-                previewHTML: `
-                    <p class="font-bold text-slate-900">CHƯƠNG 1: GIỚI HẠN & HÀM SỐ (LIMITS & CONTINUITY)</p>
-                    <p><strong>1. Quy tắc L'Hôpital:</strong> Áp dụng cho các dạng vô định 0/0 hoặc ∞/∞ bằng cách lấy đạo hàm cả tử và mẫu.</p>
-                    <p><strong>2. Phương pháp Newton-Raphson:</strong> Công thức lặp tìm nghiệm gần đúng:</p>
-                    <p class="p-2 bg-emerald-50 text-emerald-900 font-bold rounded text-center my-1">x_(n+1) = x_n - f(x_n) / f'(x_n)</p>
-                    <p class="text-slate-600">Dạng bài này xuất hiện 100% trong đề thi Progress Test và Final Exam!</p>
-                `
+            {
+                id: 'ai',
+                name: 'Artificial Intelligence (Trí Tuệ Nhân Tạo)',
+                code: 'AI',
+                icon: 'bot',
+                description: 'Tập trung vào Machine Learning, Deep Learning, Xử lý Ngôn ngữ Tự nhiên (NLP) và Thị giác Máy tính.',
+                semesters: [
+                    { sem: 'Nền tảng & Tiếng Anh', subjects: 'Giai đoạn Chuẩn bị Tiếng Anh Academic, Giáo dục Quốc phòng, Võ Thuật Vovinam.' },
+                    { sem: 'Học Kỳ 1 & 2 (Cơ sở Toán & Lập trình Python)', subjects: 'PRF192 (Programming Fundamentals), PRP201 (Python for AI), MAS291 (Statistics & Probability), MAE101 (Calculus).' },
+                    { sem: 'Học Kỳ 3 & 4 (Khoa học Dữ liệu & ML)', subjects: 'DSI201 (Data Science Fundamentals), AIL101 (Machine Learning), DBI202 (Database Systems), CSD201 (Algorithms).' },
+                    { sem: 'Học Kỳ 5 (Deep Learning & AI nâng cao)', subjects: 'DLG301 (Deep Learning Frameworks - PyTorch/TensorFlow), AI-CV (Computer Vision), AI-NLP (Natural Language Processing).' },
+                    { sem: 'Học Kỳ 6 (OJT - Thực tập Doanh nghiệp)', subjects: 'Thực tập tại các viện nghiên cứu AI, FPT Software AI Center Đà Nẵng, các dự án AI thực tế.' },
+                    { sem: 'Học Kỳ 7 & 8 (Chuyên sâu AI & Khóa luận)', subjects: 'AI Ethics & Applications, Advanced Reinforcement Learning, Khóa luận Tốt nghiệp Trí tuệ Nhân tạo.' }
+                ]
             },
-            { 
-                id: 'doc_3', 
-                subject: 'MAD101', 
-                title: 'Bộ Đề Trắc Nghiệm Toán Rời Rạc (Discrete Mathematics) Có Giải Chi Tiết', 
-                type: 'Đề Thi FE', 
-                size: '3.1 MB', 
-                author: 'K19 VKU Academic',
-                previewHTML: `
-                    <p class="font-bold text-slate-900">ĐỀ THI KHẢO SÁT MAD101 - CHỦ ĐỀ LÝ THUYẾT ĐỒ THỊ (GRAPH THEORY)</p>
-                    <p><strong>Câu 1:</strong> Đồ thị đơn vô hướng G có 5 đỉnh và bậc của các đỉnh lần lượt là 2, 2, 3, 3, 4. Hỏi G có bao nhiêu cạnh?</p>
-                    <p class="text-slate-600"><strong>Đáp án & Giải thích:</strong> Theo Bổ đề Bắt tay (Handshaking Lemma): Tổng bậc = 2 * Số cạnh => 2 + 2 + 3 + 3 + 4 = 14 => Số cạnh = 7.</p>
-                `
+            {
+                id: 'ia',
+                name: 'Information Assurance (An Toàn Thông Tin)',
+                code: 'IA',
+                icon: 'shield-alert',
+                description: 'Đào tạo Chuyên gia Bảo mật, Kiểm thử Năng lực Hệ thống (Penetration Testing) và Phòng vệ Mạng.',
+                semesters: [
+                    { sem: 'Học Kỳ 1 & 2 (Nền tảng Mạng & Lập trình)', subjects: 'NWC203c (Networking), CSI106 (C Programming), OSG202 (Linux/Windows Systems), MAE101.' },
+                    { sem: 'Học Kỳ 3 & 4 (Mật mã học & An ninh Mạng)', subjects: 'CRY301 (Cryptography), IAP101 (Information Security Principles), NWC302 (Network Security), System Administration.' },
+                    { sem: 'Học Kỳ 5 (Ethical Hacking & Forensics)', subjects: 'SEC301 (Penetration Testing / Ethical Hacking), FOR301 (Digital Forensics), Web Security & Malware Analysis.' },
+                    { sem: 'Học Kỳ 6 (OJT - Thực tập Thực tế)', subjects: 'Thực tập tại các Trung tâm SOC, Doanh nghiệp An toàn Thông tin, Ngân hàng & Tập đoàn Đa quốc gia.' },
+                    { sem: 'Học Kỳ 7 & 8 (Chính sách Bảo mật & Đồ án)', subjects: 'Security Standards (ISO 27001), Security Risk Management, Capstone Project An toàn Thông tin.' }
+                ]
             },
-            { 
-                id: 'doc_4', 
-                subject: 'PRO192', 
-                title: 'Slide Bài Giảng Java OOP & Đề Thi PE Lập Trình Hướng Đối Tượng', 
-                type: 'Slide & Code', 
-                size: '8.5 MB', 
-                author: 'Bộ Môn SE FPT',
-                previewHTML: `
-                    <p class="font-bold text-slate-900">4 TÍNH CHẤT CỐT LÕI CỦA LẬP TRÌNH HƯỚNG ĐỐI TƯỢNG (OOP)</p>
-                    <ol class="list-decimal list-inside space-y-1 my-1.5 text-slate-700">
-                        <li><strong>Tính Đóng Gói (Encapsulation):</strong> Sử dụng private/protected và Getter/Setter.</li>
-                        <li><strong>Tính Kế Thừa (Inheritance):</strong> Từ khóa <code>extends</code> trong Java.</li>
-                        <li><strong>Tính Đa Hình (Polymorphism):</strong> Overriding & Overloading.</li>
-                        <li><strong>Tính TrừU Tượng (Abstraction):</strong> Abstract Class & Interface.</li>
-                    </ol>
-                `
+            {
+                id: 'gd',
+                name: 'Graphic Design (Thiết Kế Đồ Họa / Truyền Thông)',
+                code: 'GD',
+                icon: 'palette',
+                description: 'Sáng tạo Mỹ thuật Số, UI/UX Design, Đồ họa 2D/3D, Animation và Bối cảnh Truyền thông Thương hiệu.',
+                semesters: [
+                    { sem: 'Học Kỳ 1 & 2 (Nghệ thuật & Công cụ Cơ bản)', subjects: 'ART101 (Mỹ thuật Căn bản), DGD101 (Digital Graphic Tools - Photoshop/Illustrator), Typography, Color Theory.' },
+                    { sem: 'Học Kỳ 3 & 4 (Thiết kế Thương hiệu & UI/UX)', subjects: 'BRD201 (Brand Identity Design), UI/UX Design for Mobile & Web, Layout & Publication, Photography Fundamentals.' },
+                    { sem: 'Học Kỳ 5 (Đồ họa Chuyển động & 3D)', subjects: 'ANI301 (Motion Graphics - After Effects), 3D Modeling Basics (Blender/Maya), Video Editing & Post-Production.' },
+                    { sem: 'Học Kỳ 6 (OJT - Thực tập Studio/Agency)', subjects: 'Thực tập tại các Agency Truyền thông, Studio Thiết kế, Công ty Game & Phim Ảnh tại Đà Nẵng.' },
+                    { sem: 'Học Kỳ 7 & 8 (Triển lãm & Khóa luận Tốt nghiệp)', subjects: 'Portfolio Design, Portfolio Exhibition, Capstone Graduation Project (Đồ án Truyền thông Thị giác).' }
+                ]
             },
-            { 
-                id: 'doc_5', 
-                subject: 'PRJ301', 
-                title: 'Template Dự Án Web JSP/Servlet Chuẩn Mô Hình MVC & SQL Server', 
-                type: 'Code Mẫu & Project', 
-                size: '15.5 MB', 
-                author: 'Dev Club Danang',
-                previewHTML: `
-                    <p class="font-bold text-slate-900">MÔ HÌNH THIẾT KẾ WEB MVC TRONG PRJ301</p>
-                    <p><strong>Model:</strong> Chứa Java Beans & Các lớp DAO (Data Access Object) tương tác CSDL SQL Server.</p>
-                    <p><strong>View:</strong> Các trang JSP / HTML hiển thị giao diện người dùng.</p>
-                    <p><strong>Controller:</strong> Các Servlet xử lý Request và Forward tới View phù hợp.</p>
-                `
+            {
+                id: 'ba',
+                name: 'Business Administration (Quản Trị Kinh Doanh / Digital Marketing)',
+                code: 'BA/MKT',
+                icon: 'briefcase',
+                description: 'Đào tạo Nhà quản trị Kinh doanh Thời đại Số, Marketing kĩ thuật số và Khởi nghiệp Công nghệ.',
+                semesters: [
+                    { sem: 'Học Kỳ 1 & 2 (Nền tảng Kinh tế & Quản trị)', subjects: 'ECO111 (Microeconomics), ECO121 (Macroeconomics), MGT103 (Management Principles), MKT101 (Marketing Fundamentals).' },
+                    { sem: 'Học Kỳ 3 & 4 (Kinh doanh Số & Tài chính)', subjects: 'FIN202 (Corporate Finance), ACC101 (Financial Accounting), MKT201 (Digital Marketing Strategy), SEO/SEM & Content Marketing.' },
+                    { sem: 'Học Kỳ 5 (Quản trị Chiến lược & Thương mại Điện tử)', subjects: 'STR301 (Strategic Management), E-Commerce Systems, Social Media Marketing, Data Analytics for Business.' },
+                    { sem: 'Học Kỳ 6 (OJT - Thực tập Doanh nghiệp)', subjects: 'Thực tập vị trí Business Analyst, Marketing Executive tại các Tập đoàn & Công ty Đa quốc gia.' },
+                    { sem: 'Học Kỳ 7 & 8 (Khởi nghiệp & Khóa luận Tốt nghiệp)', subjects: 'ENT301 (Entrepreneurship / Khởi nghiệp), Supply Chain Management, Business Graduation Project.' }
+                ]
             },
-            { 
-                id: 'doc_6', 
-                subject: 'DBI202', 
-                title: 'Tổng Hợp Lệnh SQL Server Query, Join Table & Trigger Chống Học Lại', 
-                type: 'Tài Liệu Cốt Lõi', 
-                size: '3.6 MB', 
-                author: 'Thầy Hùng DB',
-                previewHTML: `
-                    <p class="font-bold text-slate-900">MỘT SỐ CÂU LỆNH SQL HAY GẶP TRONG ĐỀ THI PE DBI202</p>
-                    <p>1. Lệnh INNER JOIN kết hợp 2 bảng:</p>
-                    <p class="p-2 bg-slate-100 font-mono text-[10px] my-1">SELECT e.EmpID, e.EmpName, d.DeptName FROM Employee e JOIN Department d ON e.DeptID = d.DeptID;</p>
-                    <p>2. Lệnh GROUP BY kết hợp điều kiện HAVING lọc dữ liệu sau khi nhóm.</p>
-                `
-            },
-            { 
-                id: 'doc_7', 
-                subject: 'OSG202', 
-                title: 'Tóm Tắt Lý Thuyết Hệ Điều Hành: Định Thời CPU, Tiến Trình & Bộ Nhớ Ảo', 
-                type: 'Slide Tóm Tắt', 
-                size: '4.0 MB', 
-                author: 'K18 Software',
-                previewHTML: `
-                    <p class="font-bold text-slate-900">CÁC THUẬT TOÁN ĐỊNH THỜI CPU (CPU SCHEDULING)</p>
-                    <p><strong>- FCFS (First-Come, First-Served):</strong> Đến trước phục vụ trước.</p>
-                    <p><strong>- SJF (Shortest Job First):</strong> Tiến trình ngắn nhất làm trước.</p>
-                    <p><strong>- Round Robin (RR):</strong> Phân chia thời gian theo Quantum (khung thời gian cố định).</p>
-                `
-            },
-            { 
-                id: 'doc_8', 
-                subject: 'NWC203c', 
-                title: 'Bộ Ôn Tập Mạng Máy Tính: Mô Hình OSI, TCP/IP & Chia Mạng Con Subnetting', 
-                type: 'Đề Thi Trắc Nghiệm', 
-                size: '3.2 MB', 
-                author: 'VKU IT Club',
-                previewHTML: `
-                    <p class="font-bold text-slate-900">7 TẦNG TRONG MÔ HÌNH OSI (OSI 7 LAYERS)</p>
-                    <p class="text-slate-700">1. Physical -> 2. Data Link -> 3. Network -> 4. Transport -> 5. Session -> 6. Presentation -> 7. Application</p>
-                    <p class="mt-1"><strong>Mẹo ghi nhớ:</strong> <em>"Anh Đi Làm Về Sớm Phải Tắm"</em> (Viết tắt tầng 7 xuống tầng 1).</p>
-                `
-            },
-            { 
-                id: 'doc_9', 
-                subject: 'SWP391', 
-                title: 'Mẫu Báo Cáo Software Project, Sơ Đồ Use Case & ERD Chuẩn Đạt Điểm A', 
-                type: 'Báo Cáo Mẫu', 
-                size: '12.0 MB', 
-                author: 'Nhóm SV FPT K17',
-                previewHTML: `
-                    <p class="font-bold text-slate-900">CÁC BƯỚC THỰC HIỆN DỰ ÁN SWP391 CHUẨN AGILE/SCRUM</p>
-                    <p><strong>Sprint 1:</strong> Thu thập yêu cầu, dựng Wireframe & Thiết kế CSDL (ERD).</p>
-                    <p><strong>Sprint 2:</strong> Lập trình chức năng Authentication, Role-based Access Control.</p>
-                    <p><strong>Sprint 3:</strong> Testing (Unit Test, Integration Test) & Deployment lên Vercel/Render.</p>
-                `
+            {
+                id: 'hm',
+                name: 'Hotel Management (Quản Trị Khách Sạn / Du Lịch)',
+                code: 'HM',
+                icon: 'hotel',
+                description: 'Chuẩn năng lực Quản lý Khách sạn Chuẩn Quốc tế, Dịch vụ F&B, Event Management và Vận hành Resort 5 sao.',
+                semesters: [
+                    { sem: 'Học Kỳ 1 & 2 (Tổng quan Ngành Dịch vụ Hàng hải)', subjects: 'HOS101 (Introduction to Hospitality), FOO101 (Front Office Operations), HKP101 (Housekeeping Management).' },
+                    { sem: 'Học Kỳ 3 & 4 (Quản trị Nhà hàng & Sự kiện)', subjects: 'FBO201 (Food & Beverage Operations), EVM201 (Event & Wedding Management), Hospitality English, Service Excellence.' },
+                    { sem: 'Học Kỳ 5 (Quản trị Doanh thu & Nhân sự Khách sạn)', subjects: 'REV301 (Revenue Management in Hotels), HRM201 (Human Resource in Hospitality), Hotel Property Management Systems (PMS).' },
+                    { sem: 'Học Kỳ 6 (OJT - Thực tập Resort 5 sao)', subjects: 'Thực tập 6 tháng tại các Chuỗi Khách sạn & Resort 5 sao Đà Nẵng - Hội An (InterContinental, Marriott, Vinpearl).' },
+                    { sem: 'Học Kỳ 7 & 8 (Chiến lược & Đồ án Tốt nghiệp)', subjects: 'Strategic Hospitality Management, Sustainable Tourism, Capstone Project Quản trị Khách sạn.' }
+                ]
             }
         ];
 
-        let selectedDocSubject = 'Tất cả';
-
+        let selectedMajorId = 'se';
         let glossaryList = [
             { term: 'ĐKTC (Đăng ký tín chỉ)', desc: 'Quá trình sinh viên tự chọn môn học, thời gian và giảng viên trên portal trường.', tag: 'Thủ Tục' },
             { term: 'GPA / CPA', desc: 'GPA là điểm trung bình học kỳ. CPA là điểm trung bình tích lũy toàn khóa.', tag: 'Học Tập' },
-            { term: 'RBL (Research-Based Learning)', desc: 'Phương pháp học tập dựa trên nghiên cứu khoa học tại ĐH FPT/VKU.', tag: 'ĐH FPT' }
+            { term: 'OJT (On-the-Job Training)', desc: 'Học kỳ thực tập thực tế tại doanh nghiệp (kéo dài 4-8 tháng từ học kỳ 6), điểm đặc trưng của SV Đại học FPT.', tag: 'Thực Tập' },
+            { term: 'RBL (Research-Based Learning)', desc: 'Phương pháp học tập dựa trên nghiên cứu khoa học tại ĐH FPT Đà Nẵng.', tag: 'ĐH FPT' }
         ];
 
-        let currentTab = 'explore';
+        let currentTab = 'academic'; // Default tab set to Academic/Roadmap
         let monthlyBudget = 3500000;
         let expenses = [
             { id: 'exp_1', title: 'Tiền phòng trọ / KTX', amount: 1200000, category: 'Nhà ở' },
@@ -445,7 +342,7 @@
         function renderTabContent() {
             const container = document.getElementById('mainContainer');
             if (currentTab === 'explore') container.innerHTML = renderExploreView();
-            else if (currentTab === 'academic') container.innerHTML = renderAcademicView();
+            else if (currentTab === 'academic') container.innerHTML = renderAcademicRoadmapView();
             else if (currentTab === 'finance') container.innerHTML = renderFinanceView();
             else if (currentTab === 'community') container.innerHTML = renderCommunityView();
             else if (currentTab === 'glossary') container.innerHTML = renderGlossaryView();
@@ -474,55 +371,64 @@
             `;
         }
 
-        // --- ACADEMIC VIEW WITH 12 SUBJECT CATEGORIES & REAL PDF PREVIEW ---
-        function renderAcademicView() {
-            const subjectList = ['Tất cả', 'CSI106', 'MAE101', 'MAD101', 'PRO192', 'PRJ301', 'DBI202', 'OSG202', 'NWC203c', 'SWP391'];
-            const filteredDocs = selectedDocSubject === 'Tất cả' 
-                ? academicDocs 
-                : academicDocs.filter(d => d.subject.includes(selectedDocSubject));
+        // --- NEW ROADMAP VIEW (4-YEAR MAJOR ROADMAP FOR FPT UNIVERSITY DANANG) ---
+        function renderAcademicRoadmapView() {
+            const currentMajor = majorRoadmaps.find(m => m.id === selectedMajorId) || majorRoadmaps[0];
 
             return `
                 <div class="p-4 space-y-4 text-xs">
-                    <!-- ACADEMIC DOCUMENTS HUB -->
-                    <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm space-y-3">
-                        <div class="flex items-center justify-between">
-                            <h4 class="font-bold text-slate-800 text-xs flex items-center space-x-1.5">
-                                <i data-lucide="folder-git-2" class="w-4 h-4 text-emerald-600"></i>
-                                <span>Kho Tài Liệu (12 Môn Học Chọn Lọc)</span>
-                            </h4>
-                            <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">${academicDocs.length} Tài liệu</span>
+                    <!-- Title Banner -->
+                    <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm space-y-2">
+                        <div class="flex items-center space-x-2 text-emerald-600 font-bold">
+                            <i data-lucide="compass" class="w-4.5 h-4.5"></i>
+                            <h3 class="text-sm text-slate-800">Lộ Trình Học Tập 4 Năm Đại Học</h3>
                         </div>
+                        <p class="text-[11px] text-slate-500 leading-relaxed">Chi tiết môn học & khung chương trình từng học kỳ chuẩn Đại học FPT Đà Nẵng.</p>
+                    </div>
 
-                        <!-- 12 Filter Subjects Bar -->
-                        <div class="flex items-center space-x-1 overflow-x-auto pb-1 no-scrollbar text-[10px]">
-                            ${subjectList.map(sub => `
-                                <button onclick="setDocSubject('${sub}')" class="px-2.5 py-1 rounded-xl font-bold whitespace-nowrap transition ${selectedDocSubject === sub ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-100 border border-slate-200 text-slate-600'}">
-                                    ${sub}
+                    <!-- Major Selector Tabs -->
+                    <div class="space-y-1.5">
+                        <label class="block font-bold text-slate-700 text-[11px]">Chọn Ngành Học Của Bạn:</label>
+                        <div class="flex items-center space-x-1.5 overflow-x-auto pb-1 no-scrollbar text-[10px]">
+                            ${majorRoadmaps.map(m => `
+                                <button onclick="selectMajor('${m.id}')" class="px-3 py-1.5 rounded-xl font-bold whitespace-nowrap transition flex items-center space-x-1 ${selectedMajorId === m.id ? 'bg-emerald-600 text-white shadow-md shadow-emerald-100' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'}">
+                                    <i data-lucide="${m.icon}" class="w-3.5 h-3.5"></i>
+                                    <span>${m.code}</span>
                                 </button>
                             `).join('')}
                         </div>
+                    </div>
 
-                        <!-- Document List -->
-                        <div class="space-y-2 pt-1">
-                            ${filteredDocs.map(doc => `
-                                <div class="p-3 bg-slate-50 hover:bg-emerald-50/50 rounded-xl border border-slate-100 transition space-y-2">
-                                    <div class="flex items-start justify-between">
-                                        <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[9px]">${doc.subject}</span>
-                                        <span class="text-[10px] font-medium text-slate-400">${doc.size}</span>
-                                    </div>
-                                    <div>
-                                        <h5 class="font-bold text-slate-800 text-[11px] leading-snug">${doc.title}</h5>
-                                        <p class="text-[10px] text-slate-500 mt-0.5">Phân loại: <span class="font-semibold text-emerald-700">${doc.type}</span> • Tác giả: ${doc.author}</p>
-                                    </div>
-                                    <div class="flex items-center justify-end space-x-2 pt-1 border-t border-slate-200/60">
-                                        <button onclick="openDocPreviewModal('${doc.id}')" class="px-2.5 py-1 bg-white border border-slate-200 text-slate-700 rounded-lg text-[10px] font-bold hover:bg-slate-100 flex items-center space-x-1">
-                                            <i data-lucide="file-text" class="w-3 h-3 text-emerald-600"></i>
-                                            <span>Xem Trước Trực Tiếp</span>
-                                        </button>
-                                        <button onclick="downloadRealDocument('${doc.id}')" class="px-3 py-1 bg-emerald-600 text-white rounded-lg text-[10px] font-bold hover:bg-emerald-700 shadow-sm flex items-center space-x-1">
-                                            <i data-lucide="download" class="w-3 h-3"></i>
-                                            <span>Tải về</span>
-                                        </button>
+                    <!-- Selected Major Info Box -->
+                    <div class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white p-4 rounded-2xl shadow-sm space-y-1">
+                        <div class="flex items-center justify-between">
+                            <span class="px-2 py-0.5 bg-white/20 backdrop-blur-sm rounded text-[9px] font-extrabold uppercase">Khung Chương Trình Chuẩn FPT</span>
+                            <span class="text-[10px] font-bold text-emerald-100">8 - 9 Học Kỳ</span>
+                        </div>
+                        <h4 class="text-sm font-extrabold mt-1">${currentMajor.name}</h4>
+                        <p class="text-[10px] text-emerald-100 leading-relaxed">${currentMajor.description}</p>
+                    </div>
+
+                    <!-- Timeline Semesters Breakdown -->
+                    <div class="space-y-3 pt-1">
+                        <h4 class="font-bold text-slate-800 text-xs flex items-center space-x-1.5">
+                            <i data-lucide="milestone" class="w-4 h-4 text-emerald-600"></i>
+                            <span>Lộ Trình Từng Học Kỳ (Semester Breakdown)</span>
+                        </h4>
+
+                        <div class="relative border-l-2 border-emerald-300/70 ml-2 pl-4 space-y-3.5">
+                            ${currentMajor.semesters.map((s, index) => `
+                                <div class="relative group">
+                                    <!-- Timeline Node Circle -->
+                                    <div class="absolute -left-[23px] top-1.5 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white shadow-sm group-hover:scale-125 transition"></div>
+                                    
+                                    <!-- Card Content -->
+                                    <div class="bg-white p-3.5 rounded-2xl border border-emerald-100 shadow-sm space-y-1 hover:border-emerald-300 transition">
+                                        <div class="flex items-center justify-between">
+                                            <span class="font-bold text-emerald-800 text-xs">${s.sem}</span>
+                                            <span class="text-[9px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold border border-emerald-200/50">Kỳ ${index + 1}</span>
+                                        </div>
+                                        <p class="text-[11px] text-slate-700 font-medium leading-relaxed pt-0.5">${s.subjects}</p>
                                     </div>
                                 </div>
                             `).join('')}
@@ -538,50 +444,11 @@
         function renderCommunityView() { return `<div class="p-4 text-xs"><div class="bg-white p-4 rounded-2xl border border-emerald-100 font-bold">Diễn đàn kết nối sinh viên</div></div>`; }
         function renderGlossaryView() { return `<div class="p-4 text-xs"><div class="bg-white p-4 rounded-2xl border border-emerald-100 font-bold">Sổ tay thuật ngữ đại học</div></div>`; }
 
-        // PDF PREVIEW MODAL HANDLER
-        function openDocPreviewModal(docId) {
-            const doc = academicDocs.find(d => d.id === docId);
-            if (!doc) return;
-
-            document.getElementById('previewSubjectBadge').innerText = doc.subject;
-            document.getElementById('previewTitleHeader').innerText = doc.title;
-            document.getElementById('docPaperTitle').innerText = doc.title;
-            document.getElementById('previewDocAuthor').innerText = `Tác giả: ${doc.author}`;
-            document.getElementById('previewDocContent').innerHTML = doc.previewHTML || "<p>Nội dung đang được đồng bộ...</p>";
-            document.getElementById('previewDocDetails').innerText = `Loại: ${doc.type} • Dung lượng: ${doc.size}`;
-
-            document.getElementById('downloadModalBtn').onclick = () => downloadRealDocument(doc.id);
-            document.getElementById('docPreviewModal').classList.remove('hidden');
+        function selectMajor(id) {
+            selectedMajorId = id;
+            renderTabContent();
         }
 
-        function closeDocPreviewModal() {
-            document.getElementById('docPreviewModal').classList.add('hidden');
-        }
-
-        // REAL FILE DOWNLOAD (Text/Document Download)
-        function downloadRealDocument(docId) {
-            const doc = academicDocs.find(d => d.id === docId);
-            if (!doc) return;
-
-            const cleanText = doc.previewHTML.replace(/<[^>]*>?/gm, '');
-            const fileContent = `=== TRỢ LÝ TÀI LIỆU SINH VIÊN ĐÀ NẴNG 2026 ===\n\n` +
-                                `Môn Học: ${doc.subject}\n` +
-                                `Tiêu Đề: ${doc.title}\n` +
-                                `Tác Giả: ${doc.author}\n\n` +
-                                `NỘI DUNG TÀI LIỆU:\n` + cleanText;
-
-            const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `${doc.subject}_${doc.title.replace(/[^a-zA-Z0-9]/g, '_')}.txt`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            showToast(`Đã tải tài liệu "${doc.title}" về máy!`);
-        }
-
-        function setDocSubject(sub) { selectedDocSubject = sub; renderTabContent(); }
         function showToast(msg) {
             const toast = document.getElementById('toast');
             document.getElementById('toastMessage').innerText = msg;
