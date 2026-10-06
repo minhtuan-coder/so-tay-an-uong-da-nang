@@ -109,3 +109,488 @@
             </button>
             <button onclick="switchTab('community')" id="nav-community" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition">
                 <i data-lucide="users" class="w-5 h-5"></i>
+                <span class="text-[9px] font-semibold">Kết Nối</span>
+            </button>
+            <button onclick="switchTab('glossary')" id="nav-glossary" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition">
+                <i data-lucide="book-marked" class="w-5 h-5"></i>
+                <span class="text-[9px] font-semibold">Sổ Tay</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- DOCUMENT PREVIEW MODAL (DOCUMENT VIEWER UI LIKE PDF/DOCX) -->
+    <div id="docPreviewModal" class="fixed inset-0 bg-slate-900/75 backdrop-blur-sm z-50 flex items-center justify-center p-3 hidden">
+        <div class="bg-slate-100 w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-slate-200 max-h-[90vh] flex flex-col">
+            <!-- Modal Header Toolbar -->
+            <div class="p-3 border-b border-slate-200 flex items-center justify-between bg-white shrink-0">
+                <div class="flex items-center space-x-2">
+                    <span id="previewSubjectBadge" class="px-2 py-0.5 bg-emerald-600 text-white font-bold rounded text-[10px]">CSI106</span>
+                    <h3 id="previewTitleHeader" class="text-xs font-bold text-slate-800 truncate max-w-[180px]">Xem Trước Tài Liệu</h3>
+                </div>
+                <div class="flex items-center space-x-1">
+                    <button onclick="showToast('Tính năng phóng to')" class="p-1 text-slate-500 hover:bg-slate-100 rounded-lg"><i data-lucide="zoom-in" class="w-4 h-4"></i></button>
+                    <button onclick="closeDocPreviewModal()" class="p-1 text-slate-400 hover:text-slate-600 rounded-full"><i data-lucide="x" class="w-4 h-4"></i></button>
+                </div>
+            </div>
+            
+            <!-- Document Reader Page Simulation -->
+            <div class="p-3 overflow-y-auto space-y-3 flex-1 text-xs">
+                <!-- PDF Toolbar Bar -->
+                <div class="bg-slate-200/80 px-3 py-1.5 rounded-xl flex items-center justify-between text-[10px] text-slate-600 font-semibold">
+                    <div class="flex items-center space-x-1">
+                        <i data-lucide="file-text" class="w-3.5 h-3.5 text-emerald-600"></i>
+                        <span>Chế độ đọc PDF</span>
+                    </div>
+                    <span>Trang 1 / 10</span>
+                </div>
+
+                <!-- White Paper Sheet -->
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200/80 text-slate-800 space-y-3 font-sans leading-relaxed min-h-[320px]">
+                    <div class="border-b border-slate-100 pb-2 flex justify-between items-start">
+                        <div>
+                            <p class="text-[9px] font-bold text-emerald-700 uppercase tracking-wide">TRƯỜNG ĐẠI HỌC FPT / VKU ĐÀ NẴNG</p>
+                            <h4 id="docPaperTitle" class="text-xs font-extrabold text-slate-900 mt-0.5">Tên Tài Liệu</h4>
+                        </div>
+                        <span id="previewDocAuthor" class="text-[9px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-medium">Tác giả</span>
+                    </div>
+
+                    <!-- Main Readable Document Content -->
+                    <div id="previewDocContent" class="text-[11px] space-y-2 text-slate-700">
+                        <!-- Rendered Document View -->
+                    </div>
+                </div>
+
+                <div class="p-2.5 bg-emerald-50 rounded-xl border border-emerald-100 text-[10px] text-emerald-800 flex items-center justify-between">
+                    <span id="previewDocDetails">Dung lượng: 4.2 MB</span>
+                    <span class="font-bold">Đã kiểm duyệt 100%</span>
+                </div>
+            </div>
+
+            <!-- Action Bottom Bar -->
+            <div class="p-3 border-t border-slate-200 bg-white flex items-center justify-between shrink-0">
+                <button onclick="closeDocPreviewModal()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs">Đóng</button>
+                <button id="downloadModalBtn" onclick="" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-md shadow-emerald-100 flex items-center space-x-1.5">
+                    <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                    <span>Tải File Đầy Đủ</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expense Modal -->
+    <div id="expenseModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-emerald-100 flex flex-col">
+            <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-emerald-50/50">
+                <h3 class="text-xs font-bold text-emerald-900 flex items-center space-x-1.5">
+                    <i data-lucide="plus-circle" class="w-4 h-4 text-emerald-600"></i>
+                    <span>Thêm khoản chi tiêu mới</span>
+                </h3>
+                <button onclick="closeExpenseModal()" class="p-1 text-slate-400 hover:text-slate-600 rounded-full"><i data-lucide="x" class="w-4 h-4"></i></button>
+            </div>
+            <form onsubmit="handleAddExpense(event)" class="p-4 space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Tên khoản chi *</label>
+                    <input type="text" id="expenseTitle" required placeholder="Ví dụ: Tiền mua giáo trình, Cà phê..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Số tiền (VNĐ) *</label>
+                    <input type="number" id="expenseAmount" required placeholder="Ví dụ: 150000" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Phân loại *</label>
+                    <select id="expenseCategory" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <option value="Nhà ở">🏠 Tiền nhà / KTX / Điện nước</option>
+                        <option value="Ăn uống">🍜 Ăn uống & Cà phê</option>
+                        <option value="Học tập">📚 Học tập & Tài liệu</option>
+                        <option value="Giải trí">🎮 Giải trí & Mua sắm</option>
+                        <option value="Khác">💡 Khác</option>
+                    </select>
+                </div>
+                <div class="pt-2 flex justify-end space-x-2">
+                    <button type="button" onclick="closeExpenseModal()" class="px-3 py-2 rounded-xl border border-slate-200 text-slate-600">Hủy</button>
+                    <button type="submit" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md shadow-emerald-100">Thêm Mục Chi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Detail View Modal -->
+    <div id="detailModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-emerald-100 max-h-[88vh] flex flex-col">
+            <div id="detailModalHeader" class="relative h-44 bg-slate-200 bg-cover bg-center">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent"></div>
+                <button onclick="closeDetailModal()" class="absolute top-3 right-3 p-1.5 bg-black/50 hover:bg-black/70 text-white rounded-full transition">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+                <div class="absolute bottom-3 left-3 right-3 text-white">
+                    <span id="detailCategoryBadge" class="px-2 py-0.5 bg-emerald-600 text-[10px] font-bold rounded-md mb-1 inline-block">Ngân Hàng</span>
+                    <h3 id="detailName" class="text-base font-bold leading-snug">Tên Cây ATM</h3>
+                </div>
+            </div>
+            <div class="p-5 overflow-y-auto space-y-3.5 flex-1 text-xs">
+                <div class="flex items-start justify-between pb-2.5 border-b border-slate-100">
+                    <div class="flex items-start space-x-1.5 text-slate-700 pr-2">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></i>
+                        <span id="detailAddress" class="font-medium leading-relaxed">Đang cập nhật địa chỉ...</span>
+                    </div>
+                </div>
+                <div id="detailReview" class="p-3 bg-emerald-50/60 rounded-xl text-slate-600 border border-emerald-100 leading-relaxed italic">
+                    Chưa có đánh giá.
+                </div>
+                <div class="pt-1">
+                    <a id="detailGoogleMapLink" href="#" target="_blank" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold flex items-center justify-center space-x-2 transition">
+                        <i data-lucide="navigation-2" class="w-4 h-4"></i>
+                        <span>Chỉ đường trên Google Maps</span>
+                    </a>
+                </div>
+            </div>
+            <div class="p-3.5 border-t border-slate-100 bg-slate-50 flex justify-end">
+                <button onclick="closeDetailModal()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium rounded-xl">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-10 left-1/2 -translate-x-1/2 z-50 transform -translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-xl flex items-center space-x-2 text-xs">
+        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+        <span id="toastMessage">Cập nhật thành công!</span>
+    </div>
+
+    <!-- Application JavaScript Logic -->
+    <script>
+        let places = [
+            {
+                id: 'atm_1',
+                name: 'TPBank LiveBank 24/7 - FPT City',
+                category: 'TPBank LiveBank',
+                priceRange: 'Nộp & Rút tiền (CDM/LiveBank)',
+                university: 'ĐH FPT & Khu FPT City',
+                address: 'Shophouse Plaza FPT City, Đường Trần Quốc Vượng, Hòa Hải (Cách ĐH FPT 400m)',
+                trustRating: '5.0/5.0 - Rất Uy Tín',
+                safetyBadge: '🛡️ Bảo vệ 24/7 • CCCD gắn chip',
+                image: 'https://images.unsplash.com/photo-1601597111158-2fceff292cdc?auto=format&fit=crop&w=600&q=80',
+                review: 'Hỗ trợ nộp tiền mặt trực tiếp 24/7 vào tài khoản. Rút tiền bằng mã QR trên App TPBank hoặc CCCD.',
+                saved: false
+            }
+        ];
+
+        // Extended Academic Documents Store (12 Subject Categories)
+        let academicDocs = [
+            { 
+                id: 'doc_1', 
+                subject: 'CSI106', 
+                title: 'Bộ 50 Đề Thi Practical Exam (PE) C Programming & Đáp Án Mẫu', 
+                type: 'Đề Thi PE/FE', 
+                size: '4.2 MB', 
+                author: 'Thầy Cường FPT',
+                previewHTML: `
+                    <p class="font-bold text-slate-900">PHẦN 1: BÀI TẬP KIỂM TRA SỐ NGUYÊN TỐ & MẢNG 1 CHIỀU</p>
+                    <p><strong>Câu 1 (3.0 điểm):</strong> Viết chương trình nhập vào một mảng n số nguyên từ bàn phím. Hãy thực hiện:</p>
+                    <ul class="list-disc list-inside pl-2 space-y-1 my-1.5 text-slate-600">
+                        <li>Xuất danh sách các số nguyên tố có trong mảng.</li>
+                        <li>Tính tổng và trung bình cộng các số ở vị trí chẵn.</li>
+                    </ul>
+                    <p class="font-bold text-slate-900 mt-2">HƯỚNG DẪN GIẢI MẪU (SOLUTION):</p>
+                    <p class="bg-slate-50 p-2 rounded border border-slate-200 text-[10px]">Học sinh chú ý khai báo hàm <code>checkPrime(int n)</code> trước hàm <code>main()</code>. Sử dụng vòng lặp từ 2 đến sqrt(n) để tối ưu thời gian chạy bài thi PE.</p>
+                `
+            },
+            { 
+                id: 'doc_2', 
+                subject: 'MAE101', 
+                title: 'Tóm Tắt Công Thức Đạo Hàm, Tích Phân & Bài Tập Ôn Thi FE Calculus 1', 
+                type: 'Tài Liệu Ôn Thi', 
+                size: '2.8 MB', 
+                author: 'Ban Cố Vấn MAE',
+                previewHTML: `
+                    <p class="font-bold text-slate-900">CHƯƠNG 1: GIỚI HẠN & HÀM SỐ (LIMITS & CONTINUITY)</p>
+                    <p><strong>1. Quy tắc L'Hôpital:</strong> Áp dụng cho các dạng vô định 0/0 hoặc ∞/∞ bằng cách lấy đạo hàm cả tử và mẫu.</p>
+                    <p><strong>2. Phương pháp Newton-Raphson:</strong> Công thức lặp tìm nghiệm gần đúng:</p>
+                    <p class="p-2 bg-emerald-50 text-emerald-900 font-bold rounded text-center my-1">x_(n+1) = x_n - f(x_n) / f'(x_n)</p>
+                    <p class="text-slate-600">Dạng bài này xuất hiện 100% trong đề thi Progress Test và Final Exam!</p>
+                `
+            },
+            { 
+                id: 'doc_3', 
+                subject: 'MAD101', 
+                title: 'Bộ Đề Trắc Nghiệm Toán Rời Rạc (Discrete Mathematics) Có Giải Chi Tiết', 
+                type: 'Đề Thi FE', 
+                size: '3.1 MB', 
+                author: 'K19 VKU Academic',
+                previewHTML: `
+                    <p class="font-bold text-slate-900">ĐỀ THI KHẢO SÁT MAD101 - CHỦ ĐỀ LÝ THUYẾT ĐỒ THỊ (GRAPH THEORY)</p>
+                    <p><strong>Câu 1:</strong> Đồ thị đơn vô hướng G có 5 đỉnh và bậc của các đỉnh lần lượt là 2, 2, 3, 3, 4. Hỏi G có bao nhiêu cạnh?</p>
+                    <p class="text-slate-600"><strong>Đáp án & Giải thích:</strong> Theo Bổ đề Bắt tay (Handshaking Lemma): Tổng bậc = 2 * Số cạnh => 2 + 2 + 3 + 3 + 4 = 14 => Số cạnh = 7.</p>
+                `
+            },
+            { 
+                id: 'doc_4', 
+                subject: 'PRO192', 
+                title: 'Slide Bài Giảng Java OOP & Đề Thi PE Lập Trình Hướng Đối Tượng', 
+                type: 'Slide & Code', 
+                size: '8.5 MB', 
+                author: 'Bộ Môn SE FPT',
+                previewHTML: `
+                    <p class="font-bold text-slate-900">4 TÍNH CHẤT CỐT LÕI CỦA LẬP TRÌNH HƯỚNG ĐỐI TƯỢNG (OOP)</p>
+                    <ol class="list-decimal list-inside space-y-1 my-1.5 text-slate-700">
+                        <li><strong>Tính Đóng Gói (Encapsulation):</strong> Sử dụng private/protected và Getter/Setter.</li>
+                        <li><strong>Tính Kế Thừa (Inheritance):</strong> Từ khóa <code>extends</code> trong Java.</li>
+                        <li><strong>Tính Đa Hình (Polymorphism):</strong> Overriding & Overloading.</li>
+                        <li><strong>Tính TrừU Tượng (Abstraction):</strong> Abstract Class & Interface.</li>
+                    </ol>
+                `
+            },
+            { 
+                id: 'doc_5', 
+                subject: 'PRJ301', 
+                title: 'Template Dự Án Web JSP/Servlet Chuẩn Mô Hình MVC & SQL Server', 
+                type: 'Code Mẫu & Project', 
+                size: '15.5 MB', 
+                author: 'Dev Club Danang',
+                previewHTML: `
+                    <p class="font-bold text-slate-900">MÔ HÌNH THIẾT KẾ WEB MVC TRONG PRJ301</p>
+                    <p><strong>Model:</strong> Chứa Java Beans & Các lớp DAO (Data Access Object) tương tác CSDL SQL Server.</p>
+                    <p><strong>View:</strong> Các trang JSP / HTML hiển thị giao diện người dùng.</p>
+                    <p><strong>Controller:</strong> Các Servlet xử lý Request và Forward tới View phù hợp.</p>
+                `
+            },
+            { 
+                id: 'doc_6', 
+                subject: 'DBI202', 
+                title: 'Tổng Hợp Lệnh SQL Server Query, Join Table & Trigger Chống Học Lại', 
+                type: 'Tài Liệu Cốt Lõi', 
+                size: '3.6 MB', 
+                author: 'Thầy Hùng DB',
+                previewHTML: `
+                    <p class="font-bold text-slate-900">MỘT SỐ CÂU LỆNH SQL HAY GẶP TRONG ĐỀ THI PE DBI202</p>
+                    <p>1. Lệnh INNER JOIN kết hợp 2 bảng:</p>
+                    <p class="p-2 bg-slate-100 font-mono text-[10px] my-1">SELECT e.EmpID, e.EmpName, d.DeptName FROM Employee e JOIN Department d ON e.DeptID = d.DeptID;</p>
+                    <p>2. Lệnh GROUP BY kết hợp điều kiện HAVING lọc dữ liệu sau khi nhóm.</p>
+                `
+            },
+            { 
+                id: 'doc_7', 
+                subject: 'OSG202', 
+                title: 'Tóm Tắt Lý Thuyết Hệ Điều Hành: Định Thời CPU, Tiến Trình & Bộ Nhớ Ảo', 
+                type: 'Slide Tóm Tắt', 
+                size: '4.0 MB', 
+                author: 'K18 Software',
+                previewHTML: `
+                    <p class="font-bold text-slate-900">CÁC THUẬT TOÁN ĐỊNH THỜI CPU (CPU SCHEDULING)</p>
+                    <p><strong>- FCFS (First-Come, First-Served):</strong> Đến trước phục vụ trước.</p>
+                    <p><strong>- SJF (Shortest Job First):</strong> Tiến trình ngắn nhất làm trước.</p>
+                    <p><strong>- Round Robin (RR):</strong> Phân chia thời gian theo Quantum (khung thời gian cố định).</p>
+                `
+            },
+            { 
+                id: 'doc_8', 
+                subject: 'NWC203c', 
+                title: 'Bộ Ôn Tập Mạng Máy Tính: Mô Hình OSI, TCP/IP & Chia Mạng Con Subnetting', 
+                type: 'Đề Thi Trắc Nghiệm', 
+                size: '3.2 MB', 
+                author: 'VKU IT Club',
+                previewHTML: `
+                    <p class="font-bold text-slate-900">7 TẦNG TRONG MÔ HÌNH OSI (OSI 7 LAYERS)</p>
+                    <p class="text-slate-700">1. Physical -> 2. Data Link -> 3. Network -> 4. Transport -> 5. Session -> 6. Presentation -> 7. Application</p>
+                    <p class="mt-1"><strong>Mẹo ghi nhớ:</strong> <em>"Anh Đi Làm Về Sớm Phải Tắm"</em> (Viết tắt tầng 7 xuống tầng 1).</p>
+                `
+            },
+            { 
+                id: 'doc_9', 
+                subject: 'SWP391', 
+                title: 'Mẫu Báo Cáo Software Project, Sơ Đồ Use Case & ERD Chuẩn Đạt Điểm A', 
+                type: 'Báo Cáo Mẫu', 
+                size: '12.0 MB', 
+                author: 'Nhóm SV FPT K17',
+                previewHTML: `
+                    <p class="font-bold text-slate-900">CÁC BƯỚC THỰC HIỆN DỰ ÁN SWP391 CHUẨN AGILE/SCRUM</p>
+                    <p><strong>Sprint 1:</strong> Thu thập yêu cầu, dựng Wireframe & Thiết kế CSDL (ERD).</p>
+                    <p><strong>Sprint 2:</strong> Lập trình chức năng Authentication, Role-based Access Control.</p>
+                    <p><strong>Sprint 3:</strong> Testing (Unit Test, Integration Test) & Deployment lên Vercel/Render.</p>
+                `
+            }
+        ];
+
+        let selectedDocSubject = 'Tất cả';
+
+        let glossaryList = [
+            { term: 'ĐKTC (Đăng ký tín chỉ)', desc: 'Quá trình sinh viên tự chọn môn học, thời gian và giảng viên trên portal trường.', tag: 'Thủ Tục' },
+            { term: 'GPA / CPA', desc: 'GPA là điểm trung bình học kỳ. CPA là điểm trung bình tích lũy toàn khóa.', tag: 'Học Tập' },
+            { term: 'RBL (Research-Based Learning)', desc: 'Phương pháp học tập dựa trên nghiên cứu khoa học tại ĐH FPT/VKU.', tag: 'ĐH FPT' }
+        ];
+
+        let currentTab = 'explore';
+        let monthlyBudget = 3500000;
+        let expenses = [
+            { id: 'exp_1', title: 'Tiền phòng trọ / KTX', amount: 1200000, category: 'Nhà ở' },
+            { id: 'exp_2', title: 'Tiền ăn uống nửa đầu tháng', amount: 1100000, category: 'Ăn uống' }
+        ];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderTabContent();
+            lucide.createIcons();
+        });
+
+        function switchTab(tab) {
+            currentTab = tab;
+            ['explore', 'academic', 'finance', 'community', 'glossary'].forEach(t => {
+                const btn = document.getElementById(`nav-${t}`);
+                if (btn) {
+                    if (t === tab) btn.className = "flex flex-col items-center space-y-1 text-emerald-600 transition";
+                    else btn.className = "flex flex-col items-center space-y-1 text-slate-400 hover:text-slate-600 transition";
+                }
+            });
+            renderTabContent();
+        }
+
+        function renderTabContent() {
+            const container = document.getElementById('mainContainer');
+            if (currentTab === 'explore') container.innerHTML = renderExploreView();
+            else if (currentTab === 'academic') container.innerHTML = renderAcademicView();
+            else if (currentTab === 'finance') container.innerHTML = renderFinanceView();
+            else if (currentTab === 'community') container.innerHTML = renderCommunityView();
+            else if (currentTab === 'glossary') container.innerHTML = renderGlossaryView();
+            lucide.createIcons();
+        }
+
+        function renderExploreView() {
+            return `
+                <div class="p-4 space-y-3.5">
+                    <div class="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl p-4 text-white shadow-md flex items-center justify-between">
+                        <div>
+                            <span class="px-2 py-0.5 bg-white/20 backdrop-blur-sm rounded text-[10px] font-bold uppercase">Bản Đồ ATM 2026</span>
+                            <h4 class="text-xs font-extrabold mt-1">Cây ATM & PGD An Toàn Hòa Quý</h4>
+                        </div>
+                        <i data-lucide="shield-check" class="w-8 h-8 text-white/80"></i>
+                    </div>
+                    <div class="space-y-3 pt-1">
+                        ${places.map(p => `
+                            <div class="bg-white rounded-2xl border border-emerald-100 shadow-sm p-3 space-y-1 cursor-pointer" onclick="openDetailModal('${p.id}')">
+                                <h4 class="text-xs font-bold text-slate-800">${p.name}</h4>
+                                <p class="text-[11px] text-slate-500">${p.address}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- ACADEMIC VIEW WITH 12 SUBJECT CATEGORIES & REAL PDF PREVIEW ---
+        function renderAcademicView() {
+            const subjectList = ['Tất cả', 'CSI106', 'MAE101', 'MAD101', 'PRO192', 'PRJ301', 'DBI202', 'OSG202', 'NWC203c', 'SWP391'];
+            const filteredDocs = selectedDocSubject === 'Tất cả' 
+                ? academicDocs 
+                : academicDocs.filter(d => d.subject.includes(selectedDocSubject));
+
+            return `
+                <div class="p-4 space-y-4 text-xs">
+                    <!-- ACADEMIC DOCUMENTS HUB -->
+                    <div class="bg-white p-4 rounded-2xl border border-emerald-100 shadow-sm space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-slate-800 text-xs flex items-center space-x-1.5">
+                                <i data-lucide="folder-git-2" class="w-4 h-4 text-emerald-600"></i>
+                                <span>Kho Tài Liệu (12 Môn Học Chọn Lọc)</span>
+                            </h4>
+                            <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">${academicDocs.length} Tài liệu</span>
+                        </div>
+
+                        <!-- 12 Filter Subjects Bar -->
+                        <div class="flex items-center space-x-1 overflow-x-auto pb-1 no-scrollbar text-[10px]">
+                            ${subjectList.map(sub => `
+                                <button onclick="setDocSubject('${sub}')" class="px-2.5 py-1 rounded-xl font-bold whitespace-nowrap transition ${selectedDocSubject === sub ? 'bg-emerald-600 text-white shadow-sm' : 'bg-slate-100 border border-slate-200 text-slate-600'}">
+                                    ${sub}
+                                </button>
+                            `).join('')}
+                        </div>
+
+                        <!-- Document List -->
+                        <div class="space-y-2 pt-1">
+                            ${filteredDocs.map(doc => `
+                                <div class="p-3 bg-slate-50 hover:bg-emerald-50/50 rounded-xl border border-slate-100 transition space-y-2">
+                                    <div class="flex items-start justify-between">
+                                        <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold text-[9px]">${doc.subject}</span>
+                                        <span class="text-[10px] font-medium text-slate-400">${doc.size}</span>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-bold text-slate-800 text-[11px] leading-snug">${doc.title}</h5>
+                                        <p class="text-[10px] text-slate-500 mt-0.5">Phân loại: <span class="font-semibold text-emerald-700">${doc.type}</span> • Tác giả: ${doc.author}</p>
+                                    </div>
+                                    <div class="flex items-center justify-end space-x-2 pt-1 border-t border-slate-200/60">
+                                        <button onclick="openDocPreviewModal('${doc.id}')" class="px-2.5 py-1 bg-white border border-slate-200 text-slate-700 rounded-lg text-[10px] font-bold hover:bg-slate-100 flex items-center space-x-1">
+                                            <i data-lucide="file-text" class="w-3 h-3 text-emerald-600"></i>
+                                            <span>Xem Trước Trực Tiếp</span>
+                                        </button>
+                                        <button onclick="downloadRealDocument('${doc.id}')" class="px-3 py-1 bg-emerald-600 text-white rounded-lg text-[10px] font-bold hover:bg-emerald-700 shadow-sm flex items-center space-x-1">
+                                            <i data-lucide="download" class="w-3 h-3"></i>
+                                            <span>Tải về</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderFinanceView() {
+            return `<div class="p-4 text-xs"><div class="bg-white p-4 rounded-2xl border border-emerald-100 font-bold">Quản lý tài chính cá nhân sinh viên</div></div>`;
+        }
+        function renderCommunityView() { return `<div class="p-4 text-xs"><div class="bg-white p-4 rounded-2xl border border-emerald-100 font-bold">Diễn đàn kết nối sinh viên</div></div>`; }
+        function renderGlossaryView() { return `<div class="p-4 text-xs"><div class="bg-white p-4 rounded-2xl border border-emerald-100 font-bold">Sổ tay thuật ngữ đại học</div></div>`; }
+
+        // PDF PREVIEW MODAL HANDLER
+        function openDocPreviewModal(docId) {
+            const doc = academicDocs.find(d => d.id === docId);
+            if (!doc) return;
+
+            document.getElementById('previewSubjectBadge').innerText = doc.subject;
+            document.getElementById('previewTitleHeader').innerText = doc.title;
+            document.getElementById('docPaperTitle').innerText = doc.title;
+            document.getElementById('previewDocAuthor').innerText = `Tác giả: ${doc.author}`;
+            document.getElementById('previewDocContent').innerHTML = doc.previewHTML || "<p>Nội dung đang được đồng bộ...</p>";
+            document.getElementById('previewDocDetails').innerText = `Loại: ${doc.type} • Dung lượng: ${doc.size}`;
+
+            document.getElementById('downloadModalBtn').onclick = () => downloadRealDocument(doc.id);
+            document.getElementById('docPreviewModal').classList.remove('hidden');
+        }
+
+        function closeDocPreviewModal() {
+            document.getElementById('docPreviewModal').classList.add('hidden');
+        }
+
+        // REAL FILE DOWNLOAD (Text/Document Download)
+        function downloadRealDocument(docId) {
+            const doc = academicDocs.find(d => d.id === docId);
+            if (!doc) return;
+
+            const cleanText = doc.previewHTML.replace(/<[^>]*>?/gm, '');
+            const fileContent = `=== TRỢ LÝ TÀI LIỆU SINH VIÊN ĐÀ NẴNG 2026 ===\n\n` +
+                                `Môn Học: ${doc.subject}\n` +
+                                `Tiêu Đề: ${doc.title}\n` +
+                                `Tác Giả: ${doc.author}\n\n` +
+                                `NỘI DUNG TÀI LIỆU:\n` + cleanText;
+
+            const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${doc.subject}_${doc.title.replace(/[^a-zA-Z0-9]/g, '_')}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showToast(`Đã tải tài liệu "${doc.title}" về máy!`);
+        }
+
+        function setDocSubject(sub) { selectedDocSubject = sub; renderTabContent(); }
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').innerText = msg;
+            toast.classList.remove('-translate-y-20', 'opacity-0');
+            setTimeout(() => toast.classList.add('-translate-y-20', 'opacity-0'), 2500);
+        }
+        function openDetailModal(id) { document.getElementById('detailModal').classList.remove('hidden'); }
+        function closeDetailModal() { document.getElementById('detailModal').classList.add('hidden'); }
+    </script>
+</body>
+
+</html>
